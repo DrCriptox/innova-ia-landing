@@ -211,16 +211,16 @@
     /* Barra de progreso VSL */
     .vsl-progress-bar {
       width: 100%;
-      height: 4px;
-      background: rgba(255,255,255,0.08);
+      height: 8px;
+      background: rgba(255,255,255,0.06);
       position: relative;
     }
     .vsl-progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--gold), var(--accent));
-      transition: width 0.8s ease;
-      box-shadow: 0 0 8px rgba(212,168,83,0.6);
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--accent));
+      transition: width 1s ease;
+      box-shadow: 0 0 12px rgba(212,168,83,0.8), 0 0 4px rgba(42,255,213,0.4);
     }
     /* Timer bar */
     .vsl-timer-bar {
@@ -1021,10 +1021,6 @@
     <div class="vsl-wrap">
       <div class="vsl-outer">
         <span class="vsl-label">📽 Mira esto primero — 8 minutos que cambian todo</span>
-        <div class="vsl-progress-bar">
-          <div class="vsl-progress-fill" id="vslProgress"></div>
-        </div>
-
         <div class="vsl-frame" id="vslContainer">
           <div id="ytPlayer"></div>
 
@@ -1062,6 +1058,9 @@
               <button class="end-replay" onclick="replayVideo()">↺ Ver el video de nuevo</button>
             </div>
           </div>
+        </div>
+        <div class="vsl-progress-bar">
+          <div class="vsl-progress-fill" id="vslProgress"></div>
         </div>
         <div class="vsl-note">🔒 Este video no se puede adelantar — cada parte importa</div>
       </div>
@@ -1448,7 +1447,7 @@
       ytPlayer = new YT.Player('ytPlayer', {
         videoId: 'iqvEqCgNOMk',
         playerVars: {
-          controls: 1,        // controles nativos visibles
+          controls: 0,        // sin controles nativos
           disablekb: 1,       // sin teclado
           rel: 0,
           modestbranding: 1,
@@ -1595,10 +1594,18 @@
       if (ref) window._skyRef = ref;
     })();
 
+    // ═══════════════════════════════════════════════
+    // AGREGAR SOCIOS AQUÍ ↓
+    // Formato:  'ref' : '+57XXXXXXXXXX',
+    // Link socio: innova-ia-landing.vercel.app?ref=ref
+    // ═══════════════════════════════════════════════
     const SOCIOS = {
-      // 'maria': '+573001112233',
-      // 'juan':  '+573009998877',
+      'lider'  : '+573112657801',   // Tú (líder principal)
+      // 'maria'  : '+573001112233',
+      // 'juan'   : '+573009998877',
+      // 'andrea' : '+573115556677',
     };
+    // Número por defecto si abren el link sin ?ref=
     const WHATSAPP_DEFAULT = '+573112657801';
 
     function getWhatsApp() {
@@ -1662,7 +1669,7 @@
     // Alternar el bubble cada 6 segundos para llamar la atención
     var bubbleMessages = [
       '¿Listo para activar tu franquicia? 👆',
-      '3 ventas = $800 en el primer mes 💰',
+      '4 ventas = $900 en el primer mes 💰',
       'Sin experiencia · Sin seguidores 🚀',
       '20 min de conversación, sin compromiso ✅'
     ];
