@@ -1595,25 +1595,41 @@
     })();
 
     // ═══════════════════════════════════════════════
-    // AGREGAR SOCIOS AQUÍ ↓
-    // Formato:  'ref' : '+57XXXXXXXXXX',
-    // Link socio: innova-ia-landing.vercel.app?ref=ref
+    // SISTEMA DE SOCIOS — Google Sheets en tiempo real
+    // Para agregar un socio: edita la hoja innova-ia-socios
     // ═══════════════════════════════════════════════
-    const SOCIOS = {
-      'lider'  : '+573112657801',   // Tú (líder principal)
-      // 'maria'  : '+573001112233',
-      // 'juan'   : '+573009998877',
-      // 'andrea' : '+573115556677',
-    };
-    // Número por defecto si abren el link sin ?ref=
+    const SHEET_ID = '19lXGUsG_Vt8VzpycSP04cAoQbdjAJDLYizuSIDKxJqQ';
     const WHATSAPP_DEFAULT = '+573112657801';
+    let _sociosCache = null;
 
-    function getWhatsApp() {
-      if (window._skyRef && SOCIOS[window._skyRef]) return SOCIOS[window._skyRef];
-      return WHATSAPP_DEFAULT;
+    async function cargarSocios() {
+      if (_sociosCache) return _sociosCache;
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+        const res = await fetch(url);
+        const csv = await res.text();
+        const lines = csv.trim().split('\n').slice(1); // skip header
+        const socios = {};
+        lines.forEach(line => {
+          const cols = line.split(',');
+          const ref = cols[0]?.trim().replace(/"/g,'');
+          const wa  = cols[1]?.trim().replace(/"/g,'');
+          if (ref && wa) socios[ref] = wa;
+        });
+        _sociosCache = socios;
+        return socios;
+      } catch(e) {
+        return {};
+      }
     }
 
-    function enviarWhatsApp() {
+    async function getWhatsApp() {
+      if (!window._skyRef) return WHATSAPP_DEFAULT;
+      const socios = await cargarSocios();
+      return socios[window._skyRef] || WHATSAPP_DEFAULT;
+    }
+
+    async function enviarWhatsApp() {
       const nombre = document.getElementById('inp-nombre').value.trim();
       const tel = document.getElementById('inp-tel').value.trim();
       const objetivo = document.getElementById('inp-objetivo').value;
@@ -1629,7 +1645,8 @@
         'inversion': 'hacer crecer mi dinero',
       };
       const objTexto = objetivos[objetivo] || 'explorar la oportunidad';
-      const wa = getWhatsApp().replace(/\s|\+/g, '');
+      const waRaw = await getWhatsApp();
+      const wa = waRaw.replace(/\s|\+/g, '');
       const msg = encodeURIComponent(
         `Hola, me llamo ${nombre}. Vi el video de Innova IA y me interesa saber más. Busco principalmente ${objTexto}. Mi número es ${tel}.`
       );
