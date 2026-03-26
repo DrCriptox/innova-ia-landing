@@ -2042,6 +2042,87 @@
 })();
 </script>
 <!-- FIN SECCIÓN COMENTARIOS -->
+<!-- ═══════════════════════════════════════════════ -->
+<!-- META PIXEL — TRACKING COMPLETO (10 eventos)   -->
+<!-- ═══════════════════════════════════════════════ -->
+<script>
+(function(){
+  if(typeof fbq!=='function') return;
+  var fired={};
+  function once(name,params){if(fired[name])return;fired[name]=true;fbq('track',name,params||{});}
+  function onceCustom(name,params){if(fired[name])return;fired[name]=true;fbq('trackCustom',name,params||{});}
+
+  // ① PageView — ya disparado arriba en el <head>
+
+  // ② ViewContent — CTA header "Quiero saber más" (ya tiene onclick en el HTML)
+
+  // ③ Lead — enviarWhatsApp() (ya tiene fbq en la función)
+
+  // ④ Contact — Botón flotante WhatsApp
+  var floatBtn=document.querySelector('.float-btn');
+  if(floatBtn) floatBtn.addEventListener('click',function(){once('Contact',{content_name:'WhatsApp Flotante'});});
+
+  // ⑤ InitiateCheckout — Cuando llegan a la sección del formulario (scroll)
+  var formSection=document.getElementById('form');
+  if(formSection){
+    var formObs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){once('InitiateCheckout',{content_name:'Formulario Visible'});formObs.disconnect();}});
+    },{threshold:0.3});
+    formObs.observe(formSection);
+  }
+
+  // ⑥ VideoPlay — Cuando el usuario inicia el video VSL
+  var origStateChange=window.onPlayerStateChange;
+  var videoMilestones={};
+  window._fbPixelVideoHook=function(state,player){
+    if(state===1 && !fired['VideoPlay']){
+      // PLAYING por primera vez
+      onceCustom('VideoPlay',{content_name:'VSL InnovaIA'});
+    }
+    if(state===1 && player && player.getCurrentTime && player.getDuration){
+      // Trackear milestones de video
+      var pct=Math.round((player.getCurrentTime()/player.getDuration())*100);
+      // ⑦ Video 25%
+      if(pct>=25 && !videoMilestones[25]){videoMilestones[25]=true;onceCustom('Video25',{content_name:'VSL 25%'});}
+      // ⑧ Video 50%
+      if(pct>=50 && !videoMilestones[50]){videoMilestones[50]=true;onceCustom('Video50',{content_name:'VSL 50%'});}
+      // ⑨ Video 75%
+      if(pct>=75 && !videoMilestones[75]){videoMilestones[75]=true;onceCustom('Video75',{content_name:'VSL 75%'});}
+    }
+    if(state===0){
+      // ⑩ Video Complete — ENDED
+      onceCustom('VideoComplete',{content_name:'VSL Completo'});
+    }
+  };
+
+  // Hook into the existing progress interval for video milestones
+  var _origInterval=setInterval(function(){
+    if(window.ytPlayer && window.ytPlayer.getPlayerState && window.ytPlayer.getPlayerState()===1){
+      window._fbPixelVideoHook(1,window.ytPlayer);
+    }
+  },2000);
+
+  // ⑩b Scroll Depth — 50% y 90% de la página
+  var scrollFired={};
+  window.addEventListener('scroll',function(){
+    var pct=Math.round((window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100);
+    if(pct>=50 && !scrollFired[50]){scrollFired[50]=true;onceCustom('ScrollDepth50',{content_name:'Scroll 50%'});}
+    if(pct>=90 && !scrollFired[90]){scrollFired[90]=true;onceCustom('ScrollDepth90',{content_name:'Scroll 90%'});}
+  },{passive:true});
+
+  // ⑩c Tiempo en página — 60 segundos = usuario enganchado
+  setTimeout(function(){onceCustom('TimeOnPage60',{content_name:'60s en página'});},60000);
+
+  // ⑩d CTA final del video "Sí, quiero saber más"
+  var endCta=document.querySelector('.end-cta');
+  if(endCta) endCta.addEventListener('click',function(){once('CompleteRegistration',{content_name:'CTA Video Final'});});
+
+  // ⑩e FAQ interaction — indica usuario investigando
+  document.querySelectorAll('.faq-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){onceCustom('FAQClick',{content_name:btn.textContent.trim().substring(0,50)});});
+  });
+})();
+</script>
 <script src="/wa-redirect.js"></script>
 </body>
 </html>
