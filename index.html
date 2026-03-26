@@ -1089,10 +1089,6 @@
         <div class="vsl-progress-bar">
           <div class="vsl-progress-fill" id="vslProgress"></div>
         </div>
-        <div class="vsl-timer-bar">
-          <span id="vslCurrentTime">0:00</span>
-          <span id="vslTimeLeft">⏱ --:-- restantes</span>
-        </div>
         <div class="vsl-note">🔒 Este video no se puede adelantar — cada parte importa</div>
       </div>
     </div>
@@ -1571,15 +1567,15 @@
     }
 
     // Progreso ponderado: velocidad variable según minuto del video
-    // 0-1min → 10x | 1-3min → 5x | 3-5min → 3x | 5-15min → 2x | 15-25min → 1x | 25-32min → 0.5x
+    // 0-1min → 10x | 1-3min → 5x | 3-5min → 2x | 5-10min → 1x | 10-30min → 0.5x | 30-32min → 0.3x
     function getWeightedProgress(currentSec, totalSec) {
       var segments = [
         [0, 60, 10],       // 0-1 min: 10x
         [60, 180, 5],      // 1-3 min: 5x
-        [180, 300, 3],     // 3-5 min: 3x
-        [300, 900, 2],     // 5-15 min: 2x
-        [900, 1500, 1],    // 15-25 min: 1x
-        [1500, 1920, 0.5]  // 25-32 min: 0.5x
+        [180, 300, 2],     // 3-5 min: 2x
+        [300, 600, 1],     // 5-10 min: 1x
+        [600, 1800, 0.5],  // 10-30 min: 0.5x
+        [1800, 1920, 0.3]  // 30-32 min: 0.3x
       ];
       var totalWeight = 0;
       var currentWeight = 0;
@@ -1596,11 +1592,11 @@
           currentWeight += (currentSec - sStart) * mult;
         }
       }
-      // Si el video dura más de 32 min, continuar a 0.5x
+      // Si el video dura más de 32 min, continuar a 0.3x
       if (totalSec > 1920) {
-        totalWeight += (totalSec - 1920) * 0.5;
+        totalWeight += (totalSec - 1920) * 0.3;
         if (currentSec > 1920) {
-          currentWeight += (currentSec - 1920) * 0.5;
+          currentWeight += (currentSec - 1920) * 0.3;
         }
       }
       return totalWeight > 0 ? Math.min((currentWeight / totalWeight) * 100, 100) : 0;
