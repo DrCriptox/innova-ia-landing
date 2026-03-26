@@ -1047,7 +1047,7 @@
     <!-- VSL VIDEO PROFESIONAL -->
     <div class="vsl-wrap">
       <div class="vsl-outer">
-        <span class="vsl-label">📽 Mira esto primero — 8 minutos que cambian todo</span>
+        <span class="vsl-label">📽 Mira esto primero — 19 minutos que cambian todo</span>
         <div class="vsl-frame" id="vslContainer">
           <div id="ytPlayer"></div>
 
@@ -1469,9 +1469,8 @@
     var seekBlocked = false;
     var videoStarted = false;
 
-    // Barra de progreso: arranca rápido y luego sigue el video
-    var fakeProgress = 0;
-    var fakeInterval = null;
+    // Barra de progreso con velocidad variable
+    var barProgress = 0;
 
     function onYouTubeIframeAPIReady() {
       ytPlayer = new YT.Player('ytPlayer', {
@@ -1508,7 +1507,6 @@
 
         if (!videoStarted) {
           videoStarted = true;
-          startFakeProgress();
         }
 
         // Iniciar polling de tiempo
@@ -1533,13 +1531,11 @@
           document.getElementById('vslCurrentTime').textContent = fmtTime(cur);
           document.getElementById('vslTimeLeft').textContent = '⏱ ' + fmtTime(rem) + ' restantes';
 
-          // Actualizar barra de progreso real (una vez superado el 30%)
-          if (fakeProgress >= 30) {
-            var pct = Math.min((current / dur) * 100, 100);
-            if (pct > fakeProgress) {
-              fakeProgress = pct;
-              document.getElementById('vslProgress').style.width = fakeProgress + '%';
-            }
+          // Actualizar barra de progreso con velocidad variable
+          var pct = getWeightedProgress(current, dur);
+          if (pct > barProgress) {
+            barProgress = pct;
+            document.getElementById('vslProgress').style.width = barProgress + '%';
           }
         }, 800);
       }
@@ -1568,19 +1564,38 @@
       }
     }
 
-    // Barra falsa: 0→28% rápido (enganche), luego pausa hasta que el video la alcanza
-    function startFakeProgress() {
-      fakeProgress = 0;
-      var speed = 0.8; // porcentaje por tick
-      fakeInterval = setInterval(function() {
-        if (fakeProgress < 28) {
-          fakeProgress += speed;
-          if (fakeProgress > 28) fakeProgress = 28;
-          document.getElementById('vslProgress').style.width = fakeProgress + '%';
-        } else {
-          clearInterval(fakeInterval); // la barra real toma el control
+    // Progreso ponderado: velocidad variable según minuto del video
+    // 0-3min → 3x | 3-10min → 2x | 10-20min → 1x | 20-30min → 0.5x
+    function getWeightedProgress(currentSec, totalSec) {
+      var segments = [
+        [0, 180, 3],       // 0-3 min: 3x
+        [180, 600, 2],     // 3-10 min: 2x
+        [600, 1200, 1],    // 10-20 min: 1x
+        [1200, 1800, 0.5]  // 20-30 min: 0.5x
+      ];
+      var totalWeight = 0;
+      var currentWeight = 0;
+      for (var i = 0; i < segments.length; i++) {
+        var sStart = segments[i][0];
+        var sEnd = Math.min(segments[i][1], totalSec);
+        var mult = segments[i][2];
+        if (sStart >= totalSec) break;
+        var sDur = sEnd - sStart;
+        totalWeight += sDur * mult;
+        if (currentSec >= sEnd) {
+          currentWeight += sDur * mult;
+        } else if (currentSec > sStart) {
+          currentWeight += (currentSec - sStart) * mult;
         }
-      }, 80);
+      }
+      // Si el video dura más de 30 min, continuar a 0.5x
+      if (totalSec > 1800) {
+        totalWeight += (totalSec - 1800) * 0.5;
+        if (currentSec > 1800) {
+          currentWeight += (currentSec - 1800) * 0.5;
+        }
+      }
+      return totalWeight > 0 ? Math.min((currentWeight / totalWeight) * 100, 100) : 0;
     }
 
     function fmtTime(sec) {
@@ -1605,7 +1620,7 @@
 
     function replayVideo() {
       document.getElementById('endOverlay').classList.remove('active');
-      fakeProgress = 0;
+      barProgress = 0;
       lastTime = 0;
       videoStarted = false;
       document.getElementById('vslProgress').style.width = '0%';
