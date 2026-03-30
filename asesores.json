@@ -6,15 +6,25 @@
     "foto": "",
     "pais": "CO",
     "verificado": true,
-    "mensaje": "¡Hola! Estoy listo para ayudarte a activar tu franquicia InnovaIA 🚀"
+    "mensaje": "Â¡Hola! Estoy listo para ayudarte a activar tu franquicia InnovaIA ð"
   },
   "angel2026": {
-    "nombre": "Ángel Álvarez",
+    "nombre": "Ãngel Ãlvarez",
     "rol": "Director InnovaIA Colombia",
     "whatsapp": "573229316994",
     "foto": "",
     "pais": "CO",
     "verificado": true,
-    "mensaje": "¡Hola! Soy Ángel, tu asesor personalizado. Vamos a activar tu franquicia juntos 💪"
+    "mensaje": "Â¡Hola! Soy Ãngel, tu asesor personalizado. Vamos a activar tu franquicia juntos ðª"
+  },
+  "testasesor2026": {
+    "nombre": "Test Asesor",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "573001234567",
+    "foto": "",
+    "verificado": true,
+    "mensaje": "¡Hola! Soy Test Asesor, tu asesor InnovaIA 🚀",
+    "pais": "CO",
+    "registrado": "2026-03-30T23:23:41.123Z"
   }
 }
