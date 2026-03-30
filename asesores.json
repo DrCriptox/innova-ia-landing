@@ -1,0 +1,20 @@
+{
+  "default": {
+    "nombre": "Equipo InnovaIA",
+    "rol": "Asesor Certificado",
+    "whatsapp": "573229316994",
+    "foto": "",
+    "pais": "CO",
+    "verificado": true,
+    "mensaje": "¡Hola! Estoy listo para ayudarte a activar tu franquicia InnovaIA 🚀"
+  },
+  "angel2026": {
+    "nombre": "Ángel Álvarez",
+    "rol": "Director InnovaIA Colombia",
+    "whatsapp": "573229316994",
+    "foto": "",
+    "pais": "CO",
+    "verificado": true,
+    "mensaje": "¡Hola! Soy Ángel, tu asesor personalizado. Vamos a activar tu franquicia juntos 💪"
+  }
+}
