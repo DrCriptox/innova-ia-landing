@@ -2294,5 +2294,53 @@
 })();
 </script>
 <script src="/wa-redirect.js"></script>
+
+<!-- ═══ META CAPI CLIENT — server-side mirror de eventos ═══
+     Duplica PageView y Lead hacia /api/capi (Vercel serverless).
+     Meta deduplica automáticamente con eventID. Recupera ~30-40%
+     de señales perdidas por iOS / adblockers.
+     REQUIERE: META_CAPI_TOKEN en Vercel Environment Variables.
+-->
+<script>
+(function(){
+  function getCookie(n){var v=document.cookie.match('(^|;) ?'+n+'=([^;]*)(;|$)');return v?v[2]:null;}
+
+  function getFbc(){
+    var fbc=getCookie('_fbc');
+    if(!fbc){
+      var fbclid=new URLSearchParams(window.location.search).get('fbclid');
+      if(fbclid) fbc='fb.1.'+Date.now()+'.'+fbclid;
+    }
+    return fbc||null;
+  }
+
+  window.sendCAPIEvent = function(eventName, eventId, customData){
+    var payload = {
+      event_name: eventName,
+      event_data: {
+        url: window.location.href,
+        fbp: getCookie('_fbp') || null,
+        fbc: getFbc(),
+        event_id: eventId || (eventName+'_'+Date.now()),
+        custom_data: customData || {}
+      }
+    };
+    // Fire and forget — pixel sigue funcionando aunque falle CAPI
+    fetch('/api/capi', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(function(){});
+  };
+
+  // PageView server-side (espera a que _fbp cookie exista)
+  var pvId = 'pv_'+Date.now();
+  if(typeof fbq==='function') fbq('track','PageView',{},{eventID:pvId});
+  window.addEventListener('load', function(){
+    window.sendCAPIEvent('PageView', pvId);
+  });
+})();
+</script>
 </body>
 </html>
