@@ -144,9 +144,9 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>#</th><th>Foto</th><th>Nombre / Rol</th><th>Codigo</th><th>Telefono</th><th>Visitas</th><th>Registrado</th><th>Link</th><th>Acciones</th></tr>
+          <tr><th>#</th><th>Foto</th><th>Nombre / Rol</th><th>Codigo</th><th>Telefono</th><th>Visitas</th><th>Conv.</th><th>Tasa</th><th>Registrado</th><th>Link</th><th>Acciones</th></tr>
         </thead>
-        <tbody id="tBody"><tr><td colspan="9" style="text-align:center;padding:48px;color:var(--muted);">Cargando...</td></tr></tbody>
+        <tbody id="tBody"><tr><td colspan="11" style="text-align:center;padding:48px;color:var(--muted);">Cargando...</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -213,14 +213,14 @@ function switchTab(tab){
   if(tab==='anti')loadAnti();
 }
 function parseEntry(entry){
-  if(!entry)return{total:0,uniq:0,suspicious:0,legacy:true};
-  if(typeof entry==='number')return{total:entry,uniq:0,suspicious:0,legacy:true};
+  if(!entry)return{total:0,uniq:0,suspicious:0,conversions:0,legacy:true};
+  if(typeof entry==='number')return{total:entry,uniq:0,suspicious:0,conversions:0,legacy:true};
   var total=entry.total||0;
   var ips=entry.ips||{};
   var vals=Object.values(ips);
   var uniq=Object.keys(ips).length;
   var suspicious=vals.filter(function(c){return c>1;}).length;
-  return{total:total,uniq:uniq,suspicious:suspicious,legacy:false};
+  return{total:total,uniq:uniq,suspicious:suspicious,conversions:entry.conversions||0,legacy:false};
 }
 async function loadData(){
   document.getElementById('tBody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--muted);">Cargando...</td></tr>';
@@ -231,7 +231,7 @@ async function loadData(){
       .map(function(e){return Object.assign({slug:e[0]},e[1]);})
       .sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});
     render();
-  }catch(ex){document.getElementById('tBody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--muted);">Error: '+ex.message+'</td></tr>';}
+  }catch(ex){document.getElementById('tBody').innerHTML='<tr><td colspan="11" style="text-align:center;padding:48px;color:var(--muted);">Error: '+ex.message+'</td></tr>';}
 }
 async function loadPromo(){
   document.getElementById('promoGrid').innerHTML='<div class="no-visits">Cargando...</div>';
@@ -305,7 +305,7 @@ function render(){
   var rows=q?allData.filter(function(d){return(d.nombre||'').toLowerCase().indexOf(q)>=0||(d.slug||'').toLowerCase().indexOf(q)>=0||(d.telefono||d.whatsapp||'').indexOf(q)>=0;}):allData;
   document.getElementById('badgeTotal').textContent=allData.length+' registrado'+(allData.length===1?'':'s');
   if(allData.length>0)document.getElementById('badgeLast').textContent='Ultimo: '+(allData[0].nombre||allData[0].slug||'--').substring(0,20);
-  if(!rows.length){document.getElementById('tBody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--muted);">Sin resultados.</td></tr>';return;}
+  if(!rows.length){document.getElementById('tBody').innerHTML='<tr><td colspan="11" style="text-align:center;padding:48px;color:var(--muted);">Sin resultados.</td></tr>';return;}
   var html='';
   rows.forEach(function(d,i){
     var num=allData.indexOf(d)+1,slug=d.slug||'',nombre=sanitize(d.nombre||'--'),rol=sanitize(d.rol||'Asesor InnovaIA');
@@ -324,7 +324,11 @@ function render(){
     html+='<td><div class="nm" title="'+nombre+'">'+nombre+'</div><div class="rl">'+rol+'</div></td>';
     html+='<td><span class="pill" data-link="'+link+'" data-orig="'+slug+'" onclick="copyPill(this)">'+sanitize(slug)+'</span></td>';
     html+='<td><a class="wa" href="https://wa.me/'+waNum+'" target="_blank">'+sanitize(tel)+'</a></td>';
-    html+='<td>'+vHtml+'</td><td class="dt">'+fecha+'</td>';
+    html+='<td>'+vHtml+'</td>';
+ var convHtml=p.conversions>0?'<span class="v-total" style="color:#4ade80">'+p.conversions+'</span>':'<span class="v-none">--</span>';
+ var tasaHtml='<span class="v-none">--</span>';
+ if(p.total>0&&p.conversions>0){var tasa=Math.round((p.conversions/p.total)*100);var tc=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';tasaHtml='<span style="font-weight:700;font-size:.88rem;color:'+tc+'">'+tasa+'%</span>';}
+ html+='<td>'+convHtml+'</td><td>'+tasaHtml+'</td><td class="dt">'+fecha+'</td>';
     html+='<td><span class="pill" data-link="'+link+'" data-orig="📋 Copiar" onclick="copyPill(this)">📋 Copiar</span></td>';
     html+='<td><div class="act-cell"><button class="btn-edit" onclick="openEdit(\''+slug+'\')">&#9998; Editar</button><button class="btn-del" onclick="deleteAsesor(\''+slug+'\',\''+nombre+'\')">&#128465;</button></div></td></tr>';
   });
