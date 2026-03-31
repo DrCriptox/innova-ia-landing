@@ -296,5 +296,12 @@
     "telefono": "5804144202068",
     "frase": "¡Hola! Soy Imnamel Álvarez, tu asesor InnovaIA 🚀",
     "foto": "fotos/imnamel25.jpg"
+  },
+  "soycesarmartinez": {
+    "nombre": "César Martínez",
+    "rol": "Asesor InnovaIA",
+    "telefono": "573146041216",
+    "frase": "Mira el video. Si el sistema te hace sentido, agendemos un Zoom.",
+    "foto": "fotos/soycesarmartinez.jpg"
   }
 }
