@@ -346,5 +346,14 @@
     "telefono": "584127610929",
     "frase": "Hola! Soy tu asesora en negocios digitales, en qué puedo ayudarte?",
     "foto": "fotos/joselininn.jpg"
+  },
+  "emily2025": {
+    "nombre": "Emily Quintero",
+    "rol": "Asesora Innova Venezuela",
+    "telefono": "584126725735",
+    "whatsapp": "584126725735",
+    "frase": "¡Hola! Soy Emily Quintero, tu asesor InnovaIA 🚀",
+    "foto": "fotos/emily2026.jpg",
+    "registrado": "2026-03-31T17:17:28.564Z"
   }
 }
