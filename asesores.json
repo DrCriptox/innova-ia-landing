@@ -539,11 +539,12 @@
   "millonario7": {
     "nombre": "Eduin fabian ramos hernandez",
     "rol": "Asesora InnovaIA Honduras",
-    "telefono": "99437441",
+    "telefono": "50499437441",
     "frase": "HOLA SOY TU ASESOR TE AYUDO A ACTIVAR TU FRANQUICIA DIGITAL.",
     "foto": "fotos/millonario7.jpg",
     "password": "",
-    "registrado": "2026-03-31T22:07:19.323Z"
+    "registrado": "2026-03-31T22:07:19.323Z",
+    "whatsapp": "50499437441"
   },
   "sunithpu": {
     "nombre": "Sunith Piña Urbina",
