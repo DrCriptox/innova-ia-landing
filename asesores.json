@@ -93,10 +93,11 @@
     "frase": "HOLA SOY TU ASESOR TE AYUDO A ACTIVAR TU FRANQUICIA",
     "foto": "fotos/dr1234567.jpg"
   },
-  "fm2026": {
-    "nombre": "Francisco Javier Mejía Yepes",
-    "telefono": "573218033162",
-    "frase": "Inspirando decisiones que transforman vidas",
-    "foto": "fotos/fm2026.jpg"
+  "yerlinc2025": {
+    "nombre": "Yerlin yamir caicedo",
+    "rol": "Asesor InnovaIA",
+    "telefono": "573122630148",
+    "frase": "Hola soy tu asesor, encargado de tu proceso",
+    "foto": "fotos/yerlinc2025.jpg"
   }
 }
