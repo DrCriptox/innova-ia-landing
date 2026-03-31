@@ -173,6 +173,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="modal-field"><label>Nombre completo</label><input type="text" id="editNombre" placeholder="Nombre del asesor"/></div>
     <div class="modal-field"><label>Rol / Descripcion</label><input type="text" id="editRol" placeholder="Ej: Asesor InnovaIA"/></div>
     <div class="modal-field"><label>WhatsApp / Telefono</label><input type="text" id="editTel" placeholder="Ej: 573001234567"/></div>
+    <div class="modal-field"><label>Foto (ruta)</label><input type="text" id="editFoto" placeholder="Ej: fotos/legend.jpg"/></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEdit()">Cancelar</button>
       <button class="btn-save" id="btnSaveEdit" onclick="saveEdit()">Guardar cambios</button>
@@ -340,6 +341,7 @@ function openEdit(slug){
   document.getElementById('editNombre').value=d.nombre||'';
   document.getElementById('editRol').value=d.rol||'';
   document.getElementById('editTel').value=d.telefono||d.whatsapp||'';
+  document.getElementById('editFoto').value=d.foto||'';
   document.getElementById('editMsg').textContent='';document.getElementById('editMsg').className='modal-msg';
   document.getElementById('editModal').style.display='flex';
 }
@@ -349,12 +351,13 @@ async function saveEdit(){
   var nombre=document.getElementById('editNombre').value.trim();
   var rol=document.getElementById('editRol').value.trim();
   var telefono=document.getElementById('editTel').value.trim();
+  var foto=document.getElementById('editFoto').value.trim();
   var btn=document.getElementById('btnSaveEdit'),msg=document.getElementById('editMsg');
   btn.disabled=true;btn.textContent='Guardando...';msg.textContent='';msg.className='modal-msg';
   try{
-    var res=await fetch('/api/edit-asesor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:editingSlug,nombre:nombre,rol:rol,telefono:telefono})});
+    var res=await fetch('/api/edit-asesor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:editingSlug,nombre:nombre,rol:rol,telefono:telefono,foto:foto})});
     var data=await res.json();
-    if(data.ok){var d=allData.find(function(a){return a.slug===editingSlug;});if(d){if(nombre)d.nombre=nombre;if(rol)d.rol=rol;if(telefono){d.telefono=telefono;d.whatsapp=telefono;}}msg.textContent='Guardado correctamente';msg.className='modal-msg ok';setTimeout(function(){closeEdit();render();},800);}
+    if(data.ok){var d=allData.find(function(a){return a.slug===editingSlug;});if(d){if(nombre)d.nombre=nombre;if(rol)d.rol=rol;if(telefono){d.telefono=telefono;d.whatsapp=telefono;}if(foto)d.foto=foto;}}msg.textContent='Guardado correctamente';msg.className='modal-msg ok';setTimeout(function(){closeEdit();render();},800);}
     else{msg.textContent='Error: '+(data.error||'intenta de nuevo');msg.className='modal-msg err';}
   }catch(ex){msg.textContent='Error de red: '+ex.message;msg.className='modal-msg err';}
   finally{btn.disabled=false;btn.textContent='Guardar cambios';}
