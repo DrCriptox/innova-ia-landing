@@ -115,7 +115,15 @@
     }
   },
   "katherinevera": 5,
-  "julio2026": 4,
+  "julio2026": {
+    "total": 5,
+    "ips": {
+      "181.63.39.23": 1
+    },
+    "days": {
+      "2026-03-31": 1
+    }
+  },
   "danielmantilla": 1,
   "david2026": {
     "total": 5,
