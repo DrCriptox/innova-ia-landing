@@ -107,11 +107,11 @@
     "frase": "¡Hola! Soy tu asesora y te ayudo a  activar tu franquicia",
     "foto": "fotos/billonario7.jpg"
   },
-  "laurakatherine25": {
-    "nombre": "Check",
-    "rol": "Check",
-    "telefono": "573001234567",
-    "frase": "check",
-    "foto": ""
+  "alejandraymilena": {
+    "nombre": "Alejandra Hernández",
+    "rol": "Asesora Innova IA",
+    "telefono": "573015458341",
+    "frase": "Hola!! Soy Alejandra tu asistente virtual de Innova",
+    "foto": "fotos/alejandraymilena.jpg"
   }
 }
