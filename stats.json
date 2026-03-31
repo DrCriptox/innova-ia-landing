@@ -20,7 +20,12 @@
   "kenllygarcia": 3,
   "soymarig": 3,
   "leidyg2026": 8,
-  "scarletinn": 2,
+  "scarletinn": {
+    "total": 3,
+    "ips": {
+      "173.252.127.45": 1
+    }
+  },
   "katherinevera": 5,
   "julio2026": 4,
   "danielmantilla": 1,
