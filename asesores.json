@@ -226,5 +226,12 @@
     "telefono": "586725735",
     "frase": "¡Hola! Soy Emily Quintero, tu asesor InnovaIA 🚀",
     "foto": "fotos/emily2026.jpg"
+  },
+  "dryonfer": {
+    "nombre": "Juan Sebastian Zapata",
+    "rol": "Asesor InnovaIA",
+    "telefono": "5534633642",
+    "frase": "Hola, soy Sebastian Zapata sere tu asesor.",
+    "foto": "fotos/dryonfer.jpg"
   }
 }
