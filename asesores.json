@@ -240,5 +240,12 @@
     "telefono": "584264553213",
     "frase": "¡Hola¡ Soy Edwin tu asesor. Te ayudo en el despegue?",
     "foto": "fotos/figuerainn.jpg"
+  },
+  "soymarig": {
+    "nombre": "Mariana González",
+    "rol": "Embajadora de marca y Dropshipper",
+    "telefono": "3176393387",
+    "frase": "¡Hola! Soy Mariana González, tu asesor InnovaIA 🚀",
+    "foto": "fotos/soymarig.jpg"
   }
 }
