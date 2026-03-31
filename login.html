@@ -107,9 +107,13 @@ input[type=file]{display:none;}
 
   <div class="link-box">
     <span class="link-text" id="myLink">&#8212;</span>
-    <button class="link-copy" onclick="copyLink()">&#128203; Copiar</button>
+    <div style="display:flex;gap:6px;flex-shrink:0;">
+      <button class="link-copy" onclick="openMyPage()" title="Ver mi pagina">&#128279; Ver</button>
+      <button class="link-copy" onclick="copyLink()">&#128203; Copiar</button>
+    </div>
   </div>
 
+  <div style="font-size:.72rem;color:#7A8099;text-align:center;margin:-12px 0 16px;">Los cambios que guardes se reflejan automaticamente en tu pagina y en el boton de WhatsApp.</div>
   <div class="divider"></div>
   <div class="section-title">Editar datos</div>
 
@@ -282,9 +286,15 @@ async function saveProfile(){
 }
 
 function copyLink(){
-  navigator.clipboard.writeText(document.getElementById('myLink').textContent).then(function(){
-    var b=document.querySelector('.link-copy');b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar';},2000);
+  var link=document.getElementById('myLink').textContent;
+  navigator.clipboard.writeText(link).then(function(){
+    var btns=document.querySelectorAll('.link-copy');
+    btns.forEach(function(b){if(b.textContent.includes('Copiar')){b.textContent='Copiado';setTimeout(function(){b.textContent='\u{1F4CB} Copiar';},2000);}});
   });
+}
+function openMyPage(){
+  var link=document.getElementById('myLink').textContent;
+  if(link&&link!=='\u2014')window.open(link,'_blank');
 }
 
 function doLogout(){
