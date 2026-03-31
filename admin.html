@@ -254,8 +254,8 @@ async function loadAnti(){
   }catch(ex){document.getElementById('antiGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';}
 }
 function renderPromo(){
- var entries=Object.entries(statsData).map(function(e){var p=parseEntry(e[1]);var a=allData.find(function(x){return x.slug===e[0];})||null;return{ref:e[0],p:p,a:a};}).sort(function(a,b){return b.p.total-a.p.total;}).slice(0,50);
- var tot=entries.reduce(function(s,e){return s+e.p.total;},0);
+ var entries=Object.entries(statsData).map(function(e){var p=parseEntry(e[1]);var a=allData.find(function(x){return x.slug===e[0];})||null;return{ref:e[0],p:p,a:a};}).sort(function(a,b){return Math.max(0,b.p.total-(b.p.suspicious||0)*2)-Math.max(0,a.p.total-(a.p.suspicious||0)*2);}).slice(0,50);
+ var tot=entries.reduce(function(s,e){return s+Math.max(0,e.p.total-(e.p.suspicious||0)*2);},0);
  var totConv=entries.reduce(function(s,e){return s+(e.p.conversions||0);},0);
  document.getElementById('promoSubtitle').textContent=entries.length+' promotores · '+tot.toLocaleString('es-CO')+' visitas · '+totConv+' conv.';
  if(!entries.length){document.getElementById('promoGrid').innerHTML='<div class="no-visits">Sin visitas aun.</div>';return;}
@@ -265,14 +265,14 @@ function renderPromo(){
   var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p,lk='https://www.innovaia.app/?ref='+encodeURIComponent(e.ref);
   var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
   var conv=p.conversions||0;
-  var tasa=p.total>0&&conv>0?Math.round((conv/p.total)*100):0;
+  var adj=Math.max(0,p.total-(p.suspicious||0)*2);var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0;
   var tasaColor=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
   html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div><div id="pav'+i+'"><div class="promo-avph">👤</div></div>';
   html+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+'</span><span class="promo-ref">('+e.ref+')</span><span class="promo-copy-inline" data-link="'+lk+'" data-orig="📋" onclick="copyPill(this)">📋</span></div>';
   if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row" style="margin-top:3px;"><span class="v-chip unicas">🟢 '+p.uniq+' unicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
   html+='</div>';
   html+='<div class="promo-right">';
-  html+='<div class="promo-visits">'+p.total.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div>';
+  html+='<div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div>';
   if(conv>0){html+='<div style="font-size:.85rem;font-weight:700;color:#4ade80;margin-top:4px;">'+conv+' conv.</div>';html+='<div style="font-size:.72rem;color:'+tasaColor+';font-weight:700;">'+tasa+'%</div>';}
   else{html+='<div style="font-size:.72rem;color:var(--muted);margin-top:4px;">0 conv.</div>';}
   html+='</div></div>';
