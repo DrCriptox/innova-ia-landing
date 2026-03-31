@@ -31,7 +31,12 @@
   "soycesarmartinez": 4,
   "maryuinn": 3,
   "imnamel25": 1,
-  "altuveinn": 2,
+  "altuveinn": {
+    "total": 3,
+    "ips": {
+      "190.103.28.52": 1
+    }
+  },
   "davidguevara25": 2,
   "alejotri25": {
     "total": 2,
