@@ -1,4 +1,4 @@
-<!-- v2 -->
+<!-- v3 -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,13 +30,10 @@ input[type=text]:focus{border-color:var(--gold);}
 .badge-green{background:rgba(37,211,102,.08);border-color:rgba(37,211,102,.25);color:#4ade80;}
 .badge-gold{background:rgba(212,168,83,.1);border-color:var(--border);color:var(--gold);}
 .btn-out{background:rgba(255,79,79,.1);border:1px solid rgba(255,79,79,.3);color:var(--red);border-radius:8px;padding:6px 14px;font-size:.76rem;cursor:pointer;font-weight:600;}
-
-/* TABS */
 .tab-bar{display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:0;}
 .tab-btn{background:none;border:none;color:var(--muted);font-size:.88rem;font-weight:600;padding:10px 20px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;border-radius:8px 8px 0 0;}
 .tab-btn:hover{color:var(--text);background:rgba(255,255,255,.04);}
 .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(212,168,83,.05);}
-
 .search-row{margin-bottom:16px;}
 .table-wrap{border-radius:14px;border:1px solid var(--border);overflow:hidden;overflow-x:auto;}
 table{width:100%;border-collapse:collapse;min-width:700px;}
@@ -54,19 +51,18 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .wa{color:#4ade80;text-decoration:none;font-size:.84rem;}
 .wa:hover{text-decoration:underline;}
 .dt{color:var(--muted);font-size:.78rem;white-space:nowrap;}
-.empty{text-align:center;padding:48px;color:var(--muted);}
-
-/* VISITAS BADGE */
-.visits-badge{background:rgba(212,168,83,.1);border:1px solid var(--border);border-radius:6px;padding:2px 9px;font-size:.8rem;color:var(--gold);font-weight:700;white-space:nowrap;}
-
-/* BOTONES ACCION */
+.v-cell{display:flex;flex-direction:column;gap:3px;min-width:90px;}
+.v-total{font-weight:700;font-size:.88rem;color:var(--gold);}
+.v-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:2px;}
+.v-chip{display:inline-flex;align-items:center;gap:3px;font-size:.67rem;border-radius:4px;padding:1px 6px;white-space:nowrap;border:1px solid;}
+.v-chip.unicas{background:rgba(42,255,213,.07);border-color:rgba(42,255,213,.2);color:#2AFFD5;}
+.v-chip.sospechosas{background:rgba(255,79,79,.07);border-color:rgba(255,79,79,.2);color:#FF8888;}
+.v-none{color:var(--muted);font-size:.78rem;}
 .btn-edit{background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.3);color:var(--gold);border-radius:6px;padding:4px 10px;font-size:.74rem;cursor:pointer;font-weight:600;transition:all .2s;white-space:nowrap;}
 .btn-edit:hover{background:rgba(212,168,83,.25);}
 .btn-del{background:rgba(255,79,79,.08);border:1px solid rgba(255,79,79,.25);color:var(--red);border-radius:6px;padding:4px 10px;font-size:.74rem;cursor:pointer;font-weight:600;transition:all .2s;white-space:nowrap;}
 .btn-del:hover{background:rgba(255,79,79,.2);}
 .act-cell{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-
-/* MODAL EDITAR */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;}
 .modal-box{background:var(--card);border:1px solid rgba(212,168,83,.3);border-radius:18px;padding:32px 28px;width:100%;max-width:440px;}
 .modal-title{font-size:1.1rem;font-weight:800;margin-bottom:6px;color:var(--gold);}
@@ -75,7 +71,6 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .modal-field label{display:block;font-size:.74rem;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:1px;}
 .modal-field input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-size:.9rem;outline:none;transition:border .2s;}
 .modal-field input:focus{border-color:var(--gold);}
-.modal-field input:disabled{opacity:.4;cursor:not-allowed;}
 .modal-actions{display:flex;gap:10px;margin-top:22px;}
 .btn-save{flex:1;background:var(--gold);color:#000;border:none;border-radius:10px;padding:12px;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s;}
 .btn-save:hover{background:var(--gold-light);}
@@ -85,8 +80,6 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .modal-msg{font-size:.82rem;margin-top:10px;min-height:16px;}
 .modal-msg.err{color:var(--red);}
 .modal-msg.ok{color:#4ade80;}
-
-/* TOP PROMOTORES */
 .promo-grid{display:flex;flex-direction:column;gap:10px;}
 .promo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:16px;transition:border-color .2s;}
 .promo-card:hover{border-color:rgba(212,168,83,.35);}
@@ -102,6 +95,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .promo-right{text-align:right;flex-shrink:0;}
 .promo-visits{font-size:1.5rem;font-weight:800;color:var(--gold);line-height:1;}
 .promo-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.promo-ip-row{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
 .bar-wrap{height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:8px;overflow:hidden;}
 .bar-fill{height:100%;background:var(--gold);border-radius:4px;transition:width .6s ease;}
 .promo-copy{display:inline-block;margin-top:6px;}
@@ -110,10 +104,16 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .promo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
 .promo-title{font-size:.9rem;color:var(--muted);}
 .no-visits{text-align:center;padding:48px 20px;color:var(--muted);font-size:.9rem;}
+.at-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.at-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;flex:1;min-width:120px;}
+.at-val{font-size:1.6rem;font-weight:800;color:var(--gold);line-height:1;}
+.at-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;}
+.at-card.red .at-val{color:#FF8888;}
+.at-card.teal .at-val{color:#2AFFD5;}
+.at-card.green .at-val{color:#4ade80;}
 </style>
 </head>
 <body>
-
 <div id="loginWrap">
   <div class="login-box">
     <div class="brand">Innova<span>IA</span></div>
@@ -123,24 +123,20 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="err" id="loginErr"></div>
   </div>
 </div>
-
 <div id="dashboard">
   <div class="topbar">
-    <div class="topbrand">Innova<span>IA</span> — Asesores</div>
+    <div class="topbrand">Innova<span>IA</span> &mdash; Asesores</div>
     <div class="badges">
-      <span class="badge badge-green" id="badgeTotal">—</span>
-      <span class="badge badge-gold" id="badgeLast">—</span>
+      <span class="badge badge-green" id="badgeTotal">&mdash;</span>
+      <span class="badge badge-gold" id="badgeLast">&mdash;</span>
       <button class="btn-out" id="btnOut">Cerrar sesion</button>
     </div>
   </div>
-
-  <!-- TABS -->
   <div class="tab-bar">
     <button class="tab-btn active" id="tabBtnAsesores" onclick="switchTab('asesores')">Asesores</button>
     <button class="tab-btn" id="tabBtnPromo" onclick="switchTab('promo')">Top Promotores</button>
+    <button class="tab-btn" id="tabBtnAnti" onclick="switchTab('anti')">Anti-trampa</button>
   </div>
-
-  <!-- Panel: Asesores -->
   <div id="panelAsesores">
     <div class="search-row">
       <input type="text" id="searchQ" placeholder="Buscar por nombre, codigo o telefono..."/>
@@ -148,45 +144,35 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>#</th><th>Foto</th><th>Nombre / Rol</th><th>Codigo</th>
-            <th>Telefono</th><th>Visitas</th><th>Registrado</th><th>Link</th><th>Acciones</th>
-          </tr>
+          <tr><th>#</th><th>Foto</th><th>Nombre / Rol</th><th>Codigo</th><th>Telefono</th><th>Visitas</th><th>Registrado</th><th>Link</th><th>Acciones</th></tr>
         </thead>
-        <tbody id="tBody"><tr><td colspan="9" class="empty">Cargando...</td></tr></tbody>
+        <tbody id="tBody"><tr><td colspan="9" style="text-align:center;padding:48px;color:var(--muted);">Cargando...</td></tr></tbody>
       </table>
     </div>
   </div>
-
-  <!-- Panel: Top Promotores -->
   <div id="panelPromo" style="display:none">
     <div class="promo-header">
-      <span class="promo-title" id="promoSubtitle">Cargando estadisticas...</span>
+      <span class="promo-title" id="promoSubtitle">Cargando...</span>
       <button class="refresh-btn" onclick="loadPromo()">Actualizar</button>
     </div>
-    <div class="promo-grid" id="promoGrid">
-      <div class="no-visits">Cargando...</div>
+    <div class="promo-grid" id="promoGrid"><div class="no-visits">Cargando...</div></div>
+  </div>
+  <div id="panelAnti" style="display:none">
+    <div class="promo-header">
+      <span class="promo-title">Deteccion de IPs sospechosas por asesor</span>
+      <button class="refresh-btn" onclick="loadAnti()">Actualizar</button>
     </div>
+    <div class="at-summary" id="antiSummary"></div>
+    <div class="promo-grid" id="antiGrid"><div class="no-visits">Cargando...</div></div>
   </div>
 </div>
-
-<!-- Modal: Editar Asesor -->
 <div id="editModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeEdit()">
   <div class="modal-box">
     <div class="modal-title">Editar Asesor</div>
-    <div class="modal-sub" id="editModalSub">Codigo: —</div>
-    <div class="modal-field">
-      <label>Nombre completo</label>
-      <input type="text" id="editNombre" placeholder="Nombre del asesor"/>
-    </div>
-    <div class="modal-field">
-      <label>Rol / Descripcion</label>
-      <input type="text" id="editRol" placeholder="Ej: Asesor InnovaIA"/>
-    </div>
-    <div class="modal-field">
-      <label>WhatsApp / Telefono</label>
-      <input type="text" id="editTel" placeholder="Ej: 573001234567"/>
-    </div>
+    <div class="modal-sub" id="editModalSub">Codigo: &mdash;</div>
+    <div class="modal-field"><label>Nombre completo</label><input type="text" id="editNombre" placeholder="Nombre del asesor"/></div>
+    <div class="modal-field"><label>Rol / Descripcion</label><input type="text" id="editRol" placeholder="Ej: Asesor InnovaIA"/></div>
+    <div class="modal-field"><label>WhatsApp / Telefono</label><input type="text" id="editTel" placeholder="Ej: 573001234567"/></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEdit()">Cancelar</button>
       <button class="btn-save" id="btnSaveEdit" onclick="saveEdit()">Guardar cambios</button>
@@ -196,16 +182,11 @@ tr:hover td{background:rgba(255,255,255,.02);}
 </div>
 <script>
 var SECRET='Genesis22';
-var allData=[];
-var statsData={};
-var currentTab='asesores';
-var editingSlug=null;
-
+var allData=[],statsData={},currentTab='asesores',editingSlug=null;
 document.getElementById('loginBtn').addEventListener('click',doLogin);
 document.getElementById('pwInput').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 document.getElementById('btnOut').addEventListener('click',doLogout);
 document.getElementById('searchQ').addEventListener('input',render);
-
 function doLogin(){
   var pw=document.getElementById('pwInput').value.trim();
   if(pw!==SECRET){document.getElementById('loginErr').textContent='Contrasena incorrecta.';return;}
@@ -213,299 +194,183 @@ function doLogin(){
   document.getElementById('dashboard').style.display='block';
   loadData();
 }
-
 function doLogout(){
   allData=[];statsData={};editingSlug=null;
   document.getElementById('loginWrap').style.display='flex';
   document.getElementById('dashboard').style.display='none';
-  document.getElementById('pwInput').value='';
-  document.getElementById('loginErr').textContent='';
+  document.getElementById('pwInput').value='';document.getElementById('loginErr').textContent='';
 }
-
 function switchTab(tab){
   currentTab=tab;
   document.getElementById('tabBtnAsesores').classList.toggle('active',tab==='asesores');
   document.getElementById('tabBtnPromo').classList.toggle('active',tab==='promo');
+  document.getElementById('tabBtnAnti').classList.toggle('active',tab==='anti');
   document.getElementById('panelAsesores').style.display=tab==='asesores'?'block':'none';
   document.getElementById('panelPromo').style.display=tab==='promo'?'block':'none';
+  document.getElementById('panelAnti').style.display=tab==='anti'?'block':'none';
   if(tab==='promo')loadPromo();
+  if(tab==='anti')loadAnti();
 }
-
+function parseEntry(entry){
+  if(!entry)return{total:0,uniq:0,suspicious:0,legacy:true};
+  if(typeof entry==='number')return{total:entry,uniq:0,suspicious:0,legacy:true};
+  var total=entry.total||0;
+  var ips=entry.ips||{};
+  var vals=Object.values(ips);
+  var uniq=Object.keys(ips).length;
+  var suspicious=vals.filter(function(c){return c>1;}).length;
+  return{total:total,uniq:uniq,suspicious:suspicious,legacy:false};
+}
 async function loadData(){
-  document.getElementById('tBody').innerHTML='<tr><td colspan="9" class="empty">Cargando datos en vivo...</td></tr>';
+  document.getElementById('tBody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--muted);">Cargando...</td></tr>';
   try{
-    var [res,sRes]=await Promise.all([
-      fetch('/api/asesores?_t='+Date.now()),
-      fetch('/api/stats?_t='+Date.now())
-    ]);
-    var raw=await res.json();
-    statsData=await sRes.json();
-    allData=Object.entries(raw)
-      .filter(function(e){return e[0]!=='default';})
+    var [r,s]=await Promise.all([fetch('/api/asesores?_t='+Date.now()),fetch('/api/stats?_t='+Date.now())]);
+    var raw=await r.json(); statsData=await s.json();
+    allData=Object.entries(raw).filter(function(e){return e[0]!=='default';})
       .map(function(e){return Object.assign({slug:e[0]},e[1]);})
       .sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});
     render();
-  }catch(ex){
-    document.getElementById('tBody').innerHTML='<tr><td colspan="9" class="empty">Error: '+ex.message+'</td></tr>';
-  }
+  }catch(ex){document.getElementById('tBody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--muted);">Error: '+ex.message+'</td></tr>';}
 }
-
 async function loadPromo(){
-  document.getElementById('promoGrid').innerHTML='<div class="no-visits">Cargando estadisticas...</div>';
-  document.getElementById('promoSubtitle').textContent='Cargando estadisticas...';
+  document.getElementById('promoGrid').innerHTML='<div class="no-visits">Cargando...</div>';
+  document.getElementById('promoSubtitle').textContent='Cargando...';
   try{
-    var [statsRes,asesRes]=await Promise.all([
-      fetch('/api/stats?_t='+Date.now()),
-      allData.length?Promise.resolve(null):fetch('/api/asesores?_t='+Date.now())
-    ]);
-    statsData=await statsRes.json();
-    if(asesRes){
-      var raw=await asesRes.json();
-      allData=Object.entries(raw)
-        .filter(function(e){return e[0]!=='default';})
-        .map(function(e){return Object.assign({slug:e[0]},e[1]);})
-        .sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});
-      render();
-    }
+    var [sr,ar]=await Promise.all([fetch('/api/stats?_t='+Date.now()),allData.length?Promise.resolve(null):fetch('/api/asesores?_t='+Date.now())]);
+    statsData=await sr.json();
+    if(ar){var raw=await ar.json();allData=Object.entries(raw).filter(function(e){return e[0]!=='default';}).map(function(e){return Object.assign({slug:e[0]},e[1]);}).sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});render();}
     renderPromo();
-  }catch(ex){
-    document.getElementById('promoGrid').innerHTML='<div class="no-visits">Error cargando estadisticas: '+ex.message+'</div>';
-  }
+  }catch(ex){document.getElementById('promoGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';}
 }
-
+async function loadAnti(){
+  document.getElementById('antiGrid').innerHTML='<div class="no-visits">Cargando...</div>';
+  document.getElementById('antiSummary').innerHTML='';
+  try{
+    var [sr,ar]=await Promise.all([fetch('/api/stats?_t='+Date.now()),allData.length?Promise.resolve(null):fetch('/api/asesores?_t='+Date.now())]);
+    statsData=await sr.json();
+    if(ar){var raw=await ar.json();allData=Object.entries(raw).filter(function(e){return e[0]!=='default';}).map(function(e){return Object.assign({slug:e[0]},e[1]);}).sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});render();}
+    renderAnti();
+  }catch(ex){document.getElementById('antiGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';}
+}
 function renderPromo(){
-  var entries=Object.entries(statsData).map(function(e){
-    var ref=e[0],visits=e[1];
-    var asesor=allData.find(function(a){return a.slug===ref;})||null;
-    return {ref:ref,visits:visits,asesor:asesor};
-  }).sort(function(a,b){return b.visits-a.visits;}).slice(0,20);
-
-  var totalVisits=entries.reduce(function(s,e){return s+e.visits;},0);
-  var totalRefs=entries.length;
-  document.getElementById('promoSubtitle').textContent=
-    totalRefs+' promotor'+(totalRefs!==1?'es':'')+' · '+totalVisits.toLocaleString('es-CO')+' visitas totales';
-
-  if(!entries.length){
-    document.getElementById('promoGrid').innerHTML='<div class="no-visits">Aun no hay visitas registradas.<br>Las visitas se cuentan cuando alguien entra por un link <strong>?ref=codigo</strong>.</div>';
-    return;
-  }
-
-  var maxVisits=entries[0].visits||1;
-  var medals=['🥇','🥈','🥉'];
+  var entries=Object.entries(statsData).map(function(e){var p=parseEntry(e[1]);var a=allData.find(function(x){return x.slug===e[0];})||null;return{ref:e[0],p:p,a:a};}).sort(function(a,b){return b.p.total-a.p.total;}).slice(0,20);
+  var tot=entries.reduce(function(s,e){return s+e.p.total;},0);
+  document.getElementById('promoSubtitle').textContent=entries.length+' promotores · '+tot.toLocaleString('es-CO')+' visitas';
+  if(!entries.length){document.getElementById('promoGrid').innerHTML='<div class="no-visits">Sin visitas aun.</div>';return;}
+  var mx=entries[0].p.total||1;
+  var med=['🥇','🥈','🥉'];
   var html='';
-
-  entries.forEach(function(entry,i){
-    var rank=i+1;
-    var rankClass=rank<=3?'rank'+rank:'';
-    var rankDisplay=rank<=3?medals[i]:rank;
-    var visits=entry.visits;
-    var pct=Math.round((visits/maxVisits)*100);
-    var ref=entry.ref;
-    var link='https://www.innovaia.app/?ref='+encodeURIComponent(ref);
-    var nombre='--';
-    if(entry.asesor){
-      nombre=sanitize(entry.asesor.nombre||ref);
-    } else {
-      nombre='<span style="color:var(--muted);font-style:italic">'+ref+'</span> (no registrado)';
-    }
-
-    html+='<div class="promo-card '+rankClass+'">';
-    html+='<div class="rank-num">'+rankDisplay+'</div>';
-    html+='<div id="pav'+i+'"><div class="promo-avph">👤</div></div>';
-    html+='<div class="promo-info">';
-    html+='<div class="promo-name">'+nombre+'</div>';
-    html+='<div class="promo-slug">?ref='+ref+'</div>';
+  entries.forEach(function(e,i){
+    var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p,lk='https://www.innovaia.app/?ref='+encodeURIComponent(e.ref);
+    var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+    var pct=Math.round((p.total/mx)*100);
+    html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div><div id="pav'+i+'"><div class="promo-avph">👤</div></div>';
+    html+='<div class="promo-info"><div class="promo-name">'+nm+'</div><div class="promo-slug">?ref='+e.ref+'</div>';
+    if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+p.uniq+' unicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
     html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
-    html+='<span class="pill promo-copy" data-link="'+link+'" data-orig="📋 Copiar link" onclick="copyPill(this)">📋 Copiar link</span>';
-    html+='</div>';
-    html+='<div class="promo-right">';
-    html+='<div class="promo-visits">'+visits.toLocaleString('es-CO')+'</div>';
-    html+='<div class="promo-label">visitas</div>';
-    html+='</div>';
-    html+='</div>';
+    html+='<span class="pill promo-copy" data-link="'+lk+'" data-orig="📋 Copiar" onclick="copyPill(this)">📋 Copiar</span></div>';
+    html+='<div class="promo-right"><div class="promo-visits">'+p.total.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div></div></div>';
   });
-
   document.getElementById('promoGrid').innerHTML=html;
-
-  entries.forEach(function(entry,i){
-    if(!entry.asesor)return;
-    var f=entry.asesor.foto||'';
-    if(!f)return;
-    var src=f.indexOf('fotos/')===0?'/'+f:f;
-    var img=new Image();
-    img.className='promo-av';
-    img.alt=entry.asesor.nombre||'';
-    img.src=src;
-    img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};
-    var el=document.getElementById('pav'+i);
-    if(el){el.innerHTML='';el.appendChild(img);}
-  });
+  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('pav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
 }
-
+function renderAnti(){
+  var entries=Object.entries(statsData).map(function(e){var p=parseEntry(e[1]);var a=allData.find(function(x){return x.slug===e[0];})||null;return{ref:e[0],p:p,a:a};}).filter(function(e){return e.p.total>0;}).sort(function(a,b){return b.p.suspicious-a.p.suspicious||b.p.total-a.p.total;});
+  var tTot=entries.reduce(function(s,e){return s+e.p.total;},0);
+  var tUniq=entries.reduce(function(s,e){return s+e.p.uniq;},0);
+  var tSusp=entries.reduce(function(s,e){return s+e.p.suspicious;},0);
+  var hasNew=entries.some(function(e){return !e.p.legacy;});
+  var sh='<div class="at-card"><div class="at-val">'+tTot.toLocaleString('es-CO')+'</div><div class="at-lbl">Visitas totales</div></div>';
+  if(hasNew){sh+='<div class="at-card teal"><div class="at-val">'+tUniq.toLocaleString('es-CO')+'</div><div class="at-lbl">IPs unicas (netas)</div></div>';sh+='<div class="at-card red"><div class="at-val">'+tSusp.toLocaleString('es-CO')+'</div><div class="at-lbl">IPs sospechosas</div></div>';}
+  document.getElementById('antiSummary').innerHTML=sh;
+  if(!entries.length){document.getElementById('antiGrid').innerHTML='<div class="no-visits">Sin datos aun.</div>';return;}
+  var html='';
+  entries.forEach(function(e,i){
+    var p=e.p,lk='https://www.innovaia.app/?ref='+encodeURIComponent(e.ref);
+    var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+    var suspPct=p.uniq>0?Math.round((p.suspicious/p.uniq)*100):0;
+    var border=suspPct>=50?'border-color:rgba(255,79,79,.45);':'';
+    html+='<div class="promo-card" style="'+border+'"><div id="aav'+i+'"><div class="promo-avph">👤</div></div>';
+    html+='<div class="promo-info"><div class="promo-name">'+nm+'</div><div class="promo-slug">?ref='+e.ref+'</div>';
+    html+='<div class="promo-ip-row" style="margin-top:6px;">';
+    html+='<span class="v-chip" style="background:rgba(212,168,83,.1);border-color:var(--border);color:var(--gold);">📊 '+p.total+' total</span>';
+    if(!p.legacy){html+='<span class="v-chip unicas">🟢 '+p.uniq+' unicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp. ('+suspPct+'%)</span>';}
+    else{html+='<span class="v-chip" style="color:var(--muted);border-color:rgba(255,255,255,.07);">sin datos IP</span>';}
+    html+='</div></div>';
+    html+='<div class="promo-right"><span class="pill" data-link="'+lk+'" data-orig="📋" onclick="copyPill(this)">📋</span></div></div>';
+  });
+  document.getElementById('antiGrid').innerHTML=html;
+  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('aav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
+}
 function render(){
   var q=(document.getElementById('searchQ').value||'').toLowerCase();
-  var rows=q?allData.filter(function(d){
-    return (d.nombre||'').toLowerCase().indexOf(q)>=0||
-      (d.slug||'').toLowerCase().indexOf(q)>=0||
-      (d.telefono||d.whatsapp||'').indexOf(q)>=0;
-  }):allData;
-
+  var rows=q?allData.filter(function(d){return(d.nombre||'').toLowerCase().indexOf(q)>=0||(d.slug||'').toLowerCase().indexOf(q)>=0||(d.telefono||d.whatsapp||'').indexOf(q)>=0;}):allData;
   document.getElementById('badgeTotal').textContent=allData.length+' registrado'+(allData.length===1?'':'s');
-  if(allData.length>0){
-    document.getElementById('badgeLast').textContent='Ultimo: '+(allData[0].nombre||allData[0].slug||'--').substring(0,20);
-  }
-  if(!rows.length){
-    document.getElementById('tBody').innerHTML='<tr><td colspan="9" class="empty">Sin resultados.</td></tr>';
-    return;
-  }
+  if(allData.length>0)document.getElementById('badgeLast').textContent='Ultimo: '+(allData[0].nombre||allData[0].slug||'--').substring(0,20);
+  if(!rows.length){document.getElementById('tBody').innerHTML='<tr><td colspan="9" style="text-align:center;padding:48px;color:var(--muted);">Sin resultados.</td></tr>';return;}
   var html='';
   rows.forEach(function(d,i){
-    var num=allData.indexOf(d)+1;
-    var slug=d.slug||'';
-    var nombre=sanitize(d.nombre||'--');
-    var rol=sanitize(d.rol||'Asesor InnovaIA');
-    var tel=d.telefono||d.whatsapp||'--';
-    var waNum=tel.replace(/[^0-9]/g,'');
-    var fecha=fmtDate(d.registrado);
+    var num=allData.indexOf(d)+1,slug=d.slug||'',nombre=sanitize(d.nombre||'--'),rol=sanitize(d.rol||'Asesor InnovaIA');
+    var tel=d.telefono||d.whatsapp||'--',waNum=tel.replace(/[^0-9]/g,''),fecha=fmtDate(d.registrado);
     var link='https://www.innovaia.app/?ref='+encodeURIComponent(slug);
-    var foto=d.foto?(d.foto.indexOf('fotos/')===0?'/'+d.foto:d.foto):'';
-    var visits=statsData[slug]||0;
-    var visitsHtml=visits>0
-      ?'<span class="visits-badge">'+visits.toLocaleString('es-CO')+'</span>'
-      :'<span style="color:var(--muted);font-size:.78rem;">--</span>';
-    html+='<tr>';
-    html+='<td style="color:var(--muted);font-size:.78rem;">'+num+'</td>';
+    var p=parseEntry(statsData[slug]);
+    var vHtml='';
+    if(p.total===0){vHtml='<span class="v-none">--</span>';}
+    else{
+      vHtml='<div class="v-cell"><span class="v-total">'+p.total.toLocaleString('es-CO')+'</span>';
+      if(!p.legacy&&p.uniq>0){vHtml+='<div class="v-row"><span class="v-chip unicas">'+p.uniq+' unicas</span>';if(p.suspicious>0)vHtml+='<span class="v-chip sospechosas">'+p.suspicious+' susp.</span>';vHtml+='</div>';}
+      vHtml+='</div>';
+    }
+    html+='<tr><td style="color:var(--muted);font-size:.78rem;">'+num+'</td>';
     html+='<td><div id="av'+i+'"><div class="avph">👤</div></div></td>';
     html+='<td><div class="nm" title="'+nombre+'">'+nombre+'</div><div class="rl">'+rol+'</div></td>';
     html+='<td><span class="pill" data-link="'+link+'" data-orig="'+slug+'" onclick="copyPill(this)">'+sanitize(slug)+'</span></td>';
     html+='<td><a class="wa" href="https://wa.me/'+waNum+'" target="_blank">'+sanitize(tel)+'</a></td>';
-    html+='<td>'+visitsHtml+'</td>';
-    html+='<td class="dt">'+fecha+'</td>';
+    html+='<td>'+vHtml+'</td><td class="dt">'+fecha+'</td>';
     html+='<td><span class="pill" data-link="'+link+'" data-orig="📋 Copiar" onclick="copyPill(this)">📋 Copiar</span></td>';
-    html+='<td><div class="act-cell">';
-    html+='<button class="btn-edit" onclick="openEdit(''+slug+'')">✏️ Editar</button>';
-    html+='<button class="btn-del" onclick="deleteAsesor(''+slug+'',''+nombre+'')">🗑️</button>';
-    html+='</div></td>';
-    html+='</tr>';
+    html+='<td><div class="act-cell"><button class="btn-edit" onclick="openEdit(''+slug+'')">&#9998; Editar</button><button class="btn-del" onclick="deleteAsesor(''+slug+'',''+nombre+'')">&#128465;</button></div></td></tr>';
   });
   document.getElementById('tBody').innerHTML=html;
-  rows.forEach(function(d,i){
-    if(!d.foto)return;
-    var src=d.foto.indexOf('fotos/')===0?'/'+d.foto:d.foto;
-    var img=new Image();
-    img.className='av';img.alt=d.nombre||'';img.src=src;
-    img.onerror=function(){this.parentNode.innerHTML='<div class="avph">👤</div>';};
-    var el=document.getElementById('av'+i);
-    if(el){el.innerHTML='';el.appendChild(img);}
-  });
+  rows.forEach(function(d,i){if(!d.foto)return;var src=d.foto.indexOf('fotos/')===0?'/'+d.foto:d.foto;var img=new Image();img.className='av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="avph">👤</div>';};var el=document.getElementById('av'+i);if(el){el.innerHTML='';el.appendChild(img);}});
 }
-
-// -- EDITAR ASESOR --
 function openEdit(slug){
-  var d=allData.find(function(a){return a.slug===slug;});
-  if(!d)return;
+  var d=allData.find(function(a){return a.slug===slug;});if(!d)return;
   editingSlug=slug;
   document.getElementById('editModalSub').textContent='Codigo: '+slug;
   document.getElementById('editNombre').value=d.nombre||'';
   document.getElementById('editRol').value=d.rol||'';
   document.getElementById('editTel').value=d.telefono||d.whatsapp||'';
-  document.getElementById('editMsg').textContent='';
-  document.getElementById('editMsg').className='modal-msg';
+  document.getElementById('editMsg').textContent='';document.getElementById('editMsg').className='modal-msg';
   document.getElementById('editModal').style.display='flex';
 }
-
-function closeEdit(){
-  document.getElementById('editModal').style.display='none';
-  editingSlug=null;
-}
-
+function closeEdit(){document.getElementById('editModal').style.display='none';editingSlug=null;}
 async function saveEdit(){
   if(!editingSlug)return;
   var nombre=document.getElementById('editNombre').value.trim();
   var rol=document.getElementById('editRol').value.trim();
   var telefono=document.getElementById('editTel').value.trim();
-  var btn=document.getElementById('btnSaveEdit');
-  var msg=document.getElementById('editMsg');
-
-  btn.disabled=true;btn.textContent='Guardando...';
-  msg.textContent='';msg.className='modal-msg';
-
+  var btn=document.getElementById('btnSaveEdit'),msg=document.getElementById('editMsg');
+  btn.disabled=true;btn.textContent='Guardando...';msg.textContent='';msg.className='modal-msg';
   try{
-    var res=await fetch('/api/edit-asesor',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({slug:editingSlug,nombre:nombre,rol:rol,telefono:telefono})
-    });
+    var res=await fetch('/api/edit-asesor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:editingSlug,nombre:nombre,rol:rol,telefono:telefono})});
     var data=await res.json();
-    if(data.ok){
-      var d=allData.find(function(a){return a.slug===editingSlug;});
-      if(d){
-        if(nombre)d.nombre=nombre;
-        if(rol)d.rol=rol;
-        if(telefono){d.telefono=telefono;d.whatsapp=telefono;}
-      }
-      msg.textContent='✅ Guardado correctamente';
-      msg.className='modal-msg ok';
-      setTimeout(function(){closeEdit();render();},800);
-    }else{
-      msg.textContent='Error al guardar: '+(data.error||'intenta de nuevo');
-      msg.className='modal-msg err';
-    }
-  }catch(ex){
-    msg.textContent='Error de red: '+ex.message;
-    msg.className='modal-msg err';
-  }finally{
-    btn.disabled=false;btn.textContent='Guardar cambios';
-  }
+    if(data.ok){var d=allData.find(function(a){return a.slug===editingSlug;});if(d){if(nombre)d.nombre=nombre;if(rol)d.rol=rol;if(telefono){d.telefono=telefono;d.whatsapp=telefono;}}msg.textContent='Guardado correctamente';msg.className='modal-msg ok';setTimeout(function(){closeEdit();render();},800);}
+    else{msg.textContent='Error: '+(data.error||'intenta de nuevo');msg.className='modal-msg err';}
+  }catch(ex){msg.textContent='Error de red: '+ex.message;msg.className='modal-msg err';}
+  finally{btn.disabled=false;btn.textContent='Guardar cambios';}
 }
-
-// -- ELIMINAR ASESOR --
 async function deleteAsesor(slug,nombre){
-  if(!confirm('Eliminar el asesor "'+slug+'"?\nEsta accion no se puede deshacer.'))return;
+  if(!confirm('Eliminar "'+slug+'"?\nNo se puede deshacer.'))return;
   try{
-    var res=await fetch('/api/delete-asesor',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({slug:slug})
-    });
+    var res=await fetch('/api/delete-asesor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:slug})});
     var data=await res.json();
-    if(data.ok){
-      allData=allData.filter(function(a){return a.slug!==slug;});
-      render();
-    }else{
-      alert('Error al eliminar: '+(data.error||'intenta de nuevo'));
-    }
-  }catch(ex){
-    alert('Error de red: '+ex.message);
-  }
+    if(data.ok){allData=allData.filter(function(a){return a.slug!==slug;});render();}
+    else alert('Error: '+(data.error||'intenta de nuevo'));
+  }catch(ex){alert('Error de red: '+ex.message);}
 }
-
-// -- UTILIDADES --
-function copyPill(el){
-  var link=el.getAttribute('data-link');
-  var orig=el.getAttribute('data-orig');
-  navigator.clipboard.writeText(link).then(function(){
-    el.textContent='✅ Copiado';
-    setTimeout(function(){el.textContent=orig;},2000);
-  });
-}
-
-function sanitize(s){
-  var str=String(s||'');
-  var bad=(str.match(/[ÃÂ]/g)||[]).length;
-  if(bad>8)return '<span style="color:var(--muted);font-style:italic">entrada antigua</span>';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function fmtDate(iso){
-  if(!iso)return '--';
-  try{
-    return new Date(iso).toLocaleString('es-CO',{
-      day:'2-digit',month:'short',year:'numeric',
-      hour:'2-digit',minute:'2-digit',timeZone:'America/Bogota'
-    });
-  }catch(e){return iso;}
-}
+function copyPill(el){var lk=el.getAttribute('data-link'),og=el.getAttribute('data-orig');navigator.clipboard.writeText(lk).then(function(){el.textContent='Copiado';setTimeout(function(){el.textContent=og;},2000);});}
+function sanitize(s){var str=String(s||'');var bad=(str.match(/[ÃÂ]/g)||[]).length;if(bad>8)return '<span style="color:var(--muted);font-style:italic">entrada antigua</span>';return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtDate(iso){if(!iso)return '--';try{return new Date(iso).toLocaleString('es-CO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'America/Bogota'});}catch(e){return iso;}}
 </script>
 </body>
 </html>
