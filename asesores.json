@@ -282,5 +282,12 @@
     "telefono": "573204398993",
     "frase": "Hola, soy tu asesora.. te ayudo!!!",
     "foto": "fotos/mariapcastro77.jpg"
+  },
+  "wilsonvilla": {
+    "nombre": "Wilson Villarejo Mayor",
+    "rol": "Asesor INNOVAIA",
+    "telefono": "573021220681",
+    "frase": "Hola, soy tu asesor. Te ayudo con gusto",
+    "foto": "fotos/wilsonvilla.jpg"
   }
 }
