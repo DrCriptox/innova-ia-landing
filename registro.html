@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
-<title>Activa tu franquicia â Innova IA</title>
+<title>Activa tu franquicia — Innova IA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
@@ -86,58 +86,58 @@ header{text-align:center;margin-bottom:36px;position:relative;}
 <body>
 <header>
   <div class="logo">Innova<span>IA</span></div>
-  <div class="logo-sub">Sky System Â· Portal de Socios</div>
+  <div class="logo-sub">Sky System · Portal de Socios</div>
 </header>
 <div class="card">
   <div id="regForm">
     <h1 class="card-title">Activa tu<br><span>landing personalizada</span></h1>
-    <p class="card-sub">Completa tu perfil en 2 minutos y recibe tu link Ãºnico. Tus prospectos llegarÃ¡n directo a ti.</p>
+    <p class="card-sub">Completa tu perfil en 2 minutos y recibe tu link único. Tus prospectos llegarán directo a ti.</p>
     <div class="form-group">
       <label>TU NOMBRE COMPLETO</label>
-      <input type="text" id="r-nombre" placeholder="Ej: MarÃ­a GarcÃ­a" maxlength="60"/>
+      <input type="text" id="r-nombre" placeholder="Ej: María García" maxlength="60"/>
     </div>
     <div class="form-group">
-      <label>TU ROL / TÃTULO</label>
+      <label>TU ROL / TÍTULO</label>
       <input type="text" id="r-rol" placeholder="Ej: Asesora InnovaIA Colombia" maxlength="60"/>
     </div>
     <div class="form-group">
-      <label>TU NÃMERO DE WHATSAPP (con cÃ³digo de paÃ­s)</label>
+      <label>TU NÚMERO DE WHATSAPP (con código de país)</label>
       <input type="tel" id="r-wa" placeholder="Ej: 573001234567" maxlength="20"/>
     </div>
     <div class="form-group">
-      <label>TU CÃDIGO DE REFERIDO (sin espacios, minÃºsculas)</label>
+      <label>TU CÓDIGO DE REFERIDO (sin espacios, minúsculas)</label>
       <input type="text" id="r-ref" placeholder="Ej: maria2026" maxlength="30" pattern="[a-z0-9]+"/>
     </div>
     <div class="form-group">
       <label>TU FOTO PROFESIONAL</label>
       <label class="photo-label" id="photoLabel" for="r-foto">
         <img class="photo-preview" id="photoPreview" src="" alt="Preview"/>
-        <span class="photo-icon" id="photoIcon">ð¸</span>
-        <span class="photo-hint" id="photoHint">Toca para subir tu foto<br><small>RecortarÃ¡s el Ã¡rea con tu cara</small></span>
+        <span class="photo-icon" id="photoIcon">📸</span>
+        <span class="photo-hint" id="photoHint">Toca para subir tu foto<br><small>Recortarás el área con tu cara</small></span>
         <input type="file" id="r-foto" accept="image/jpeg,image/png,image/webp"/>
       </label>
     </div>
     <div class="form-group">
       <label>MENSAJE DE BIENVENIDA (opcional)</label>
-      <input type="text" id="r-msg" placeholder="Ej: Â¡Hola! Soy tu asesora, te ayudo a activar ð" maxlength="100"/>
+      <input type="text" id="r-msg" placeholder="Ej: ¡Hola! Soy tu asesora, te ayudo a activar 🚀" maxlength="100"/>
     </div>
     <div class="error-msg" id="errorMsg"></div>
     <button class="submit-btn" id="submitBtn" onclick="registrar()">
-      <span id="submitText">Generar mi link personalizado â¨</span>
+      <span id="submitText">Generar mi link personalizado ✨</span>
       <span id="submitSpinner" class="spinner" style="display:none;"></span>
     </button>
   </div>
   <div class="result" id="regResult">
     <div class="result-header">
-      <div class="result-check">ð</div>
-      <div class="result-title">Â¡Tu landing estÃ¡ lista!</div>
-      <div class="result-sub">Comparte tu link y cada prospecto verÃ¡ tu nombre, foto y contacto directo.</div>
+      <div class="result-check">🎉</div>
+      <div class="result-title">¡Tu landing está lista!</div>
+      <div class="result-sub">Comparte tu link y cada prospecto verá tu nombre, foto y contacto directo.</div>
     </div>
     <div class="advisor-preview" id="apPreview">
-      <div class="ap-avatar-ph" id="apAvatar">ð¤</div>
+      <div class="ap-avatar-ph" id="apAvatar">👤</div>
       <div class="ap-info">
         <div class="ap-label">Tu asesor asignado</div>
-        <div class="ap-name" id="apName">â <span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="ap-name" id="apName">— <span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
         <div class="ap-rol" id="apRol"></div>
       </div>
     </div>
@@ -145,17 +145,17 @@ header{text-align:center;margin-bottom:36px;position:relative;}
       <div class="link-label">Tu link personalizado</div>
       <div class="link-url" id="resultLink"></div>
       <div class="link-actions">
-        <button class="link-btn" onclick="copiarLink()">ð Copiar link</button>
-        <a class="link-btn wa" id="shareWa" href="#" target="_blank">ð¬ Compartir por WhatsApp</a>
+        <button class="link-btn" onclick="copiarLink()">📋 Copiar link</button>
+        <a class="link-btn wa" id="shareWa" href="#" target="_blank">💬 Compartir por WhatsApp</a>
       </div>
     </div>
     <div class="divider"></div>
     <div>
-      <p style="font-size:.75rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">PrÃ³ximos pasos</p>
+      <p style="font-size:.75rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">Próximos pasos</p>
       <div class="steps-mini">
-        <div class="step-mini"><div class="step-num-mini">1</div><div class="step-txt-mini"><strong>Copia tu link</strong> y Ãºsalo en tus anuncios de Meta Ads, bio de Instagram y WhatsApp Status.</div></div>
-        <div class="step-mini"><div class="step-num-mini">2</div><div class="step-txt-mini"><strong>Cuando alguien abra tu link</strong> verÃ¡ tu nombre, foto y badge verificado. El botÃ³n de WhatsApp les escribe directo a ti.</div></div>
-        <div class="step-mini"><div class="step-num-mini">3</div><div class="step-txt-mini"><strong>Activa pauta desde $5/dÃ­a</strong> apuntando a tu link. El Sky System cierra las ventas por ti.</div></div>
+        <div class="step-mini"><div class="step-num-mini">1</div><div class="step-txt-mini"><strong>Copia tu link</strong> y úsalo en tus anuncios de Meta Ads, bio de Instagram y WhatsApp Status.</div></div>
+        <div class="step-mini"><div class="step-num-mini">2</div><div class="step-txt-mini"><strong>Cuando alguien abra tu link</strong> verá tu nombre, foto y badge verificado. El botón de WhatsApp les escribe directo a ti.</div></div>
+        <div class="step-mini"><div class="step-num-mini">3</div><div class="step-txt-mini"><strong>Activa pauta desde $5/día</strong> apuntando a tu link. El Sky System cierra las ventas por ti.</div></div>
       </div>
     </div>
   </div>
@@ -164,16 +164,16 @@ header{text-align:center;margin-bottom:36px;position:relative;}
 <!-- CROP MODAL -->
 <div id="cropModal">
   <div id="cropBox">
-    <p id="cropTitle">Arrastra el cÃ­rculo sobre tu cara</p>
-    <p id="cropHint">Toca dentro del cÃ­rculo blanco para moverlo Â· Ajusta el tamaÃ±o con el slider</p>
+    <p id="cropTitle">Arrastra el círculo sobre tu cara</p>
+    <p id="cropHint">Toca dentro del círculo blanco para moverlo · Ajusta el tamaño con el slider</p>
     <canvas id="cropCanvas"></canvas>
     <div id="cropSliderRow">
-      <span>ð TamaÃ±o</span>
+      <span>🔍 Tamaño</span>
       <input type="range" id="cropSizeSlider" min="40" max="220" value="100" oninput="cropResize(+this.value)"/>
     </div>
     <div id="cropBtns">
       <button class="crop-cancel" onclick="closeCropModal()">Cancelar</button>
-      <button class="crop-confirm" onclick="confirmCrop()">â Usar esta Ã¡rea</button>
+      <button class="crop-confirm" onclick="confirmCrop()">✓ Usar esta área</button>
     </div>
   </div>
 </div>
@@ -204,7 +204,7 @@ function openCropModal(){
   _sc=maxW/_ci.width;
   var cW=maxW,cH=Math.round(_ci.height*_sc);
   _cvs.width=cW;_cvs.height=cH;
-  // CÃ­rculo: parte superior-centro (zona de la cara)
+  // Círculo: parte superior-centro (zona de la cara)
   _cr=Math.round(Math.min(cW,cH)*0.27);
   _cx=Math.round(cW/2);
   _cy=Math.round(Math.min(_cr+8,cH*0.38));
@@ -267,7 +267,7 @@ function confirmCrop(){
   var prev=document.getElementById('photoPreview');
   prev.src=_fotoBase64;prev.style.display='block';
   document.getElementById('photoIcon').style.display='none';
-  document.getElementById('photoHint').textContent='Foto lista â';
+  document.getElementById('photoHint').textContent='Foto lista ✓';
   document.getElementById('cropModal').style.display='none';
 }
 function closeCropModal(){document.getElementById('cropModal').style.display='none';}
@@ -283,13 +283,13 @@ async function registrar(){
   var ref=document.getElementById('r-ref').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
   var msg=document.getElementById('r-msg').value.trim();
   if(!nombre){showError('Escribe tu nombre completo.');return;}
-  if(!wa||wa.length<8){showError('Escribe tu nÃºmero de WhatsApp con cÃ³digo de paÃ­s.');return;}
-  if(!ref||ref.length<3){showError('El cÃ³digo de referido debe tener al menos 3 caracteres (solo letras y nÃºmeros).');return;}
+  if(!wa||wa.length<8){showError('Escribe tu número de WhatsApp con código de país.');return;}
+  if(!ref||ref.length<3){showError('El código de referido debe tener al menos 3 caracteres (solo letras y números).');return;}
   var btn=document.getElementById('submitBtn');
   btn.disabled=true;
   document.getElementById('submitText').style.display='none';
   document.getElementById('submitSpinner').style.display='inline-block';
-  var payload={nombre,slug:ref,telefono:wa,frase:msg||('Â¡Hola! Soy '+nombre+', tu asesor InnovaIA ð'),foto:_fotoBase64||''};
+  var payload={nombre,slug:ref,telefono:wa,frase:msg||('¡Hola! Soy '+nombre+', tu asesor InnovaIA 🚀'),foto:_fotoBase64||''};
   try{
     var res=await fetch('/api/registro',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     var data=await res.json();
@@ -297,7 +297,7 @@ async function registrar(){
     _fotoUrl=data.fotoUrl||'';
     mostrarResultado(nombre,rol,ref,_fotoUrl||_fotoBase64);
   }catch(e){
-    showError('Error de conexiÃ³n. Intenta de nuevo.');
+    showError('Error de conexión. Intenta de nuevo.');
     btn.disabled=false;document.getElementById('submitText').style.display='';document.getElementById('submitSpinner').style.display='none';
   }
 }
@@ -310,7 +310,7 @@ function mostrarResultado(nombre,rol,ref,fotoUrl){
   if(fotoUrl){var img=document.createElement('img');img.src=fotoUrl;img.alt=nombre;img.className='ap-avatar';var ph=document.getElementById('apAvatar');ph.parentNode.replaceChild(img,ph);}
   var link='https://www.innovaia.app/?ref='+ref;
   document.getElementById('resultLink').textContent=link;
-  var waMsg=encodeURIComponent('Â¡Te invito a conocer Innova IA! Genera entre $400 y $10,000 al mes con una franquicia digital. Mira el video: '+link);
+  var waMsg=encodeURIComponent('¡Te invito a conocer Innova IA! Genera entre $400 y $10,000 al mes con una franquicia digital. Mira el video: '+link);
   document.getElementById('shareWa').href='https://wa.me/?text='+waMsg;
 }
 
@@ -318,7 +318,7 @@ function copiarLink(){
   var link=document.getElementById('resultLink').textContent;
   navigator.clipboard.writeText(link).then(function(){
     var btn=document.querySelector('.link-btn');var orig=btn.innerHTML;
-    btn.innerHTML='â Â¡Copiado!';setTimeout(function(){btn.innerHTML=orig;},2000);
+    btn.innerHTML='✅ ¡Copiado!';setTimeout(function(){btn.innerHTML=orig;},2000);
   }).catch(function(){
     var ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
     alert('Link copiado: '+link);
