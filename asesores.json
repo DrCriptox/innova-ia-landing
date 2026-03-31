@@ -480,12 +480,12 @@
     "foto": "fotos/yandri84.jpg",
     "password": "Network@"
   },
-  "fuentes25": {
-    "nombre": "Merlys Marín",
-    "rol": "Empresaria Digital",
-    "telefono": "5804144044686",
-    "frase": "Hola, te ayudo a activar tu franquicia digital",
-    "foto": "fotos/fuentes25.jpg",
-    "password": "Nova100k."
+  "rafagarcia": {
+    "nombre": "Rafa García",
+    "rol": "Emprendedor Digital",
+    "telefono": "584147858848",
+    "frase": "Bienvenido hagamos negocios digitales",
+    "foto": "fotos/rafagarcia.jpg",
+    "password": "Innova5k."
   }
 }
