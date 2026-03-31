@@ -44,6 +44,23 @@ input[type=file]{display:none;}
 .link-copy:hover{background:rgba(212,168,83,.22);}
 .divider{height:1px;background:var(--border);margin:20px 0;}
 .section-title{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;}
+
+#cropModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:9999;flex-direction:column;align-items:center;justify-content:center;padding:16px;}
+#cropModal.open{display:flex;}
+#cropBox{background:#0E1219;border:1px solid rgba(212,168,83,.2);border-radius:18px;padding:20px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:12px;}
+#cropTitle{font-weight:700;font-size:.95rem;text-align:center;color:#EAECF4;}
+#cropHint{font-size:.74rem;color:#7A8099;text-align:center;margin-top:-6px;}
+#cropCanvas{display:block;width:100%;border-radius:10px;touch-action:none;cursor:grab;background:#000;max-height:300px;}
+#cropCanvas:active{cursor:grabbing;}
+#cropSliderRow{display:flex;align-items:center;gap:10px;}
+#cropSliderRow span{font-size:.75rem;color:#7A8099;white-space:nowrap;}
+#cropZoom{flex:1;accent-color:#D4A853;}
+#cropActions{display:flex;gap:10px;}
+.crop-btn{flex:1;border:none;border-radius:10px;padding:12px;font-size:.9rem;font-weight:700;cursor:pointer;}
+.crop-apply{background:#D4A853;color:#000;}
+.crop-apply:hover{background:#F0C97A;}
+.crop-cancel{background:rgba(255,255,255,.06);color:#7A8099;border:1px solid rgba(255,255,255,.1);}
+.crop-cancel:hover{color:#EAECF4;}
 </style>
 </head>
 <body>
@@ -155,19 +172,91 @@ async function loadStats(slug){
   }catch(e){}
 }
 
+// ── Crop state ──
+var _cropImg=null,_cropX=0,_cropY=0,_cropScale=1,_cropDragging=false,_cropLastX=0,_cropLastY=0,_cropSize=0;
+
 function previewFoto(input){
   if(!input.files||!input.files[0])return;
   var file=input.files[0];
   _fotoExt=file.name.split('.').pop().toLowerCase()||'jpg';
   var reader=new FileReader();
   reader.onload=function(ev){
-    _fotoB64=ev.target.result;
-    var img=new Image();img.src=_fotoB64;
-    img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:50%;';
-    document.getElementById('photoCircle').innerHTML='';
-    document.getElementById('photoCircle').appendChild(img);
+    var img=new Image();
+    img.onload=function(){
+      _cropImg=img; _cropScale=1; _cropX=0; _cropY=0;
+      document.getElementById('cropZoom').value=1;
+      document.getElementById('cropModal').classList.add('open');
+      initCropCanvas();
+    };
+    img.src=ev.target.result;
   };
   reader.readAsDataURL(file);
+}
+
+function initCropCanvas(){
+  var canvas=document.getElementById('cropCanvas');
+  var size=Math.min(window.innerWidth-64,380);
+  _cropSize=size; canvas.width=size; canvas.height=size;
+  drawCrop();
+  // Zoom slider
+  document.getElementById('cropZoom').oninput=function(){_cropScale=parseFloat(this.value);clampCrop();drawCrop();};
+  // Mouse drag
+  canvas.onmousedown=function(e){_cropDragging=true;_cropLastX=e.clientX;_cropLastY=e.clientY;};
+  window.onmousemove=function(e){if(!_cropDragging)return;_cropX+=(e.clientX-_cropLastX)/_cropScale;_cropY+=(e.clientY-_cropLastY)/_cropScale;_cropLastX=e.clientX;_cropLastY=e.clientY;clampCrop();drawCrop();};
+  window.onmouseup=function(){_cropDragging=false;};
+  // Touch drag
+  canvas.ontouchstart=function(e){e.preventDefault();_cropDragging=true;_cropLastX=e.touches[0].clientX;_cropLastY=e.touches[0].clientY;};
+  canvas.ontouchmove=function(e){e.preventDefault();if(!_cropDragging)return;_cropX+=(e.touches[0].clientX-_cropLastX)/_cropScale;_cropY+=(e.touches[0].clientY-_cropLastY)/_cropScale;_cropLastX=e.touches[0].clientX;_cropLastY=e.touches[0].clientY;clampCrop();drawCrop();};
+  canvas.ontouchend=function(){_cropDragging=false;};
+}
+
+function clampCrop(){
+  if(!_cropImg)return;
+  var sc=_cropScale,iw=_cropImg.width,ih=_cropImg.height,cs=_cropSize;
+  var maxX=(iw*sc-cs)/(2*sc); var maxY=(ih*sc-cs)/(2*sc);
+  _cropX=Math.max(-maxX,Math.min(maxX,_cropX));
+  _cropY=Math.max(-maxY,Math.min(maxY,_cropY));
+}
+
+function drawCrop(){
+  var canvas=document.getElementById('cropCanvas');
+  var ctx=canvas.getContext('2d');
+  var cs=_cropSize;
+  ctx.clearRect(0,0,cs,cs);
+  ctx.save();
+  ctx.beginPath();ctx.arc(cs/2,cs/2,cs/2,0,Math.PI*2);ctx.clip();
+  var sc=_cropScale,iw=_cropImg.width,ih=_cropImg.height;
+  var dx=cs/2+_cropX*sc-iw*sc/2;
+  var dy=cs/2+_cropY*sc-ih*sc/2;
+  ctx.drawImage(_cropImg,dx,dy,iw*sc,ih*sc);
+  ctx.restore();
+  // Circle border
+  ctx.beginPath();ctx.arc(cs/2,cs/2,cs/2-1,0,Math.PI*2);
+  ctx.strokeStyle='rgba(212,168,83,.6)';ctx.lineWidth=2;ctx.stroke();
+}
+
+function applyCrop(){
+  var out=document.createElement('canvas');out.width=400;out.height=400;
+  var ctx=out.getContext('2d');
+  ctx.beginPath();ctx.arc(200,200,200,0,Math.PI*2);ctx.clip();
+  var sc=_cropScale*400/_cropSize,iw=_cropImg.width,ih=_cropImg.height;
+  var dx=200+_cropX*sc-iw*sc/2;
+  var dy=200+_cropY*sc-ih*sc/2;
+  ctx.drawImage(_cropImg,dx,dy,iw*sc,ih*sc);
+  _fotoB64=out.toDataURL('image/jpeg',0.88);
+  _fotoExt='jpg';
+  // Update preview circle
+  var img=new Image();img.src=_fotoB64;
+  img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:50%;';
+  document.getElementById('photoCircle').innerHTML='';
+  document.getElementById('photoCircle').appendChild(img);
+  document.getElementById('cropModal').classList.remove('open');
+  document.getElementById('fotoInput').value='';
+}
+
+function cancelCrop(){
+  document.getElementById('cropModal').classList.remove('open');
+  document.getElementById('fotoInput').value='';
 }
 
 async function saveProfile(){
@@ -209,5 +298,22 @@ function doLogout(){
 
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('loginCard').style.display!=='none')doLogin();});
 </script>
+
+<div id="cropModal">
+  <div id="cropBox">
+    <div id="cropTitle">Ajusta tu foto de perfil</div>
+    <div id="cropHint">Arrastra para reencuadrar · Usa el zoom para acercar</div>
+    <canvas id="cropCanvas"></canvas>
+    <div id="cropSliderRow">
+      <span>&#128269;</span>
+      <input type="range" id="cropZoom" min="1" max="3" step="0.01" value="1"/>
+      <span>&#128247;</span>
+    </div>
+    <div id="cropActions">
+      <button class="crop-btn crop-cancel" onclick="cancelCrop()">Cancelar</button>
+      <button class="crop-btn crop-apply" onclick="applyCrop()">Aplicar foto</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
