@@ -21,8 +21,8 @@ export default async function handler(req) {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors() });
   if (req.method !== 'POST') return json({ ok: false, error: 'method' }, 405);
 
-  let slug, nombre, rol, telefono;
-  try { const b = await req.json(); slug = b.slug; nombre = b.nombre; rol = b.rol; telefono = b.telefono; } catch {}
+  let slug, nombre, rol, telefono, foto;
+  try { const b = await req.json(); slug = b.slug; nombre = b.nombre; rol = b.rol; telefono = b.telefono; foto = b.foto; } catch {}
   if (!slug || !/^[a-z0-9]{2,50}$/.test(slug)) return json({ ok: false, error: 'invalid slug' }, 400);
 
   const TOKEN = process.env.GITHUB_TOKEN;
@@ -60,6 +60,7 @@ export default async function handler(req) {
         asesores[slug].telefono = telefono.trim();
         asesores[slug].whatsapp = telefono.trim();
       }
+      if (foto && foto.trim()) asesores[slug].foto = foto.trim();
 
       const putBody = {
         message: `admin: editar asesor ${slug}`,
