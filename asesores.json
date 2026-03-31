@@ -107,11 +107,11 @@
     "frase": "¡Hola! Soy tu asesora y te ayudo a  activar tu franquicia",
     "foto": "fotos/billonario7.jpg"
   },
-  "andreabb": {
-    "nombre": "Andrea Betancur Betancur",
-    "rol": "Asesora Innova",
-    "telefono": "573117391692",
-    "frase": "¡Hola! Soy Andrea tu asesora, te ayudo a activar tu franquicia 🚀",
-    "foto": "fotos/andreabb.jpg"
+  "testdebug99": {
+    "nombre": "Test Debug",
+    "rol": "Asesor InnovaIA",
+    "telefono": "573001234567",
+    "frase": "Test diagnóstico",
+    "foto": ""
   }
 }
