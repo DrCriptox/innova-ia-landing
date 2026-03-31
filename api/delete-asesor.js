@@ -8,8 +8,7 @@ const FILE   = 'asesores.json';
 
 function toBase64(str) {
   const bytes = new TextEncoder().encode(str);
-  let bin = '';
-  bytes.forEach(b => bin += String.fromCharCode(b));
+  let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b));
   return btoa(bin);
 }
 function fromBase64(b64) {
@@ -24,8 +23,7 @@ export default async function handler(req) {
 
   let slug;
   try { const b = await req.json(); slug = b.slug; } catch {}
-  if (!slug || !/^[a-z0-9]{2,50}$/.test(slug))
-    return json({ ok: false, error: 'invalid slug' }, 400);
+  if (!slug || !/^[a-z0-9]{2,50}$/.test(slug)) return json({ ok: false, error: 'invalid slug' }, 400);
 
   const TOKEN = process.env.GITHUB_TOKEN;
   if (!TOKEN) return json({ ok: false, error: 'no token' }, 500);
@@ -42,12 +40,17 @@ export default async function handler(req) {
     try {
       const getRes = await fetch(`${apiBase}?ref=${BRANCH}`, { headers: ghHeaders });
       if (!getRes.ok) return json({ ok: false, error: 'no file' }, 404);
-
       const data = await getRes.json();
       const fileSha = data.sha;
+
       let asesores = {};
-      if (data.encoding === 'base64' && data.content)
+      if (data.encoding === 'base64' && data.content) {
         try { asesores = JSON.parse(fromBase64(data.content)); } catch {}
+      } else if (data.download_url) {
+        // Archivo > 1MB: GitHub no incluye content inline, usar raw URL
+        const rawRes = await fetch(data.download_url);
+        if (rawRes.ok) try { asesores = await rawRes.json(); } catch {}
+      }
 
       if (!asesores[slug]) return json({ ok: false, error: 'not found' }, 404);
 
@@ -63,9 +66,7 @@ export default async function handler(req) {
       if (putRes.ok) return json({ ok: true });
       if (putRes.status === 409 || putRes.status === 422) continue;
       break;
-    } catch (e) {
-      if (attempt === 2) break;
-    }
+    } catch (e) { if (attempt === 2) break; }
   }
   return json({ ok: false, error: 'write failed' }, 500);
 }
