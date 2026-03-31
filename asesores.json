@@ -487,5 +487,13 @@
     "frase": "¡Hola! Soy Jhon Jairo Pulido, tu asesor InnovaIA 🚀",
     "foto": "fotos/jhonpuliinn.jpg",
     "password": ""
+  },
+  "innova500": {
+    "nombre": "Rita Mercedes Sánchez M",
+    "rol": "Embajadora de Marca Innova Venezuela",
+    "telefono": "584244237310",
+    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "foto": "fotos/innova500.jpg",
+    "password": "220565"
   }
 }
