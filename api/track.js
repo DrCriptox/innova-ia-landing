@@ -1,22 +1,23 @@
 // api/track.js — Vercel Edge Function
-// Registra visita + IP para un ref en stats.json (anti-trampa)
+// Registra visita + IP, o conversion, para un ref en stats.json
 export const config = { runtime: 'edge' };
 
-const REPO = process.env.GITHUB_REPO || 'DrCriptox/innova-ia-landing';
+const REPO   = process.env.GITHUB_REPO || 'DrCriptox/innova-ia-landing';
 const BRANCH = 'main';
-const FILE = 'stats.json';
+const FILE   = 'stats.json';
 
 export default async function handler(req) {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors() });
 
-  let ref;
+  let ref, type;
   if (req.method === 'POST') {
-    try { const b = await req.json(); ref = b.ref; } catch {}
+    try { const b = await req.json(); ref = b.ref; type = b.type; } catch {}
   } else {
-    ref = new URL(req.url).searchParams.get('ref');
+    const p = new URL(req.url).searchParams;
+    ref  = p.get('ref');
+    type = p.get('type');
   }
 
-  // Mapa de aliases: visitas al alias cuentan para el slug principal
   const ALIASES = { 'emily2025': 'emily2026' };
   if (ALIASES[ref]) ref = ALIASES[ref];
 
@@ -24,10 +25,8 @@ export default async function handler(req) {
     return new Response(JSON.stringify({ ok: false }), { status: 200, headers: { 'Content-Type': 'application/json', ...cors() } });
   }
 
-  // Extraer IP del visitante
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
-    || req.headers.get('x-real-ip')
-    || 'unknown';
+  const isConversion = type === 'conversion';
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown';
 
   const TOKEN = process.env.GITHUB_TOKEN;
   if (!TOKEN) return new Response(JSON.stringify({ ok: false }), { status: 200, headers: { 'Content-Type': 'application/json', ...cors() } });
@@ -38,48 +37,53 @@ export default async function handler(req) {
     'Content-Type': 'application/json',
     'User-Agent': 'InnovaIA-App',
   };
+
   const apiBase = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
 
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      let stats = {};
-      let fileSha = null;
+      let stats = {}, fileSha = null;
       const getRes = await fetch(`${apiBase}?ref=${BRANCH}`, { headers: ghHeaders });
       if (getRes.ok) {
         const data = await getRes.json();
         fileSha = data.sha;
         if (data.encoding === 'base64' && data.content) {
-          const text = atob(data.content.replace(/\n/g, ''));
-          try { stats = JSON.parse(text); } catch {}
+          try { stats = JSON.parse(atob(data.content.replace(/\n/g, ''))); } catch {}
+        } else if (data.download_url) {
+          try { const r = await fetch(data.download_url); if (r.ok) stats = await r.json(); } catch {}
         }
       }
 
-      // Estructura por ref: { total, ips: { "ip": count } }
-      // Soporta formato legacy (numero simple) y nuevo (objeto)
       const entry = stats[ref];
-      let entryObj;
+      let obj;
       if (typeof entry === 'number') {
-        // migrar formato antiguo
-        entryObj = { total: entry, ips: {} };
+        obj = { total: entry, ips: {} };
       } else if (entry && typeof entry === 'object') {
-        entryObj = entry;
+        obj = entry;
       } else {
-        entryObj = { total: 0, ips: {} };
+        obj = { total: 0, ips: {} };
       }
 
-      entryObj.total = (entryObj.total || 0) + 1;
-      if (ip !== 'unknown') {
-        entryObj.ips[ip] = (entryObj.ips[ip] || 0) + 1;
+      if (isConversion) {
+        obj.conversions = (obj.conversions || 0) + 1;
+      } else {
+        obj.total = (obj.total || 0) + 1;
+        if (ip !== 'unknown') obj.ips[ip] = (obj.ips[ip] || 0) + 1;
       }
-      stats[ref] = entryObj;
 
-      const newContent = btoa(JSON.stringify(stats, null, 2));
-      const putBody = { message: `track: +1 visita ${ref}`, content: newContent, branch: BRANCH };
+      stats[ref] = obj;
+
+      const putBody = {
+        message: isConversion ? `track: +1 conversion ${ref}` : `track: +1 visita ${ref}`,
+        content: btoa(JSON.stringify(stats, null, 2)),
+        branch: BRANCH,
+      };
       if (fileSha) putBody.sha = fileSha;
+
       const putRes = await fetch(apiBase, { method: 'PUT', headers: ghHeaders, body: JSON.stringify(putBody) });
       if (putRes.ok) {
-        return new Response(JSON.stringify({ ok: true, ref, total: entryObj.total }), {
-          status: 200, headers: { 'Content-Type': 'application/json', ...cors() }
+        return new Response(JSON.stringify({ ok: true, ref, total: obj.total, conversions: obj.conversions || 0 }), {
+          status: 200, headers: { 'Content-Type': 'application/json', ...cors() },
         });
       }
       if (putRes.status === 409 || putRes.status === 422) continue;
