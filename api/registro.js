@@ -99,7 +99,7 @@ export default async function handler(req) {
 
     if (asesores.data[slug]) return json({ error: 'Ese slug ya esta en uso. Elige otro.' }, 409, req);
 
-    asesores.data[slug] = { nombre, rol: rol||'Asesor InnovaIA', telefono, frase: frase||'', foto: fotoRef, password: password||'' };
+    asesores.data[slug] = { nombre, rol: rol||'Asesor InnovaIA', telefono, frase: frase||'', foto: fotoRef, password: password||'', registrado: new Date().toISOString() };
 
     const putRes = await fetch(GH_API + '/repos/' + REPO + '/contents/' + FILE, {
       method: 'PUT',
