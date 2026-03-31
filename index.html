@@ -768,18 +768,18 @@ function renderAdvisor(a){
   var heroCard=document.getElementById('advisorCardHero');
   heroCard.classList.add('show');
   document.getElementById('advisorNameHero').childNodes[0].textContent=a.nombre+' ';
-  document.getElementById('advisorRolHero').textContent=a.rol;
-  document.getElementById('advisorMsgHero').textContent=a.mensaje||'';
+  document.getElementById('advisorRolHero').textContent=a.rol||'Asesor Certificado';
+  document.getElementById('advisorMsgHero').textContent=a.frase||a.mensaje||'';
   var hAvatar=document.getElementById('advisorAvatarHero');
-  if(a.foto){var img=document.createElement('img');img.src=a.foto;img.alt=a.nombre;img.className='advisor-avatar';img.onerror=function(){};heroCard.replaceChild(img,hAvatar);}
+  if(a.foto){var img=document.createElement('img');img.src=a.foto.startsWith('fotos/')?'/'+a.foto:a.foto;img.alt=a.nombre;img.className='advisor-avatar';img.onerror=function(){};heroCard.replaceChild(img,hAvatar);}
   // Form card
   var formCard=document.getElementById('advisorFormCard');
   formCard.classList.add('show');
   document.getElementById('advisorNameForm').childNodes[0].textContent=a.nombre+' ';
-  document.getElementById('advisorRolForm').textContent=a.rol;
+  document.getElementById('advisorRolForm').textContent=a.rol||'Asesor Certificado';
   document.getElementById('advisorMsgForm').textContent='Estoy listo para ayudarte 💬';
   var fAvatar=document.getElementById('advisorAvatarForm');
-  if(a.foto){var img2=document.createElement('img');img2.src=a.foto;img2.alt=a.nombre;img2.className='afc-avatar';img2.onerror=function(){};formCard.replaceChild(img2,fAvatar);}
+  if(a.foto){var img2=document.createElement('img');img2.src=a.foto.startsWith('fotos/')?'/'+a.foto:a.foto;img2.alt=a.nombre;img2.className='afc-avatar';img2.onerror=function(){};formCard.replaceChild(img2,fAvatar);}
 }
 
 if(_skyRef){loadAdvisor().then(renderAdvisor);}
@@ -794,7 +794,7 @@ async function cargarSocios(){
   try{var r=await fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/export?format=csv&gid=0');var csv=await r.text();var lines=csv.trim().split('\n').slice(1);var s={};lines.forEach(function(l){var c=l.split(',');var ref=c[0]&&c[0].trim().replace(/"/g,'');var wa=c[1]&&c[1].trim().replace(/"/g,'');if(ref&&wa)s[ref]=wa;});_sociosCache=s;return s;}catch(e){return {};}
 }
 async function getWhatsApp(){
-  if(_advisorData&&_advisorData.whatsapp)return _advisorData.whatsapp;
+  if(_advisorData&&(_advisorData.whatsapp||_advisorData.telefono))return _advisorData.whatsapp||_advisorData.telefono;
   if(!_skyRef)return WHATSAPP_DEFAULT;
   var s=await cargarSocios();
   return s[_skyRef]||WHATSAPP_DEFAULT;
