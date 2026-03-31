@@ -290,18 +290,11 @@
     "frase": "Hola, soy tu asesor. Te ayudo con gusto",
     "foto": "fotos/wilsonvilla.jpg"
   },
-  "nayi2026": {
-    "nombre": "nayibe sanchez",
-    "rol": "asesor digital",
-    "telefono": "584144259317",
-    "frase": "hola soy tu asesora te ayudo a activar",
-    "foto": "fotos/nayi2026.jpg"
-  },
-  "leidyinnova": {
-    "nombre": "Leidy García",
-    "rol": "Asesora certificada innova global",
-    "telefono": "56948504017",
-    "frase": "¡Hola! Soy Leidy García, tu asesor InnovaIA 🚀",
-    "foto": "fotos/leidyinnova.jpg"
+  "imnamel25": {
+    "nombre": "Imnamel Álvarez",
+    "rol": "Asesora InnovaIA Venezuela",
+    "telefono": "5804144202068",
+    "frase": "¡Hola! Soy Imnamel Álvarez, tu asesor InnovaIA 🚀",
+    "foto": "fotos/imnamel25.jpg"
   }
 }
