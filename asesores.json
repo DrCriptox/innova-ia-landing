@@ -106,5 +106,12 @@
     "telefono": "50495562904",
     "frase": "¡Hola! Soy tu asesora y te ayudo a  activar tu franquicia",
     "foto": "fotos/billonario7.jpg"
+  },
+  "julio2026": {
+    "nombre": "julio Ramirez",
+    "rol": "asesor de innova",
+    "telefono": "573143159102",
+    "frase": "hola soy tu asesor personal como te ayudo",
+    "foto": "fotos/julio2026.jpg"
   }
 }
