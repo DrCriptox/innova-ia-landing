@@ -607,5 +607,14 @@
     "foto": "fotos/rafagarcia.jpg",
     "password": "Innova5k.",
     "registrado": "2026-03-31T22:26:23.992Z"
+  },
+  "teamgarcia": {
+    "nombre": "Humberto Vergel",
+    "rol": "Asesor InnovaIA",
+    "telefono": "573209804763",
+    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "foto": "fotos/teamgarcia.jpg",
+    "password": "Celular123.",
+    "registrado": "2026-03-31T22:27:14.018Z"
   }
 }
