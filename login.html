@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>InnovaIA — Mi Perfil</title>
+<style>
+:root{--gold:#D4A853;--gold-light:#F0C97A;--dark:#060810;--dark-2:#0C0F1A;--card:#0E1219;--text:#EAECF4;--muted:#7A8099;--border:rgba(212,168,83,0.15);--red:#FF4F4F;--green:#4ade80;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--dark);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 28px;width:100%;max-width:440px;}
+.brand{text-align:center;margin-bottom:28px;}
+.brand-logo{font-size:1.8rem;font-weight:800;letter-spacing:-1px;}
+.brand-logo span{color:var(--gold);}
+.brand-sub{color:var(--muted);font-size:.75rem;letter-spacing:3px;text-transform:uppercase;margin-top:3px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.field input[type=text],.field input[type=password],.field input[type=tel],.field textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-size:.9rem;outline:none;transition:border .2s;font-family:inherit;}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted);}
+.field input:focus,.field textarea:focus{border-color:var(--gold);}
+.field textarea{resize:vertical;min-height:70px;}
+.btn-gold{width:100%;background:var(--gold);color:#000;border:none;border-radius:10px;padding:13px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;margin-top:6px;}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;}
+.btn-outline{width:100%;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:11px;font-size:.85rem;cursor:pointer;transition:all .2s;margin-top:8px;}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.msg{font-size:.82rem;margin-top:10px;min-height:16px;text-align:center;}
+.msg.err{color:var(--red);}
+.msg.ok{color:var(--green);}
+.photo-wrap{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.photo-circle{width:80px;height:80px;border-radius:50%;border:2px solid var(--border);background:var(--dark-2);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;cursor:pointer;overflow:hidden;}
+.photo-info p{font-size:.8rem;color:var(--muted);line-height:1.5;}
+.photo-btn{background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.3);color:var(--gold);border-radius:8px;padding:7px 14px;font-size:.78rem;cursor:pointer;font-weight:600;transition:all .2s;margin-top:8px;display:inline-block;}
+.photo-btn:hover{background:rgba(212,168,83,.2);}
+input[type=file]{display:none;}
+.stats-row{display:flex;gap:10px;margin-bottom:20px;}
+.stat-card{flex:1;background:rgba(212,168,83,.06);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;}
+.stat-val{font-size:1.4rem;font-weight:800;color:var(--gold);}
+.stat-val.green{color:var(--green);}
+.stat-lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.link-box{background:rgba(212,168,83,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px;}
+.link-text{font-size:.78rem;color:var(--muted);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.link-copy{background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.3);color:var(--gold);border-radius:6px;padding:5px 12px;font-size:.75rem;cursor:pointer;font-weight:600;white-space:nowrap;transition:all .2s;flex-shrink:0;}
+.link-copy:hover{background:rgba(212,168,83,.22);}
+.divider{height:1px;background:var(--border);margin:20px 0;}
+.section-title{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="card" id="loginCard">
+  <div class="brand">
+    <div class="brand-logo">Innova<span>IA</span></div>
+    <div class="brand-sub">Portal del Asesor</div>
+  </div>
+  <div class="field">
+    <label>Usuario</label>
+    <input type="text" id="loginSlug" placeholder="usuario innova" autocomplete="username"/>
+  </div>
+  <div class="field">
+    <label>Contraseña</label>
+    <input type="password" id="loginPw" placeholder="Tu contraseña" autocomplete="current-password"/>
+  </div>
+  <button class="btn-gold" id="loginBtn" onclick="doLogin()">Entrar</button>
+  <div class="msg" id="loginMsg"></div>
+</div>
+
+<!-- PERFIL -->
+<div class="card" id="profileCard" style="display:none">
+  <div class="brand">
+    <div class="brand-logo">Innova<span>IA</span></div>
+    <div class="brand-sub">Mi Perfil</div>
+  </div>
+
+  <div class="photo-wrap">
+    <div class="photo-circle" id="photoCircle" onclick="document.getElementById('fotoInput').click()">&#128100;</div>
+    <div class="photo-info">
+      <p>Toca tu foto para cambiarla.<br>JPG o PNG recomendado.</p>
+      <span class="photo-btn" onclick="document.getElementById('fotoInput').click()">&#128247; Cambiar foto</span>
+    </div>
+  </div>
+  <input type="file" id="fotoInput" accept="image/jpeg,image/png,image/webp" onchange="previewFoto(this)"/>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-val" id="statV">&#8212;</div><div class="stat-lbl">Visitas</div></div>
+    <div class="stat-card"><div class="stat-val green" id="statC">&#8212;</div><div class="stat-lbl">Conv.</div></div>
+    <div class="stat-card"><div class="stat-val" id="statT">&#8212;</div><div class="stat-lbl">Tasa</div></div>
+  </div>
+
+  <div class="link-box">
+    <span class="link-text" id="myLink">&#8212;</span>
+    <button class="link-copy" onclick="copyLink()">&#128203; Copiar</button>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-title">Editar datos</div>
+
+  <div class="field"><label>Nombre completo</label><input type="text" id="pNombre" placeholder="Tu nombre" maxlength="60"/></div>
+  <div class="field"><label>WhatsApp (con codigo de pais)</label><input type="tel" id="pTel" placeholder="Ej: 573001234567" maxlength="20"/></div>
+  <div class="field"><label>Mensaje de bienvenida</label><textarea id="pFrase" placeholder="Hola! Soy tu asesor InnovaIA..." maxlength="120"></textarea></div>
+
+  <div class="divider"></div>
+  <div class="section-title">Cambiar contrasena (opcional)</div>
+  <div class="field"><input type="password" id="pNewPw" placeholder="Nueva contrasena (min. 6 caracteres)" maxlength="50"/></div>
+
+  <button class="btn-gold" id="saveBtn" onclick="saveProfile()">Guardar cambios</button>
+  <button class="btn-outline" onclick="doLogout()">Cerrar sesion</button>
+  <div class="msg" id="profileMsg"></div>
+</div>
+
+<script>
+var _slug=null,_pw=null,_fotoB64=null,_fotoExt='jpg';
+
+async function doLogin(){
+  var slug=document.getElementById('loginSlug').value.trim().toLowerCase();
+  var pw=document.getElementById('loginPw').value;
+  var btn=document.getElementById('loginBtn'),msg=document.getElementById('loginMsg');
+  if(!slug||!pw){msg.textContent='Completa los campos';msg.className='msg err';return;}
+  btn.disabled=true;btn.textContent='Verificando...';msg.textContent='';
+  try{
+    var r=await fetch('/api/asesor-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:slug,password:pw})});
+    var d=await r.json();
+    if(d.ok){_slug=slug;_pw=pw;fillProfile(d.asesor);loadStats(slug);document.getElementById('loginCard').style.display='none';document.getElementById('profileCard').style.display='block';}
+    else{msg.textContent=d.error||'Error al iniciar sesion';msg.className='msg err';}
+  }catch(e){msg.textContent='Error de red';msg.className='msg err';}
+  finally{btn.disabled=false;btn.textContent='Entrar';}
+}
+
+function fillProfile(a){
+  document.getElementById('pNombre').value=a.nombre||'';
+  document.getElementById('pTel').value=a.telefono||a.whatsapp||'';
+  document.getElementById('pFrase').value=a.frase||'';
+  document.getElementById('myLink').textContent='https://www.innovaia.app/?ref='+_slug;
+  if(a.foto){
+    var src=a.foto.indexOf('fotos/')===0?'/'+a.foto:a.foto;
+    var img=new Image();img.src=src;
+    img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:50%;';
+    img.onerror=function(){document.getElementById('photoCircle').innerHTML='&#128100;';};
+    document.getElementById('photoCircle').innerHTML='';
+    document.getElementById('photoCircle').appendChild(img);
+  }
+}
+
+async function loadStats(slug){
+  try{
+    var r=await fetch('/api/stats?_='+Date.now());
+    var s=await r.json();
+    var e=s[slug];
+    var total=0,conv=0;
+    if(typeof e==='number'){total=e;}else if(e){total=e.total||0;conv=e.conversions||0;}
+    document.getElementById('statV').textContent=total.toLocaleString('es-CO');
+    document.getElementById('statC').textContent=conv;
+    document.getElementById('statT').textContent=(total>0&&conv>0)?Math.round((conv/total)*100)+'%':'--';
+  }catch(e){}
+}
+
+function previewFoto(input){
+  if(!input.files||!input.files[0])return;
+  var file=input.files[0];
+  _fotoExt=file.name.split('.').pop().toLowerCase()||'jpg';
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    _fotoB64=ev.target.result;
+    var img=new Image();img.src=_fotoB64;
+    img.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:50%;';
+    document.getElementById('photoCircle').innerHTML='';
+    document.getElementById('photoCircle').appendChild(img);
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveProfile(){
+  var btn=document.getElementById('saveBtn'),msg=document.getElementById('profileMsg');
+  btn.disabled=true;btn.textContent='Guardando...';msg.textContent='';
+  var body={slug:_slug,password:_pw};
+  var nombre=document.getElementById('pNombre').value.trim();
+  var tel=document.getElementById('pTel').value.trim();
+  var frase=document.getElementById('pFrase').value.trim();
+  var newPw=document.getElementById('pNewPw').value.trim();
+  if(nombre)body.nombre=nombre;
+  if(tel)body.telefono=tel;
+  if(frase)body.frase=frase;
+  if(newPw){if(newPw.length<6){msg.textContent='La nueva contrasena debe tener al menos 6 caracteres';msg.className='msg err';btn.disabled=false;btn.textContent='Guardar cambios';return;}body.new_password=newPw;}
+  if(_fotoB64){body.foto_base64=_fotoB64;body.foto_ext=_fotoExt;}
+  try{
+    var r=await fetch('/api/update-profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    var d=await r.json();
+    if(d.ok){if(newPw)_pw=newPw;_fotoB64=null;document.getElementById('pNewPw').value='';msg.textContent='Cambios guardados';msg.className='msg ok';setTimeout(function(){msg.textContent='';},3000);}
+    else{msg.textContent=d.error||'Error al guardar';msg.className='msg err';}
+  }catch(e){msg.textContent='Error de red';msg.className='msg err';}
+  finally{btn.disabled=false;btn.textContent='Guardar cambios';}
+}
+
+function copyLink(){
+  navigator.clipboard.writeText(document.getElementById('myLink').textContent).then(function(){
+    var b=document.querySelector('.link-copy');b.textContent='Copiado';setTimeout(function(){b.textContent='Copiar';},2000);
+  });
+}
+
+function doLogout(){
+  _slug=null;_pw=null;_fotoB64=null;
+  document.getElementById('loginSlug').value='';
+  document.getElementById('loginPw').value='';
+  document.getElementById('loginMsg').textContent='';
+  document.getElementById('loginCard').style.display='block';
+  document.getElementById('profileCard').style.display='none';
+}
+
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.getElementById('loginCard').style.display!=='none')doLogin();});
+</script>
+</body>
+</html>
