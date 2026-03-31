@@ -289,7 +289,7 @@ async function registrar(){
   btn.disabled=true;
   document.getElementById('submitText').style.display='none';
   document.getElementById('submitSpinner').style.display='inline-block';
-  var payload={nombre,slug:ref,telefono:wa,frase:msg||('¡Hola! Soy '+nombre+', tu asesor InnovaIA 🚀'),foto:_fotoBase64||''};
+  var payload={nombre,rol,slug:ref,telefono:wa,frase:msg||('¡Hola! Soy '+nombre+', tu asesor InnovaIA 🚀'),foto:_fotoBase64||''};
   try{
     var res=await fetch('/api/registro',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     var data=await res.json();
