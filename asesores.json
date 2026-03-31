@@ -394,9 +394,10 @@
   "carlosyedy": {
     "nombre": "Carlos Andrés Acevedo Rincón",
     "rol": "Asesor experto en Negocio Digital",
-    "telefono": "3202315113",
+    "telefono": "573202315113",
     "frase": "Hola, soy tu asesor y guía en esta nueva experiencia de Negocios Digitales.",
-    "foto": "fotos/carlosyedy.jpg"
+    "foto": "fotos/carlosyedy.jpg",
+    "whatsapp": "573202315113"
   },
   "nataalzate1": {
     "nombre": "Laura Nataly Alzate Quinetro",
