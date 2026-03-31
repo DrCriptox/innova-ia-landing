@@ -223,9 +223,10 @@
   "emily2026": {
     "nombre": "Emily Quintero",
     "rol": "Asesora Innova Venezuela",
-    "telefono": "586725735",
+    "telefono": "584126725735",
     "frase": "¡Hola! Soy Emily Quintero, tu asesor InnovaIA 🚀",
-    "foto": "fotos/emily2026.jpg"
+    "foto": "fotos/emily2026.jpg",
+    "whatsapp": "584126725735"
   },
   "dryonfer": {
     "nombre": "Juan Sebastian Zapata",
