@@ -626,5 +626,14 @@
     "foto": "fotos/valecillos26.jpg",
     "password": "Digital26.",
     "registrado": "2026-03-31T22:36:43.056Z"
+  },
+  "miguelinnova": {
+    "nombre": "Miguel Angel",
+    "rol": "Asesor de innova en Venezuela",
+    "telefono": "5804149015240",
+    "frase": "Hola soy tu asesor Miguel Angel en qué te puedo ayudar",
+    "foto": "fotos/miguelinnova.jpg",
+    "password": "123456",
+    "registrado": "2026-03-31T22:40:14.764Z"
   }
 }
