@@ -136,6 +136,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <button class="tab-btn active" id="tabBtnAsesores" onclick="switchTab('asesores')">Asesores</button>
     <button class="tab-btn" id="tabBtnPromo" onclick="switchTab('promo')">Top Promotores</button>
     <button class="tab-btn" id="tabBtnAnti" onclick="switchTab('anti')">Anti-trampa</button>
+    <button class="tab-btn" id="tabBtnHoy" onclick="switchTab('hoy')">Top Hoy ☀️</button>
   </div>
   <div id="panelAsesores">
     <div class="search-row">
@@ -156,6 +157,13 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <button class="refresh-btn" onclick="loadPromo()">Actualizar</button>
     </div>
     <div class="promo-grid" id="promoGrid"><div class="no-visits">Cargando...</div></div>
+  </div>
+  <div id="panelHoy" style="display:none">
+    <div class="promo-header">
+      <span class="promo-title" id="hoySubtitle">Cargando...</span>
+      <button class="refresh-btn" onclick="loadHoy()">Actualizar</button>
+    </div>
+    <div class="promo-grid" id="hoyGrid"><div class="no-visits">Cargando...</div></div>
   </div>
   <div id="panelAnti" style="display:none">
     <div class="promo-header">
@@ -206,11 +214,14 @@ function switchTab(tab){
   document.getElementById('tabBtnAsesores').classList.toggle('active',tab==='asesores');
   document.getElementById('tabBtnPromo').classList.toggle('active',tab==='promo');
   document.getElementById('tabBtnAnti').classList.toggle('active',tab==='anti');
+  document.getElementById('tabBtnHoy').classList.toggle('active',tab==='hoy');
   document.getElementById('panelAsesores').style.display=tab==='asesores'?'block':'none';
   document.getElementById('panelPromo').style.display=tab==='promo'?'block':'none';
   document.getElementById('panelAnti').style.display=tab==='anti'?'block':'none';
+  document.getElementById('panelHoy').style.display=tab==='hoy'?'block':'none';
   if(tab==='promo')loadPromo();
   if(tab==='anti')loadAnti();
+  if(tab==='hoy')loadHoy();
 }
 function parseEntry(entry){
   if(!entry)return{total:0,uniq:0,suspicious:0,conversions:0,legacy:true};
@@ -242,6 +253,41 @@ async function loadPromo(){
     if(ar){var raw=await ar.json();allData=Object.entries(raw).filter(function(e){return e[0]!=='default';}).map(function(e){return Object.assign({slug:e[0]},e[1]);}).sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});render();}
     renderPromo();
   }catch(ex){document.getElementById('promoGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';}
+}
+async function loadHoy(){
+  document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Cargando...</div>';
+  document.getElementById('hoySubtitle').textContent='Cargando...';
+  try{
+    var [sr,ar]=await Promise.all([fetch('/api/stats?_t='+Date.now()),allData.length?Promise.resolve(null):fetch('/api/asesores?_t='+Date.now())]);
+    statsData=await sr.json();
+    if(ar){var raw=await ar.json();allData=Object.entries(raw).filter(function(e){return e[0]!=='default';}).map(function(e){return Object.assign({slug:e[0]},e[1]);}).sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});render();}
+    renderHoy();
+  }catch(ex){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';}
+}
+function renderHoy(){
+  var today=new Date(Date.now()-18000000).toISOString().split('T')[0];
+  var entries=Object.entries(statsData).map(function(e){
+    var raw=e[1];var days=(raw&&typeof raw==='object'&&raw.days)||{};var hoy=days[today]||0;
+    var a=allData.find(function(x){return x.slug===e[0];})||null;
+    return{ref:e[0],a:a,hoy:hoy};
+  }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.hoy-a.hoy;}).slice(0,50);
+  var totHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
+  var fechaStr=today.split('-').reverse().join('/');
+  document.getElementById('hoySubtitle').textContent=entries.length+' promotores · '+totHoy.toLocaleString('es-CO')+' visitas hoy · '+fechaStr;
+  if(!entries.length){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Sin visitas registradas hoy todavía.</div>';return;}
+  var med=['🥇','🥈','🥉'];
+  var html='';
+  entries.forEach(function(e,i){
+    var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,lk='https://www.innovaia.app/?ref='+encodeURIComponent(e.ref);
+    var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+    html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div>';
+    html+='<div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
+    html+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+'</span><span class="promo-ref">('+e.ref+')</span><span class="promo-copy-inline" data-link="'+lk+'" data-orig="📋" onclick="copyPill(this)">📋</span></div></div>';
+    html+='<div class="promo-right"><div class="promo-visits">'+e.hoy.toLocaleString('es-CO')+'</div><div class="promo-label">hoy</div></div>';
+    html+='</div>';
+  });
+  document.getElementById('hoyGrid').innerHTML=html;
+  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
 }
 async function loadAnti(){
   document.getElementById('antiGrid').innerHTML='<div class="no-visits">Cargando...</div>';
