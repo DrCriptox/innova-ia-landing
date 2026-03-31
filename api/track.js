@@ -16,6 +16,10 @@ export default async function handler(req) {
     ref = new URL(req.url).searchParams.get('ref');
   }
 
+  // Mapa de aliases: visitas al alias cuentan para el slug principal
+  const ALIASES = { 'emily2025': 'emily2026' };
+  if (ALIASES[ref]) ref = ALIASES[ref];
+
   if (!ref || !/^[a-z0-9]{2,30}$/.test(ref)) {
     return new Response(JSON.stringify({ ok: false }), { status: 200, headers: { 'Content-Type': 'application/json', ...cors() } });
   }
