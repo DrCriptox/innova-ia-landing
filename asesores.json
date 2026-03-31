@@ -544,5 +544,14 @@
     "foto": "fotos/millonario7.jpg",
     "password": "",
     "registrado": "2026-03-31T22:07:19.323Z"
+  },
+  "sunithpu": {
+    "nombre": "Sunith Piña Urbina",
+    "rol": "Asesora Innova Venezuela",
+    "telefono": "584226368923",
+    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "foto": "fotos/sunithpu.jpg",
+    "password": "Innova5k$",
+    "registrado": "2026-03-31T22:08:42.574Z"
   }
 }
