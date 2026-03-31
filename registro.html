@@ -1,259 +1,329 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <meta name="robots" content="noindex,nofollow"/>
-  <title>Activa tu franquicia — Innova IA</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
-  <style>
-    :root{--gold:#D4A853;--gold-light:#F0C97A;--dark:#060810;--dark-2:#0C0F1A;--dark-card:#0E1219;--text:#EAECF4;--muted:#7A8099;--accent:#2AFFD5;--green:#25D366;--border:rgba(212,168,83,.14);--radius:14px;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 16px 60px;}
-    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 60% 0%,rgba(212,168,83,.08) 0%,transparent 60%);pointer-events:none;}
-    .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.5px;margin-bottom:4px;}
-    .logo span{color:var(--gold);}
-    .logo-sub{font-size:.6rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;}
-    header{text-align:center;margin-bottom:36px;position:relative;}
-    .card{background:var(--dark-card);border:1px solid var(--border);border-radius:20px;padding:36px 32px;width:100%;max-width:480px;position:relative;}
-    .card-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;letter-spacing:-.5px;margin-bottom:8px;}
-    .card-title span{color:var(--gold);}
-    .card-sub{color:var(--muted);font-size:.9rem;margin-bottom:28px;line-height:1.5;}
-    .form-group{margin-bottom:16px;}
-    .form-group label{display:block;font-size:.75rem;color:var(--muted);letter-spacing:.5px;margin-bottom:6px;}
-    .form-group input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:13px 15px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;transition:border-color .2s,box-shadow .2s;}
-    .form-group input::placeholder{color:var(--muted);}
-    .form-group input:focus{border-color:rgba(212,168,83,.45);box-shadow:0 0 0 3px rgba(212,168,83,.07);}
-    .photo-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.12);border-radius:10px;padding:20px;cursor:pointer;transition:border-color .2s,background .2s;text-align:center;}
-    .photo-label:hover{border-color:rgba(212,168,83,.4);background:rgba(212,168,83,.03);}
-    .photo-label input{display:none;}
-    .photo-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);display:none;}
-    .photo-icon{font-size:2rem;}
-    .photo-hint{font-size:.78rem;color:var(--muted);line-height:1.4;}
-    .submit-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#000;border:none;border-radius:10px;padding:15px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
-    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,168,83,.3);}
-    .submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-    .divider{height:1px;background:var(--border);margin:24px 0;}
-    /* RESULT */
-    .result{display:none;flex-direction:column;gap:16px;}
-    .result.show{display:flex;}
-    .result-header{text-align:center;}
-    .result-check{font-size:2.5rem;margin-bottom:8px;}
-    .result-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:6px;}
-    .result-sub{font-size:.88rem;color:var(--muted);}
-    .advisor-preview{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(212,168,83,.07),rgba(42,255,213,.03));border:1px solid rgba(212,168,83,.2);border-radius:var(--radius);padding:14px 16px;}
-    .ap-avatar{width:56px;height:56px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;flex-shrink:0;background:var(--dark-2);}
-    .ap-avatar-ph{width:56px;height:56px;border-radius:50%;border:2px solid var(--gold);flex-shrink:0;background:linear-gradient(135deg,var(--dark-2),rgba(212,168,83,.15));display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
-    .ap-info{flex:1;min-width:0;}
-    .ap-label{font-size:.63rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px;}
-    .ap-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:5px;}
-    .verified{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;background:var(--accent);border-radius:50%;flex-shrink:0;}
-    .verified svg{width:9px;height:9px;}
-    .ap-rol{font-size:.75rem;color:var(--gold);margin-top:2px;}
-    .link-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
-    .link-label{font-size:.7rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
-    .link-url{font-size:.82rem;color:var(--accent);word-break:break-all;line-height:1.5;margin-bottom:10px;font-weight:500;}
-    .link-actions{display:flex;gap:8px;}
-    .link-btn{flex:1;background:rgba(42,255,213,.08);border:1px solid rgba(42,255,213,.2);color:var(--accent);border-radius:8px;padding:9px 12px;font-size:.8rem;font-weight:600;cursor:pointer;text-align:center;transition:background .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;}
-    .link-btn:hover{background:rgba(42,255,213,.15);}
-    .link-btn.wa{background:rgba(37,211,102,.08);border-color:rgba(37,211,102,.2);color:#4ade80;}
-    .link-btn.wa:hover{background:rgba(37,211,102,.15);}
-    .steps-mini{display:flex;flex-direction:column;gap:10px;}
-    .step-mini{display:flex;gap:10px;align-items:flex-start;}
-    .step-num-mini{width:24px;height:24px;border-radius:50%;background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.3);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px;}
-    .step-txt-mini{font-size:.83rem;color:var(--muted);line-height:1.45;}
-    .step-txt-mini strong{color:var(--text);}
-    .error-msg{background:rgba(255,79,79,.08);border:1px solid rgba(255,79,79,.2);border-radius:8px;padding:10px 14px;font-size:.83rem;color:#ff8888;display:none;}
-    .error-msg.show{display:block;}
-    .spinner{width:18px;height:18px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Activa tu franquicia — Innova IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--gold:#D4A853;--gold-light:#F0C97A;--dark:#060810;--dark-2:#0C0F1A;--dark-card:#0E1219;--text:#EAECF4;--muted:#7A8099;--accent:#2AFFD5;--green:#25D366;--border:rgba(212,168,83,.14);--radius:14px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 16px 60px;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 60% 0%,rgba(212,168,83,.08) 0%,transparent 60%);pointer-events:none;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.5px;margin-bottom:4px;}
+.logo span{color:var(--gold);}
+.logo-sub{font-size:.6rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;}
+header{text-align:center;margin-bottom:36px;position:relative;}
+.card{background:var(--dark-card);border:1px solid var(--border);border-radius:20px;padding:36px 32px;width:100%;max-width:480px;position:relative;}
+.card-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;letter-spacing:-.5px;margin-bottom:8px;}
+.card-title span{color:var(--gold);}
+.card-sub{color:var(--muted);font-size:.9rem;margin-bottom:28px;line-height:1.5;}
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:.75rem;color:var(--muted);letter-spacing:.5px;margin-bottom:6px;}
+.form-group input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:13px 15px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.form-group input::placeholder{color:var(--muted);}
+.form-group input:focus{border-color:rgba(212,168,83,.45);box-shadow:0 0 0 3px rgba(212,168,83,.07);}
+.photo-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.12);border-radius:10px;padding:20px;cursor:pointer;transition:border-color .2s,background .2s;text-align:center;}
+.photo-label:hover{border-color:rgba(212,168,83,.4);background:rgba(212,168,83,.03);}
+.photo-label input{display:none;}
+.photo-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);display:none;}
+.photo-icon{font-size:2rem;}
+.photo-hint{font-size:.78rem;color:var(--muted);line-height:1.4;}
+.submit-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#000;border:none;border-radius:10px;padding:15px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;margin-top:6px;transition:transform .15s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,168,83,.3);}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.divider{height:1px;background:var(--border);margin:24px 0;}
+.result{display:none;flex-direction:column;gap:16px;}
+.result.show{display:flex;}
+.result-header{text-align:center;}
+.result-check{font-size:2.5rem;margin-bottom:8px;}
+.result-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:6px;}
+.result-sub{font-size:.88rem;color:var(--muted);}
+.advisor-preview{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(212,168,83,.07),rgba(42,255,213,.03));border:1px solid rgba(212,168,83,.2);border-radius:var(--radius);padding:14px 16px;}
+.ap-avatar{width:56px;height:56px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;flex-shrink:0;background:var(--dark-2);}
+.ap-avatar-ph{width:56px;height:56px;border-radius:50%;border:2px solid var(--gold);flex-shrink:0;background:linear-gradient(135deg,var(--dark-2),rgba(212,168,83,.15));display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+.ap-info{flex:1;min-width:0;}
+.ap-label{font-size:.63rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px;}
+.ap-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;display:flex;align-items:center;gap:5px;}
+.verified{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;background:var(--accent);border-radius:50%;flex-shrink:0;}
+.verified svg{width:9px;height:9px;}
+.ap-rol{font-size:.75rem;color:var(--gold);margin-top:2px;}
+.link-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.link-label{font-size:.7rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.link-url{font-size:.82rem;color:var(--accent);word-break:break-all;line-height:1.5;margin-bottom:10px;font-weight:500;}
+.link-actions{display:flex;gap:8px;}
+.link-btn{flex:1;background:rgba(42,255,213,.08);border:1px solid rgba(42,255,213,.2);color:var(--accent);border-radius:8px;padding:9px 12px;font-size:.8rem;font-weight:600;cursor:pointer;text-align:center;transition:background .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:5px;}
+.link-btn:hover{background:rgba(42,255,213,.15);}
+.link-btn.wa{background:rgba(37,211,102,.08);border-color:rgba(37,211,102,.2);color:#4ade80;}
+.link-btn.wa:hover{background:rgba(37,211,102,.15);}
+.steps-mini{display:flex;flex-direction:column;gap:10px;}
+.step-mini{display:flex;gap:10px;align-items:flex-start;}
+.step-num-mini{width:24px;height:24px;border-radius:50%;background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.3);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px;}
+.step-txt-mini{font-size:.83rem;color:var(--muted);line-height:1.45;}
+.step-txt-mini strong{color:var(--text);}
+.error-msg{background:rgba(255,79,79,.08);border:1px solid rgba(255,79,79,.2);border-radius:8px;padding:10px 14px;font-size:.83rem;color:#ff8888;display:none;}
+.error-msg.show{display:block;}
+.spinner{width:18px;height:18px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+/* CROP MODAL */
+#cropModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;flex-direction:column;align-items:center;justify-content:center;padding:16px;}
+#cropBox{background:#0E1219;border:1px solid rgba(212,168,83,.2);border-radius:18px;padding:20px;width:100%;max-width:500px;display:flex;flex-direction:column;gap:14px;}
+#cropTitle{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;text-align:center;color:var(--text);}
+#cropHint{font-size:.74rem;color:var(--muted);text-align:center;margin-top:-8px;}
+#cropCanvas{display:block;width:100%;border-radius:10px;touch-action:none;cursor:grab;background:#000;}
+#cropCanvas:active{cursor:grabbing;}
+#cropSliderRow{display:flex;align-items:center;gap:10px;}
+#cropSliderRow span{font-size:.75rem;color:var(--muted);white-space:nowrap;}
+#cropSizeSlider{flex:1;accent-color:var(--gold);}
+#cropBtns{display:flex;gap:10px;}
+.crop-cancel{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;}
+.crop-confirm{flex:2;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;border-radius:9px;padding:12px;color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;}
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">Innova<span>IA</span></div>
-    <div class="logo-sub">Sky System · Portal de Socios</div>
-  </header>
-
-  <div class="card">
-    <!-- FORM -->
-    <div id="regForm">
-      <h1 class="card-title">Activa tu<br><span>landing personalizada</span></h1>
-      <p class="card-sub">Completa tu perfil en 2 minutos y recibe tu link único. Tus prospectos llegarán directo a ti.</p>
-
-      <div class="form-group">
-        <label>TU NOMBRE COMPLETO</label>
-        <input type="text" id="r-nombre" placeholder="Ej: María García" maxlength="60"/>
-      </div>
-      <div class="form-group">
-        <label>TU ROL / TÍTULO</label>
-        <input type="text" id="r-rol" placeholder="Ej: Asesora InnovaIA Colombia" maxlength="60"/>
-      </div>
-      <div class="form-group">
-        <label>TU NÚMERO DE WHATSAPP (con código de país)</label>
-        <input type="tel" id="r-wa" placeholder="Ej: 573001234567" maxlength="20"/>
-      </div>
-      <div class="form-group">
-        <label>TU CÓDIGO DE REFERIDO (sin espacios, minúsculas)</label>
-        <input type="text" id="r-ref" placeholder="Ej: maria2026" maxlength="30" pattern="[a-z0-9]+"/>
-      </div>
-      <div class="form-group">
-        <label>TU FOTO PROFESIONAL</label>
-        <label class="photo-label" id="photoLabel" for="r-foto">
-          <img class="photo-preview" id="photoPreview" src="" alt="Preview"/>
-          <span class="photo-icon" id="photoIcon">📸</span>
-          <span class="photo-hint" id="photoHint">Toca para subir tu foto<br><small>JPG o PNG, cuadrada, máx 2MB</small></span>
-          <input type="file" id="r-foto" accept="image/jpeg,image/png,image/webp"/>
-        </label>
-      </div>
-      <div class="form-group">
-        <label>MENSAJE DE BIENVENIDA (opcional)</label>
-        <input type="text" id="r-msg" placeholder="Ej: ¡Hola! Soy tu asesora, te ayudo a activar 🚀" maxlength="100"/>
-      </div>
-
-      <div class="error-msg" id="errorMsg"></div>
-
-      <button class="submit-btn" id="submitBtn" onclick="registrar()">
-        <span id="submitText">Generar mi link personalizado ✨</span>
-        <span id="submitSpinner" class="spinner" style="display:none;"></span>
-      </button>
+<header>
+  <div class="logo">Innova<span>IA</span></div>
+  <div class="logo-sub">Sky System · Portal de Socios</div>
+</header>
+<div class="card">
+  <div id="regForm">
+    <h1 class="card-title">Activa tu<br><span>landing personalizada</span></h1>
+    <p class="card-sub">Completa tu perfil en 2 minutos y recibe tu link único. Tus prospectos llegarán directo a ti.</p>
+    <div class="form-group">
+      <label>TU NOMBRE COMPLETO</label>
+      <input type="text" id="r-nombre" placeholder="Ej: María García" maxlength="60"/>
     </div>
-
-    <!-- RESULT -->
-    <div class="result" id="regResult">
-      <div class="result-header">
-        <div class="result-check">🎉</div>
-        <div class="result-title">¡Tu landing está lista!</div>
-        <div class="result-sub">Comparte tu link y cada prospecto verá tu nombre, foto y contacto directo.</div>
+    <div class="form-group">
+      <label>TU ROL / TÍTULO</label>
+      <input type="text" id="r-rol" placeholder="Ej: Asesora InnovaIA Colombia" maxlength="60"/>
+    </div>
+    <div class="form-group">
+      <label>TU NÚMERO DE WHATSAPP (con código de país)</label>
+      <input type="tel" id="r-wa" placeholder="Ej: 573001234567" maxlength="20"/>
+    </div>
+    <div class="form-group">
+      <label>TU CÓDIGO DE REFERIDO (sin espacios, minúsculas)</label>
+      <input type="text" id="r-ref" placeholder="Ej: maria2026" maxlength="30" pattern="[a-z0-9]+"/>
+    </div>
+    <div class="form-group">
+      <label>TU FOTO PROFESIONAL</label>
+      <label class="photo-label" id="photoLabel" for="r-foto">
+        <img class="photo-preview" id="photoPreview" src="" alt="Preview"/>
+        <span class="photo-icon" id="photoIcon">📸</span>
+        <span class="photo-hint" id="photoHint">Toca para subir tu foto<br><small>Recortarás el área con tu cara</small></span>
+        <input type="file" id="r-foto" accept="image/jpeg,image/png,image/webp"/>
+      </label>
+    </div>
+    <div class="form-group">
+      <label>MENSAJE DE BIENVENIDA (opcional)</label>
+      <input type="text" id="r-msg" placeholder="Ej: ¡Hola! Soy tu asesora, te ayudo a activar 🚀" maxlength="100"/>
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+    <button class="submit-btn" id="submitBtn" onclick="registrar()">
+      <span id="submitText">Generar mi link personalizado ✨</span>
+      <span id="submitSpinner" class="spinner" style="display:none;"></span>
+    </button>
+  </div>
+  <div class="result" id="regResult">
+    <div class="result-header">
+      <div class="result-check">🎉</div>
+      <div class="result-title">¡Tu landing está lista!</div>
+      <div class="result-sub">Comparte tu link y cada prospecto verá tu nombre, foto y contacto directo.</div>
+    </div>
+    <div class="advisor-preview" id="apPreview">
+      <div class="ap-avatar-ph" id="apAvatar">👤</div>
+      <div class="ap-info">
+        <div class="ap-label">Tu asesor asignado</div>
+        <div class="ap-name" id="apName">— <span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="ap-rol" id="apRol"></div>
       </div>
-
-      <div class="advisor-preview" id="apPreview">
-        <div class="ap-avatar-ph" id="apAvatar">👤</div>
-        <div class="ap-info">
-          <div class="ap-label">Tu asesor asignado</div>
-          <div class="ap-name" id="apName">—
-            <span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-          </div>
-          <div class="ap-rol" id="apRol"></div>
-        </div>
+    </div>
+    <div class="link-box">
+      <div class="link-label">Tu link personalizado</div>
+      <div class="link-url" id="resultLink"></div>
+      <div class="link-actions">
+        <button class="link-btn" onclick="copiarLink()">📋 Copiar link</button>
+        <a class="link-btn wa" id="shareWa" href="#" target="_blank">💬 Compartir por WhatsApp</a>
       </div>
-
-      <div class="link-box">
-        <div class="link-label">Tu link personalizado</div>
-        <div class="link-url" id="resultLink"></div>
-        <div class="link-actions">
-          <button class="link-btn" onclick="copiarLink()">📋 Copiar link</button>
-          <a class="link-btn wa" id="shareWa" href="#" target="_blank">💬 Compartir por WhatsApp</a>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div>
-        <p style="font-size:.75rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">Próximos pasos</p>
-        <div class="steps-mini">
-          <div class="step-mini"><div class="step-num-mini">1</div><div class="step-txt-mini"><strong>Copia tu link</strong> y úsalo en tus anuncios de Meta Ads, bio de Instagram y WhatsApp Status.</div></div>
-          <div class="step-mini"><div class="step-num-mini">2</div><div class="step-txt-mini"><strong>Cuando alguien abra tu link</strong> verá tu nombre, foto y badge verificado. El botón de WhatsApp les escribe directo a ti.</div></div>
-          <div class="step-mini"><div class="step-num-mini">3</div><div class="step-txt-mini"><strong>Activa pauta desde $5/día</strong> apuntando a tu link. El Sky System cierra las ventas por ti.</div></div>
-        </div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <p style="font-size:.75rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">Próximos pasos</p>
+      <div class="steps-mini">
+        <div class="step-mini"><div class="step-num-mini">1</div><div class="step-txt-mini"><strong>Copia tu link</strong> y úsalo en tus anuncios de Meta Ads, bio de Instagram y WhatsApp Status.</div></div>
+        <div class="step-mini"><div class="step-num-mini">2</div><div class="step-txt-mini"><strong>Cuando alguien abra tu link</strong> verá tu nombre, foto y badge verificado. El botón de WhatsApp les escribe directo a ti.</div></div>
+        <div class="step-mini"><div class="step-num-mini">3</div><div class="step-txt-mini"><strong>Activa pauta desde $5/día</strong> apuntando a tu link. El Sky System cierra las ventas por ti.</div></div>
       </div>
     </div>
   </div>
+</div>
 
-  <script>
-    var _fotoBase64='';
-    var _fotoUrl='';
+<!-- CROP MODAL -->
+<div id="cropModal">
+  <div id="cropBox">
+    <p id="cropTitle">Arrastra el círculo sobre tu cara</p>
+    <p id="cropHint">Toca dentro del círculo blanco para moverlo · Ajusta el tamaño con el slider</p>
+    <canvas id="cropCanvas"></canvas>
+    <div id="cropSliderRow">
+      <span>🔍 Tamaño</span>
+      <input type="range" id="cropSizeSlider" min="40" max="220" value="100" oninput="cropResize(+this.value)"/>
+    </div>
+    <div id="cropBtns">
+      <button class="crop-cancel" onclick="closeCropModal()">Cancelar</button>
+      <button class="crop-confirm" onclick="confirmCrop()">✓ Usar esta área</button>
+    </div>
+  </div>
+</div>
 
-    // Photo preview
-    document.getElementById('r-foto').addEventListener('change',function(e){
-      var file=e.target.files[0];
-      if(!file)return;
-      if(file.size>2*1024*1024){showError('La foto es muy pesada. Máximo 2MB.');return;}
-      var reader=new FileReader();
-      reader.onload=function(ev){
-        _fotoBase64=ev.target.result;
-        var prev=document.getElementById('photoPreview');
-        prev.src=_fotoBase64;
-        prev.style.display='block';
-        document.getElementById('photoIcon').style.display='none';
-        document.getElementById('photoHint').textContent='Foto cargada ✓';
-      };
-      reader.readAsDataURL(file);
-    });
+<script>
+var _fotoBase64='',_fotoUrl='';
+var _ci=null,_cvs=null,_ctx=null,_sc=1;
+var _cx=0,_cy=0,_cr=100,_drag=false,_ds={};
+var _evBound=false;
 
-    function showError(msg){var el=document.getElementById('errorMsg');el.textContent=msg;el.classList.add('show');}
-    function hideError(){document.getElementById('errorMsg').classList.remove('show');}
+document.getElementById('r-foto').addEventListener('change',function(e){
+  var f=e.target.files[0];
+  if(!f)return;
+  hideError();
+  var rd=new FileReader();
+  rd.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){_ci=img;openCropModal();};
+    img.src=ev.target.result;
+  };
+  rd.readAsDataURL(f);
+});
 
-    async function registrar(){
-      hideError();
-      var nombre=document.getElementById('r-nombre').value.trim();
-      var rol=document.getElementById('r-rol').value.trim()||'Asesor InnovaIA';
-      var wa=document.getElementById('r-wa').value.trim().replace(/[\s+\-()]/g,'');
-      var ref=document.getElementById('r-ref').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
-      var msg=document.getElementById('r-msg').value.trim();
+function openCropModal(){
+  _cvs=document.getElementById('cropCanvas');
+  _ctx=_cvs.getContext('2d');
+  var maxW=Math.min(window.innerWidth-64,460);
+  _sc=maxW/_ci.width;
+  var cW=maxW,cH=Math.round(_ci.height*_sc);
+  _cvs.width=cW;_cvs.height=cH;
+  // Círculo: parte superior-centro (zona de la cara)
+  _cr=Math.round(Math.min(cW,cH)*0.27);
+  _cx=Math.round(cW/2);
+  _cy=Math.round(Math.min(_cr+8,cH*0.38));
+  var sl=document.getElementById('cropSizeSlider');
+  sl.min=Math.round(Math.min(cW,cH)*0.12);
+  sl.max=Math.round(Math.min(cW,cH)*0.48);
+  sl.value=_cr;
+  if(!_evBound){
+    _cvs.addEventListener('mousedown',cropDown);
+    _cvs.addEventListener('mousemove',cropMove);
+    _cvs.addEventListener('mouseup',cropUp);
+    _cvs.addEventListener('mouseleave',cropUp);
+    _cvs.addEventListener('touchstart',cropDown,{passive:false});
+    _cvs.addEventListener('touchmove',cropMove,{passive:false});
+    _cvs.addEventListener('touchend',cropUp);
+    _evBound=true;
+  }
+  document.getElementById('cropModal').style.display='flex';
+  drawCrop();
+}
 
-      if(!nombre){showError('Escribe tu nombre completo.');return;}
-      if(!wa||wa.length<8){showError('Escribe tu número de WhatsApp con código de país.');return;}
-      if(!ref||ref.length<3){showError('El código de referido debe tener al menos 3 caracteres (solo letras y números).');return;}
+function drawCrop(){
+  var c=_cvs,ctx=_ctx;
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.drawImage(_ci,0,0,c.width,c.height);
+  ctx.fillStyle='rgba(0,0,0,.65)';
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.save();
+  ctx.beginPath();ctx.arc(_cx,_cy,_cr,0,Math.PI*2);ctx.clip();
+  ctx.drawImage(_ci,0,0,c.width,c.height);
+  ctx.restore();
+  ctx.beginPath();ctx.arc(_cx,_cy,_cr,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=2.5;ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(_cx-10,_cy);ctx.lineTo(_cx+10,_cy);
+  ctx.moveTo(_cx,_cy-10);ctx.lineTo(_cx,_cy+10);
+  ctx.stroke();
+}
 
-      var btn=document.getElementById('submitBtn');
-      btn.disabled=true;
-      document.getElementById('submitText').style.display='none';
-      document.getElementById('submitSpinner').style.display='inline-block';
+function _pos(e){
+  var rect=_cvs.getBoundingClientRect(),sx=_cvs.width/rect.width,sy=_cvs.height/rect.height;
+  var cx=e.clientX,cy=e.clientY;
+  if(e.touches&&e.touches[0]){cx=e.touches[0].clientX;cy=e.touches[0].clientY;}
+  return{x:(cx-rect.left)*sx,y:(cy-rect.top)*sy};
+}
+function cropDown(e){e.preventDefault();var p=_pos(e),dx=p.x-_cx,dy=p.y-_cy;if(dx*dx+dy*dy<=_cr*_cr){_drag=true;_ds={x:p.x,y:p.y,cx:_cx,cy:_cy};}}
+function cropMove(e){e.preventDefault();if(!_drag)return;var p=_pos(e);_cx=Math.max(_cr,Math.min(_cvs.width-_cr,_ds.cx+(p.x-_ds.x)));_cy=Math.max(_cr,Math.min(_cvs.height-_cr,_ds.cy+(p.y-_ds.y)));drawCrop();}
+function cropUp(){_drag=false;}
+function cropResize(v){_cr=v;_cx=Math.max(_cr,Math.min(_cvs.width-_cr,_cx));_cy=Math.max(_cr,Math.min(_cvs.height-_cr,_cy));drawCrop();}
 
-      var payload={nombre:nombre,rol:rol,whatsapp:wa,ref:ref,mensaje:msg||('¡Hola! Soy '+nombre+', tu asesor InnovaIA 🚀'),foto:_fotoBase64||''};
+function confirmCrop(){
+  var sz=500,out=document.createElement('canvas');
+  out.width=sz;out.height=sz;
+  var octx=out.getContext('2d');
+  octx.beginPath();octx.arc(sz/2,sz/2,sz/2,0,Math.PI*2);octx.clip();
+  var sx=(_cx-_cr)/_sc,sy=(_cy-_cr)/_sc,sd=(_cr*2)/_sc;
+  octx.drawImage(_ci,sx,sy,sd,sd,0,0,sz,sz);
+  _fotoBase64=out.toDataURL('image/jpeg',0.88);
+  var prev=document.getElementById('photoPreview');
+  prev.src=_fotoBase64;prev.style.display='block';
+  document.getElementById('photoIcon').style.display='none';
+  document.getElementById('photoHint').textContent='Foto lista ✓';
+  document.getElementById('cropModal').style.display='none';
+}
+function closeCropModal(){document.getElementById('cropModal').style.display='none';}
 
-      try{
-        var res=await fetch('/api/registro',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-        var data=await res.json();
-        if(!res.ok){showError(data.error||'Error al registrar. Intenta de nuevo.');btn.disabled=false;document.getElementById('submitText').style.display='';document.getElementById('submitSpinner').style.display='none';return;}
+function showError(msg){var el=document.getElementById('errorMsg');el.textContent=msg;el.classList.add('show');}
+function hideError(){document.getElementById('errorMsg').classList.remove('show');}
 
-        _fotoUrl=data.fotoUrl||'';
-        mostrarResultado(nombre,rol,ref,_fotoUrl||_fotoBase64);
-      }catch(e){
-        showError('Error de conexión. Intenta de nuevo.');
-        btn.disabled=false;
-        document.getElementById('submitText').style.display='';
-        document.getElementById('submitSpinner').style.display='none';
-      }
-    }
+async function registrar(){
+  hideError();
+  var nombre=document.getElementById('r-nombre').value.trim();
+  var rol=document.getElementById('r-rol').value.trim()||'Asesor InnovaIA';
+  var wa=document.getElementById('r-wa').value.trim().replace(/[\s+\-()]/g,'');
+  var ref=document.getElementById('r-ref').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  var msg=document.getElementById('r-msg').value.trim();
+  if(!nombre){showError('Escribe tu nombre completo.');return;}
+  if(!wa||wa.length<8){showError('Escribe tu número de WhatsApp con código de país.');return;}
+  if(!ref||ref.length<3){showError('El código de referido debe tener al menos 3 caracteres (solo letras y números).');return;}
+  var btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  document.getElementById('submitText').style.display='none';
+  document.getElementById('submitSpinner').style.display='inline-block';
+  var payload={nombre,rol,whatsapp:wa,ref,mensaje:msg||('¡Hola! Soy '+nombre+', tu asesor InnovaIA 🚀'),foto:_fotoBase64||''};
+  try{
+    var res=await fetch('/api/registro',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    var data=await res.json();
+    if(!res.ok){showError(data.error||'Error al registrar. Intenta de nuevo.');btn.disabled=false;document.getElementById('submitText').style.display='';document.getElementById('submitSpinner').style.display='none';return;}
+    _fotoUrl=data.fotoUrl||'';
+    mostrarResultado(nombre,rol,ref,_fotoUrl||_fotoBase64);
+  }catch(e){
+    showError('Error de conexión. Intenta de nuevo.');
+    btn.disabled=false;document.getElementById('submitText').style.display='';document.getElementById('submitSpinner').style.display='none';
+  }
+}
 
-    function mostrarResultado(nombre,rol,ref,fotoUrl){
-      document.getElementById('regForm').style.display='none';
-      var res=document.getElementById('regResult');
-      res.classList.add('show');
+function mostrarResultado(nombre,rol,ref,fotoUrl){
+  document.getElementById('regForm').style.display='none';
+  var res=document.getElementById('regResult');res.classList.add('show');
+  document.getElementById('apName').childNodes[0].textContent=nombre+' ';
+  document.getElementById('apRol').textContent=rol;
+  if(fotoUrl){var img=document.createElement('img');img.src=fotoUrl;img.alt=nombre;img.className='ap-avatar';var ph=document.getElementById('apAvatar');ph.parentNode.replaceChild(img,ph);}
+  var link='https://www.innovaia.app/?ref='+ref;
+  document.getElementById('resultLink').textContent=link;
+  var waMsg=encodeURIComponent('¡Te invito a conocer Innova IA! Genera entre $400 y $10,000 al mes con una franquicia digital. Mira el video: '+link);
+  document.getElementById('shareWa').href='https://wa.me/?text='+waMsg;
+}
 
-      // Advisor preview
-      document.getElementById('apName').childNodes[0].textContent=nombre+' ';
-      document.getElementById('apRol').textContent=rol;
-      if(fotoUrl){
-        var img=document.createElement('img');
-        img.src=fotoUrl;img.alt=nombre;img.className='ap-avatar';
-        var ph=document.getElementById('apAvatar');
-        ph.parentNode.replaceChild(img,ph);
-      }
-
-      // Link
-      var link='https://www.innovaia.app/?ref='+ref;
-      document.getElementById('resultLink').textContent=link;
-      var waMsg=encodeURIComponent('¡Te invito a conocer Innova IA! Genera entre $400 y $10,000 al mes con una franquicia digital. Mira el video: '+link);
-      document.getElementById('shareWa').href='https://wa.me/?text='+waMsg;
-    }
-
-    function copiarLink(){
-      var link=document.getElementById('resultLink').textContent;
-      navigator.clipboard.writeText(link).then(function(){
-        var btn=document.querySelector('.link-btn');
-        var orig=btn.innerHTML;
-        btn.innerHTML='✅ ¡Copiado!';
-        setTimeout(function(){btn.innerHTML=orig;},2000);
-      }).catch(function(){
-        var ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-        alert('Link copiado: '+link);
-      });
-    }
-  </script>
+function copiarLink(){
+  var link=document.getElementById('resultLink').textContent;
+  navigator.clipboard.writeText(link).then(function(){
+    var btn=document.querySelector('.link-btn');var orig=btn.innerHTML;
+    btn.innerHTML='✅ ¡Copiado!';setTimeout(function(){btn.innerHTML=orig;},2000);
+  }).catch(function(){
+    var ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    alert('Link copiado: '+link);
+  });
+}
+</script>
 </body>
 </html>
