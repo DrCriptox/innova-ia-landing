@@ -794,6 +794,15 @@ function renderAdvisor(a){
 }
 
 if(_skyRef){loadAdvisor().then(renderAdvisor);}
+// ── Tracking de visitas por ref (1 vez por sesión) ─────
+(function(){
+  if(!_skyRef)return;
+  var key='vt_'+_skyRef;
+  if(sessionStorage.getItem(key))return;
+  sessionStorage.setItem(key,'1');
+  fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ref:_skyRef}),keepalive:true}).catch(function(){});
+})();
+
 
 // ── Google Analytics 4 — PageView + ref tracking ────
 (function(){
