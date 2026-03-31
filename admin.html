@@ -29,6 +29,37 @@ input[type=text]:focus{border-color:var(--gold);}
 .badge-green{background:rgba(37,211,102,.08);border-color:rgba(37,211,102,.25);color:#4ade80;}
 .badge-gold{background:rgba(212,168,83,.1);border-color:var(--border);color:var(--gold);}
 .btn-out{background:rgba(255,79,79,.1);border:1px solid rgba(255,79,79,.3);color:var(--red);border-radius:8px;padding:6px 14px;font-size:.76rem;cursor:pointer;font-weight:600;}
+
+/* TABS */
+.tab-bar{display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:0;}
+.tab-btn{background:none;border:none;color:var(--muted);font-size:.88rem;font-weight:600;padding:10px 20px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;border-radius:8px 8px 0 0;}
+.tab-btn:hover{color:var(--text);background:rgba(255,255,255,.04);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(212,168,83,.05);}
+
+/* TOP PROMOTORES */
+.promo-grid{display:flex;flex-direction:column;gap:10px;}
+.promo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:16px;transition:border-color .2s;}
+.promo-card:hover{border-color:rgba(212,168,83,.35);}
+.promo-card.rank1{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.04);}
+.promo-card.rank2{border-color:rgba(192,192,192,.35);background:rgba(192,192,192,.03);}
+.promo-card.rank3{border-color:rgba(205,127,50,.35);background:rgba(205,127,50,.03);}
+.rank-num{font-size:1.6rem;min-width:40px;text-align:center;line-height:1;}
+.promo-av{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;}
+.promo-avph{width:48px;height:48px;border-radius:50%;background:var(--dark-2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.promo-info{flex:1;min-width:0;}
+.promo-name{font-weight:700;font-size:.95rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.promo-slug{color:var(--muted);font-size:.78rem;font-family:monospace;}
+.promo-right{text-align:right;flex-shrink:0;}
+.promo-visits{font-size:1.5rem;font-weight:800;color:var(--gold);line-height:1;}
+.promo-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.bar-wrap{height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:8px;overflow:hidden;}
+.bar-fill{height:100%;background:var(--gold);border-radius:4px;transition:width .6s ease;}
+.promo-copy{display:inline-block;margin-top:6px;}
+.refresh-btn{background:rgba(212,168,83,.1);border:1px solid var(--border);color:var(--gold);border-radius:8px;padding:6px 14px;font-size:.76rem;cursor:pointer;font-weight:600;transition:all .2s;}
+.refresh-btn:hover{background:rgba(212,168,83,.2);}
+.promo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.promo-title{font-size:.9rem;color:var(--muted);}
+.no-visits{text-align:center;padding:48px 20px;color:var(--muted);font-size:.9rem;}
 .search-row{margin-bottom:16px;}
 .table-wrap{border-radius:14px;border:1px solid var(--border);overflow:hidden;}
 table{width:100%;border-collapse:collapse;}
@@ -70,25 +101,47 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <button class="btn-out" id="btnOut">Cerrar sesión</button>
     </div>
   </div>
-  <div class="search-row">
-    <input type="text" id="searchQ" placeholder="Buscar por nombre, código o teléfono..."/>
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tabBtnAsesores" onclick="switchTab('asesores')">&#x1F465; Asesores</button>
+    <button class="tab-btn" id="tabBtnPromo" onclick="switchTab('promo')">&#x1F3C6; Top Promotores</button>
   </div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th><th>Foto</th><th>Nombre / Rol</th><th>Código</th>
-          <th>Teléfono</th><th>Registrado</th><th>Link</th>
-        </tr>
-      </thead>
-      <tbody id="tBody"><tr><td colspan="7" class="empty">Cargando...</td></tr></tbody>
-    </table>
+
+  <!-- Panel: Asesores -->
+  <div id="panelAsesores">
+    <div class="search-row">
+      <input type="text" id="searchQ" placeholder="Buscar por nombre, código o teléfono..."/>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Foto</th><th>Nombre / Rol</th><th>Código</th>
+            <th>Teléfono</th><th>Registrado</th><th>Link</th>
+          </tr>
+        </thead>
+        <tbody id="tBody"><tr><td colspan="7" class="empty">Cargando...</td></tr></tbody>
+      </table>
+    </div>
   </div>
-</div>
+
+  <!-- Panel: Top Promotores -->
+  <div id="panelPromo" style="display:none">
+    <div class="promo-header">
+      <span class="promo-title" id="promoSubtitle">Cargando estadísticas...</span>
+      <button class="refresh-btn" onclick="loadPromo()">&#x21BA; Actualizar</button>
+    </div>
+    <div class="promo-grid" id="promoGrid">
+      <div class="no-visits">Cargando...</div>
+    </div>
+  </div>
+</div></div>
 
 <script>
 var SECRET='Genesis22';
 var allData=[];
+var statsData={};
+var currentTab='asesores';
 
 document.getElementById('loginBtn').addEventListener('click',doLogin);
 document.getElementById('pwInput').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
@@ -104,11 +157,20 @@ function doLogin(){
 }
 
 function doLogout(){
-  allData=[];
+  allData=[];statsData={};
   document.getElementById('loginWrap').style.display='flex';
   document.getElementById('dashboard').style.display='none';
   document.getElementById('pwInput').value='';
   document.getElementById('loginErr').textContent='';
+}
+
+function switchTab(tab){
+  currentTab=tab;
+  document.getElementById('tabBtnAsesores').classList.toggle('active',tab==='asesores');
+  document.getElementById('tabBtnPromo').classList.toggle('active',tab==='promo');
+  document.getElementById('panelAsesores').style.display=tab==='asesores'?'block':'none';
+  document.getElementById('panelPromo').style.display=tab==='promo'?'block':'none';
+  if(tab==='promo')loadPromo();
 }
 
 async function loadData(){
@@ -124,6 +186,88 @@ async function loadData(){
   }catch(ex){
     document.getElementById('tBody').innerHTML='<tr><td colspan="7" class="empty">Error: '+ex.message+'</td></tr>';
   }
+}
+
+async function loadPromo(){
+  document.getElementById('promoGrid').innerHTML='<div class="no-visits">Cargando estadísticas...</div>';
+  document.getElementById('promoSubtitle').textContent='Cargando estadísticas...';
+  try{
+    var [statsRes,asesRes]=await Promise.all([
+      fetch('/api/stats?_t='+Date.now()),
+      allData.length?Promise.resolve(null):fetch('/api/asesores?_t='+Date.now())
+    ]);
+    statsData=await statsRes.json();
+    if(asesRes){
+      var raw=await asesRes.json();
+      allData=Object.entries(raw)
+        .filter(function(e){return e[0]!=='default';})
+        .map(function(e){return Object.assign({slug:e[0]},e[1]);})
+        .sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});
+      render();
+    }
+    renderPromo();
+  }catch(ex){
+    document.getElementById('promoGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';
+  }
+}
+
+function renderPromo(){
+  var entries=Object.entries(statsData).map(function(e){
+    var ref=e[0],visits=e[1];
+    var asesor=allData.find(function(a){return a.slug===ref;})||null;
+    return {ref:ref,visits:visits,asesor:asesor};
+  }).sort(function(a,b){return b.visits-a.visits;});
+  var totalVisits=entries.reduce(function(s,e){return s+e.visits;},0);
+  var totalRefs=entries.length;
+  document.getElementById('promoSubtitle').textContent=
+    totalRefs+' promotor'+(totalRefs!==1?'es':'')+' · '+totalVisits.toLocaleString('es-CO')+' visitas totales';
+  if(!entries.length){
+    document.getElementById('promoGrid').innerHTML='<div class="no-visits">Aún no hay visitas registradas.<br>Las visitas se cuentan cuando alguien entra por un link ?ref=código.</div>';
+    return;
+  }
+  var maxVisits=entries[0].visits||1;
+  var medals=['🥇','🥈','🥉'];
+  var html='';
+  entries.forEach(function(entry,i){
+    var rank=i+1;
+    var rankClass=rank<=3?'rank'+rank:'';
+    var rankDisplay=rank<=3?medals[i]:rank;
+    var visits=entry.visits;
+    var pct=Math.round((visits/maxVisits)*100);
+    var ref=entry.ref;
+    var link='https://www.innovaia.app/?ref='+encodeURIComponent(ref);
+    var nombre='—';
+    if(entry.asesor){nombre=sanitize(entry.asesor.nombre||ref);}
+    else{nombre='<span style="color:var(--muted);font-style:italic">'+ref+'</span> (no registrado)';}
+    html+='<div class="promo-card '+rankClass+'">';
+    html+='<div class="rank-num">'+rankDisplay+'</div>';
+    html+='<div id="pav'+i+'"><div class="promo-avph">👤</div></div>';
+    html+='<div class="promo-info">';
+    html+='<div class="promo-name">'+nombre+'</div>';
+    html+='<div class="promo-slug">?ref='+ref+'</div>';
+    html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
+    html+='<span class="pill promo-copy" data-link="'+link+'" data-orig="📋 Copiar link" onclick="copyPill(this)">📋 Copiar link</span>';
+    html+='</div>';
+    html+='<div class="promo-right">';
+    html+='<div class="promo-visits">'+visits.toLocaleString('es-CO')+'</div>';
+    html+='<div class="promo-label">visitas</div>';
+    html+='</div>';
+    html+='</div>';
+  });
+  document.getElementById('promoGrid').innerHTML=html;
+  entries.forEach(function(entry,i){
+    if(!entry.asesor)return;
+    var f=entry.asesor.foto||'';
+    if(!f)return;
+    var src=f.indexOf('fotos/')===0?'/'+f:f;
+    var img=new Image();
+    img.className='promo-av';
+    img.alt=entry.asesor.nombre||'';
+    img.src=src;
+    img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};
+    var el=document.getElementById('pav'+i);
+    if(el){el.innerHTML='';el.appendChild(img);}
+  });
 }
 
 function render(){
