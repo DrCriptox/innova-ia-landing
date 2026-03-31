@@ -10,7 +10,12 @@
   "dorelis25": 1,
   "andrea1": 5,
   "yeniferfletcher": 8,
-  "emily2026": 6,
+  "emily2026": {
+    "total": 7,
+    "ips": {
+      "179.1.210.183": 1
+    }
+  },
   "figuerainn": 3,
   "kenllygarcia": 3,
   "soymarig": 3,
