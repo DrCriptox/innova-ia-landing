@@ -233,5 +233,12 @@
     "telefono": "5534633642",
     "frase": "Hola, soy Sebastian Zapata sere tu asesor.",
     "foto": "fotos/dryonfer.jpg"
+  },
+  "figuerainn": {
+    "nombre": "Edwin Figuera",
+    "rol": "Asesor Innova IA Venezuela",
+    "telefono": "584264553213",
+    "frase": "¡Hola¡ Soy Edwin tu asesor. Te ayudo en el despegue?",
+    "foto": "fotos/figuerainn.jpg"
   }
 }
