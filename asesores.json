@@ -479,5 +479,13 @@
     "foto": "fotos/yandri84.jpg",
     "password": "Network@",
     "whatsapp": "573113293706"
+  },
+  "jhonpuliinn": {
+    "nombre": "Jhon Jairo Pulido",
+    "rol": "Asesor Innova Colombia",
+    "telefono": "573185539506",
+    "frase": "¡Hola! Soy Jhon Jairo Pulido, tu asesor InnovaIA 🚀",
+    "foto": "fotos/jhonpuliinn.jpg",
+    "password": ""
   }
 }
