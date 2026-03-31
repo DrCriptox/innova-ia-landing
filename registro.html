@@ -25,7 +25,7 @@ header{text-align:center;margin-bottom:36px;position:relative;}
 .form-group label .req{color:#FF4F4F;margin-left:2px;}
 .form-group input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:13px 15px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;transition:border-color .2s,box-shadow .2s;}
 .form-group input::placeholder{color:var(--muted);}
-.form-group input:focus{border-color:rgba(212,168,83,.45);box-shadow:0 0 0 3px rgba(212,168,83,.07);}
+.form-group input:focus{border-color:rgba(212,168,83,.45);box-shadow:0 0 0 3px rgba(212,168,83,.07);} .phone-row{display:flex;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:8px;overflow:hidden;transition:border-color .2s,box-shadow .2s;} .phone-row:focus-within{border-color:rgba(212,168,83,.45);box-shadow:0 0 0 3px rgba(212,168,83,.07);} #r-wa-code{background:rgba(212,168,83,.12);border:none;border-right:1px solid rgba(255,255,255,.09);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;padding:13px 10px 13px 12px;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23D4A853'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:26px;} #r-wa-num{flex:1;background:transparent;border:none;padding:13px 15px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.93rem;outline:none;} #r-wa-num::placeholder{color:var(--muted);}
 .photo-label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.03);border:2px dashed rgba(255,79,79,.35);border-radius:10px;padding:20px;cursor:pointer;transition:border-color .2s,background .2s;text-align:center;}
 .photo-label:hover{border-color:rgba(212,168,83,.4);background:rgba(212,168,83,.03);}
 .photo-label.done{border-color:rgba(212,168,83,.45);border-style:solid;}
@@ -251,11 +251,11 @@ async function registrar(){
   hideError();
   var nombre=document.getElementById('r-nombre').value.trim();
   var rol=document.getElementById('r-rol').value.trim()||'Asesor InnovaIA';
-  var wa=document.getElementById('r-wa').value.trim().replace(/[\s+\-()]/g,'');
+  var waCode=document.getElementById('r-wa-code').value;var waNum=document.getElementById('r-wa-num').value.trim().replace(/\D/g,'');var wa=waCode+waNum;
   var ref=document.getElementById('r-ref').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
   var msg=document.getElementById('r-msg').value.trim();
   if(!nombre){showError('Escribe tu nombre completo.');return;}
-  if(!wa||wa.length<8){showError('Escribe tu numero de WhatsApp con codigo de pais.');return;}
+  if(!waNum||waNum.length<6){showError('Ingresa tu numero de WhatsApp sin el codigo de pais.');return;}
   if(!ref||ref.length<3){showError('El codigo de referido debe tener al menos 3 caracteres (solo letras y numeros).');return;}
   if(!_fotoBase64){
     showError('Tu foto profesional es obligatoria. Toca el recuadro de foto para subirla.');
