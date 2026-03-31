@@ -28,6 +28,10 @@ export default async function handler(req) {
   const isConversion = type === 'conversion';
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown';
 
+  // Redirecciones: slug viejo -> slug nuevo
+  const REDIRECT_MAP = {'nemecisinn26':'nemecisinn96','billonarios':'bellyvane','nayi2026':'nayibe5k'};
+  if (REDIRECT_MAP[ref]) ref = REDIRECT_MAP[ref];
+
   const TOKEN = process.env.GITHUB_TOKEN;
   if (!TOKEN) return new Response(JSON.stringify({ ok: false }), { status: 200, headers: { 'Content-Type': 'application/json', ...cors() } });
 
