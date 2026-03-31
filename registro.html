@@ -3,7 +3,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
-<title>Activa tu franquicia — Innova IA</title>
+<title>Activa tu franquicia â Innova IA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
@@ -102,15 +102,15 @@ header{text-align:center;margin-bottom:36px;position:relative;}
       <input type="text" id="r-rol" placeholder="Ej: Asesora InnovaIA Colombia" maxlength="60"/>
     </div>
     <div class="form-group">
-      <label>TU NUMERO DE WHATSAPP (con codigo de pais) <span class="req">*</span></label>
-      <input type="tel" id="r-wa" placeholder="Ej: 573001234567" maxlength="20"/>
+      <label>TU NUMERO DE WHATSAPP <span class="req">*</span></label>
+      <div class="phone-row"><select id="r-wa-code"><option value="57">🇨🇴 +57</option><option value="52">🇲🇽 +52</option><option value="58">🇻🇪 +58</option><option value="51">🇵🇪 +51</option><option value="593">🇪🇨 +593</option><option value="591">🇧🇴 +591</option><option value="54">🇦🇷 +54</option><option value="56">🇨🇱 +56</option><option value="598">🇺🇾 +598</option><option value="595">🇵🇾 +595</option><option value="55">🇧🇷 +55</option><option value="507">🇵🇦 +507</option><option value="506">🇨🇷 +506</option><option value="502">🇬🇹 +502</option><option value="504">🇭🇳 +504</option><option value="503">🇸🇻 +503</option><option value="505">🇳🇮 +505</option><option value="1809">🇩🇴 +1809</option><option value="1787">🇵🇷 +1787</option><option value="53">🇨🇺 +53</option><option value="1">🇺🇸 +1</option><option value="34">🇪🇸 +34</option><option value="351">🇵🇹 +351</option><option value="39">🇮🇹 +39</option><option value="49">🇩🇪 +49</option><option value="33">🇫🇷 +33</option></select><input type="tel" id="r-wa-num" placeholder="Ej: 320 1234567" maxlength="15"/></div>
     </div>
     <div class="form-group">
       <label>TU CODIGO DE REFERIDO (sin espacios, minusculas) <span class="req">*</span></label>
       <input type="text" id="r-ref" placeholder="Ej: maria2026" maxlength="30" pattern="[a-z0-9]+"/>
     </div>
     <div class="form-group">
-      <label>CREA TU CONTRASEÑA <span class="req">*</span></label>
+      <label>CREA TU CONTRASEÃA <span class="req">*</span></label>
       <input type="password" id="r-pw" placeholder="Minimo 6 caracteres" maxlength="50"/>
     </div>
     <div class="form-group">
@@ -239,7 +239,7 @@ function confirmCrop(){
   _fotoBase64=out.toDataURL('image/jpeg',0.88);
   var prev=document.getElementById('photoPreview');prev.src=_fotoBase64;prev.style.display='block';
   document.getElementById('photoIcon').style.display='none';
-  document.getElementById('photoHint').textContent='Foto lista ✓';
+  document.getElementById('photoHint').textContent='Foto lista â';
   document.getElementById('photoReqTag').style.display='none';
   document.getElementById('photoLabel').classList.add('done');
   document.getElementById('cropModal').style.display='none';
@@ -248,54 +248,36 @@ function closeCropModal(){document.getElementById('cropModal').style.display='no
 function showError(msg){var el=document.getElementById('errorMsg');el.textContent=msg;el.classList.add('show');}
 function hideError(){document.getElementById('errorMsg').classList.remove('show');}
 async function registrar(){
-  hideError();
-  var nombre=document.getElementById('r-nombre').value.trim();
-  var rol=document.getElementById('r-rol').value.trim()||'Asesor InnovaIA';
-  var waCode=document.getElementById('r-wa-code').value;var waNum=document.getElementById('r-wa-num').value.trim().replace(/\D/g,'');var wa=waCode+waNum;
-  var ref=document.getElementById('r-ref').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
-  var msg=document.getElementById('r-msg').value.trim();
-  if(!nombre){showError('Escribe tu nombre completo.');return;}
-  if(!waNum||waNum.length<6){showError('Ingresa tu numero de WhatsApp sin el codigo de pais.');return;}
-  if(!ref||ref.length<3){showError('El codigo de referido debe tener al menos 3 caracteres (solo letras y numeros).');return;}
-  if(!_fotoBase64){
-    showError('Tu foto profesional es obligatoria. Toca el recuadro de foto para subirla.');
-    document.getElementById('photoLabel').style.borderColor='rgba(255,79,79,.7)';
-    document.getElementById('photoLabel').scrollIntoView({behavior:'smooth',block:'center'});
-    return;
+    hideError();
+    var nombre=document.getElementById('r-nombre').value.trim();
+    var rol=document.getElementById('r-rol').value.trim()||'Asesor InnovaIA';
+    var waCode=document.getElementById('r-wa-code').value;
+    var waNum=document.getElementById('r-wa-num').value.trim().replace(/\D/g,'');
+    var wa=waCode+waNum;
+    var ref=document.getElementById('r-ref').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+    var msg=document.getElementById('r-msg').value.trim();
+    var pw=document.getElementById('r-pw').value.trim();
+    if(!nombre){showError('Escribe tu nombre completo.');return;}
+    if(!waNum||waNum.length<6){showError('Ingresa tu numero de WhatsApp sin el indicativo de pais.');return;}
+    if(!ref||ref.length<3){showError('El codigo de referido debe tener al menos 3 caracteres (solo letras y numeros).');return;}
+    if(pw.length<6){showError('La contrasena debe tener al menos 6 caracteres.');return;}
+    if(!_fotoBase64){
+      showError('Tu foto profesional es obligatoria. Toca el recuadro de foto para subirla.');
+      document.getElementById('photoLabel').style.borderColor='rgba(255,79,79,.7)';
+      document.getElementById('photoLabel').scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    var btn=document.getElementById('submitBtn');btn.disabled=true;
+    document.getElementById('submitText').style.display='none';
+    document.getElementById('submitSpinner').style.display='inline-block';
+    var payload={nombre,rol,slug:ref,telefono:wa,frase:msg||('Hola! Soy '+nombre+', tu asesor InnovaIA'),foto:_fotoBase64,password:pw};
+    try{
+      var res=await fetch('/api/registro',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      var data=await res.json();
+      if(!res.ok){showError(data.error||'Error al registrar. Intenta de nuevo.');btn.disabled=false;document.getElementById('submitText').style.display='';document.getElementById('submitSpinner').style.display='none';return;}
+      _fotoUrl=data.fotoUrl||'';mostrarResultado(nombre,rol,ref,_fotoUrl||_fotoBase64);
+    }catch(e){
+      showError('Error de conexion. Intenta de nuevo.');
+      btn.disabled=false;document.getElementById('submitText').style.display='';document.getElementById('submitSpinner').style.display='none';
+    }
   }
-  var btn=document.getElementById('submitBtn');btn.disabled=true;
-  document.getElementById('submitText').style.display='none';document.getElementById('submitSpinner').style.display='inline-block';
-  var pw=document.getElementById('r-pw').value.trim();
-  if(pw.length<6){showError('La contraseña debe tener al menos 6 caracteres');btn.disabled=false;document.getElementById('btnText').textContent='Registrarme ahora';return;}
-  var payload={nombre,rol,slug:ref,telefono:wa,frase:msg||('Hola! Soy '+nombre+', tu asesor InnovaIA'),foto:_fotoBase64,password:pw};
-  try{
-    var res=await fetch('/api/registro',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    var data=await res.json();
-    if(!res.ok){showError(data.error||'Error al registrar. Intenta de nuevo.');btn.disabled=false;document.getElementById('submitText').style.display='';document.getElementById('submitSpinner').style.display='none';return;}
-    _fotoUrl=data.fotoUrl||'';mostrarResultado(nombre,rol,ref,_fotoUrl||_fotoBase64);
-  }catch(e){
-    showError('Error de conexion. Intenta de nuevo.');
-    btn.disabled=false;document.getElementById('submitText').style.display='';document.getElementById('submitSpinner').style.display='none';
-  }
-}
-function mostrarResultado(nombre,rol,ref,fotoUrl){
-  document.getElementById('regForm').style.display='none';
-  var res=document.getElementById('regResult');res.classList.add('show');
-  document.getElementById('apName').childNodes[0].textContent=nombre+' ';
-  document.getElementById('apRol').textContent=rol;
-  if(fotoUrl){var img=document.createElement('img');img.src=fotoUrl;img.alt=nombre;img.className='ap-avatar';var ph=document.getElementById('apAvatar');ph.parentNode.replaceChild(img,ph);}
-  var link='https://www.innovaia.app/?ref='+ref;
-  document.getElementById('resultLink').textContent=link;
-  var waMsg=encodeURIComponent('Te invito a conocer Innova IA! Genera entre $400 y $10,000 al mes con una franquicia digital. Mira el video: '+link);
-  document.getElementById('shareWa').href='https://wa.me/?text='+waMsg;
-}
-function copiarLink(){
-  var link=document.getElementById('resultLink').textContent;
-  navigator.clipboard.writeText(link).then(function(){
-    var btn=document.querySelector('.link-btn');var orig=btn.innerHTML;
-    btn.innerHTML='Copiado!';setTimeout(function(){btn.innerHTML=orig;},2000);
-  }).catch(function(){var ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);});
-}
-</script>
-</body>
-</html>
