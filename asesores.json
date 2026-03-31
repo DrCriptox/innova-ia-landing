@@ -435,5 +435,13 @@
     "frase": "Hola, cuenta con nosotros.",
     "foto": "fotos/samaira10k.jpg",
     "password": "38684840"
+  },
+  "bernarda1": {
+    "nombre": "Bernarda Holguín",
+    "rol": "Asesora de INNOVA",
+    "telefono": "573155705700",
+    "frase": "Hola! Soy Bernarda Holguín, tu asesor InnovaIA",
+    "foto": "fotos/bernarda1.jpg",
+    "password": "Samuzulu14"
   }
 }
