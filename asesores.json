@@ -405,5 +405,12 @@
     "telefono": "50433803202",
     "frase": "Hola! Soy Jayme Maldonado, tu asesor InnovaIA",
     "foto": "fotos/jaymemaldonado1.jpg"
+  },
+  "marigonzalez": {
+    "nombre": "Mariana González Pulgarín",
+    "rol": "Asesora InnovaIA",
+    "telefono": "3176393387",
+    "frase": "Hola soy Mariana ✨ Te ayudo a crear ingresos desde tu celular con herramientas digitales",
+    "foto": "fotos/marigonzalez.jpg"
   }
 }
