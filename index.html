@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="https://innovaia.app/og-image.png"/>
   <link rel="canonical" href="https://www.innovaia.app/"/>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Innova IA — Franquicia Digital","description":"Genera entre $400 y $10,000 al mes con una franquicia digital.","url":"https://www.innovaia.app/","image":"https://innovaia.app/og-image.png","publisher":{"@type":"Organization","name":"Innova IA — Sky System","url":"https://www.innovaia.app/"}}</script>
-  <title>Innova IA — Franquicia Digital | Sky System</title>
+  <title>Innova IA — Franquicia Digital | Sky System</title>h
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
@@ -757,7 +757,7 @@ var _skyRef=(function(){var p=new URLSearchParams(window.location.search);return
 async function loadAdvisor(){
   if(!_skyRef)return null;
   try{
-    var r=await fetch('/asesores.json');
+    var r=await fetch('/api/asesores');
     var data=await r.json();
     return data[_skyRef]||data['default']||null;
   }catch(e){return null;}
