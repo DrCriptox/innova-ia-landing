@@ -848,6 +848,7 @@ async function enviarWhatsApp(){
   var leadEventId='lead_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);
   if(typeof fbq==='function')fbq('track','Lead',{content_name:'InnovaIA WhatsApp'},{eventID:leadEventId});
   if(typeof window.sendCAPIEvent==='function')window.sendCAPIEvent('Lead',leadEventId,{currency:'USD',value:0});
+  if(typeof _skyRef!=='undefined'&&_skyRef)try{navigator.sendBeacon('/api/track',JSON.stringify({ref:_skyRef,type:'conversion'}));}catch(e){}
   window.open('https://wa.me/'+wa+'?text='+msg,'_blank');
 }
 
