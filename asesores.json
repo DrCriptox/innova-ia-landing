@@ -191,5 +191,12 @@
     "telefono": "50499395428",
     "frase": "¡Hola! Soy Rony Luis jimenez, tu asesor InnovaIA 🚀",
     "foto": "fotos/rony504.jpg"
+  },
+  "wilson": {
+    "nombre": "Wilson Villarejo Mayor",
+    "rol": "Asesor INNOVAIA Colombia",
+    "telefono": "573021220681",
+    "frase": "Hola, soy tu asesor. Te ayudo con gusto",
+    "foto": "fotos/wilson.jpg"
   }
 }
