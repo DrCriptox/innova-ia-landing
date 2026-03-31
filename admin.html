@@ -223,7 +223,7 @@ function switchTab(tab){
   if(tab==='anti')loadAnti();
   if(tab==='hoy')loadHoy();
 }
-function phoneFlag(t){if(!t)return'';t=String(t).replace(/[\s\-\(\)\.]/g,'').replace(/^\+/,'');var m=[['593','EC'],['591','BO'],['595','PY'],['598','UY'],['503','SV'],['502','GT'],['504','HN'],['505','NI'],['506','CR'],['507','PA'],['509','HT'],['57','CO'],['58','VE'],['51','PE'],['54','AR'],['55','BR'],['56','CL'],['52','MX'],['53','CU'],['1','US'],['44','GB'],['34','ES'],['49','DE'],['33','FR'],['39','IT'],['61','AU'],['81','JP'],['86','CN'],['91','IN'],['20','EG'],['212','MA'],['234','NG']];for(var i=0;i<m.length;i++){if(t.startsWith(m[i][0]))return m[i][1].split('').map(function(c){return String.fromCodePoint(0x1F1E6+c.charCodeAt(0)-65);}).join('');}return'';}
+function phoneFlag(t){if(!t)return'';t=String(t).replace(/[\s\-\(\)\.]/g,'').replace(/^\+/,'');var m=[['593','ec'],['591','bo'],['595','py'],['598','uy'],['503','sv'],['502','gt'],['504','hn'],['505','ni'],['506','cr'],['507','pa'],['509','ht'],['57','co'],['58','ve'],['51','pe'],['54','ar'],['55','br'],['56','cl'],['52','mx'],['53','cu'],['1','us'],['44','gb'],['34','es'],['49','de'],['33','fr'],['39','it'],['61','au'],['81','jp'],['86','cn'],['91','in'],['20','eg'],['212','ma'],['234','ng']];for(var i=0;i<m.length;i++){if(t.startsWith(m[i][0]))return'<img src="https://flagcdn.com/w20/'+m[i][1]+'.png" style="width:18px;height:13px;border-radius:2px;vertical-align:middle;margin-left:3px;" />';}return'';}
 function parseEntry(entry){
   if(!entry)return{total:0,uniq:0,suspicious:0,conversions:0,legacy:true};
   if(typeof entry==='number')return{total:entry,uniq:0,suspicious:0,conversions:0,legacy:true};
