@@ -5,7 +5,12 @@
   "nayi24": 1,
   "billonario7": 2,
   "sunithpu2026": 1,
-  "jose26": 16,
+  "jose26": {
+    "total": 17,
+    "ips": {
+      "88.0.100.204": 1
+    }
+  },
   "yerlinc2025": 1,
   "dorelis25": 1,
   "andrea1": 5,
