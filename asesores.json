@@ -479,5 +479,13 @@
     "frase": "Hola, soy tú asesora, como te puedo ayudar?",
     "foto": "fotos/yandri84.jpg",
     "password": "Network@"
+  },
+  "bellyvane": {
+    "nombre": "Belly Vanesa",
+    "rol": "Empresaria Digital",
+    "telefono": "584144355974",
+    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "foto": "fotos/bellyvane.jpg",
+    "password": "Billonarios26$"
   }
 }
