@@ -419,5 +419,12 @@
     "telefono": "584140556250",
     "frase": "Hola! Soy tu Asesora, te ayudo",
     "foto": "fotos/konna2025.jpg"
+  },
+  "carlosyedy": {
+    "nombre": "Carlos Andrés Acevedo Rincón",
+    "rol": "Asesor experto en Negocio Digital",
+    "telefono": "3202315113",
+    "frase": "Hola, soy tu asesor y guía en esta nueva experiencia de Negocios Digitales.",
+    "foto": "fotos/carlosyedy.jpg"
   }
 }
