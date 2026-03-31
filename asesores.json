@@ -635,5 +635,14 @@
     "foto": "fotos/miguelinnova.jpg",
     "password": "123456",
     "registrado": "2026-03-31T22:40:14.764Z"
+  },
+  "nayibe5k": {
+    "nombre": "nayibe sanchez",
+    "rol": "Asesora Innnova",
+    "telefono": "584144259317",
+    "frase": "Hola soy tu asesora te ayudo a activarte",
+    "foto": "fotos/nayibe5k.jpg",
+    "password": "innova5k",
+    "registrado": "2026-03-31T22:45:59.349Z"
   }
 }
