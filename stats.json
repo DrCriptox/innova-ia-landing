@@ -99,9 +99,10 @@
   "proverbios17": 2,
   "wilsonvilla": 1,
   "leidyinnova": {
-    "total": 4,
+    "total": 5,
     "ips": {
-      "186.189.77.42": 1
+      "186.189.77.42": 1,
+      "179.60.73.78": 1
     }
   },
   "soycesarmartinez": 4,
