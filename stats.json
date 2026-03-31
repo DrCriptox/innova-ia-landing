@@ -45,7 +45,12 @@
   "wilsonvilla": 1,
   "leidyinnova": 3,
   "soycesarmartinez": 4,
-  "maryuinn": 3,
+  "maryuinn": {
+    "total": 4,
+    "ips": {
+      "190.120.249.64": 1
+    }
+  },
   "imnamel25": 1,
   "altuveinn": {
     "total": 3,
