@@ -268,7 +268,10 @@
       .garantia-bottom{padding:16px 24px;}
       .header-pill{display:none;}
     }
-  </style>
+  
+/* ── Mobile hero title ── */
+@media(max-width:600px){h1{font-size:clamp(1.38rem,6vw,1.82rem)!important;line-height:1.18;letter-spacing:-0.5px;}}
+</style>
 </head>
 <body>
 
@@ -290,7 +293,7 @@
   <div class="glow g2"></div>
   <div class="hero">
     <div class="badge">Franquicia Digital · Innova IA · Sky System</div>
-    <h1>Tu celular puede<br>generar entre <em>$400</em> y <em>$10,000</em><br>al mes — sin experiencia</h1>
+    <h1>Tu celular puede<br>generar entre <em>$400</em> y <em>$2,500</em><br>al mes — sin experiencia</h1>
     <p class="hero-sub">El sistema ya está construido. La IA responde por ti. Tú solo activas y cobras. <strong>Sin seguidores. Sin dejar tu trabajo todavía.</strong></p>
 
     <!-- TARJETA ASESOR PERSONALIZADO -->
@@ -431,8 +434,7 @@
 </section>
 
 <!-- NÚMEROS -->
-<section class="section reveal">
-  <p class="section-tag">Los números exactos</p>
+<section class="section reveal" style="display:none"><p class="section-tag">Los números exactos</p>
   <h2 class="section-title">Lo que ganas<br><span>el primer mes</span></h2>
   <div class="numbers-box">
     <div class="numbers-grid">
