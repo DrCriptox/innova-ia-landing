@@ -98,7 +98,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .promo-ip-row{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
 .bar-wrap{height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:8px;overflow:hidden;}
 .bar-fill{height:100%;background:var(--gold);border-radius:4px;transition:width .6s ease;}
-.promo-copy{display:inline-block;margin-top:6px;}
+.promo-copy{display:inline-block;margin-top:6px;}.promo-name-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0;}.promo-ref{color:var(--muted);font-size:.75rem;font-family:monospace;white-space:nowrap;flex-shrink:0;}.promo-copy-inline{display:inline-flex;align-items:center;background:rgba(212,168,83,.1);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:.72rem;color:var(--gold);cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}.promo-copy-inline:hover{background:rgba(212,168,83,.22);}
 .refresh-btn{background:rgba(212,168,83,.1);border:1px solid var(--border);color:var(--gold);border-radius:8px;padding:6px 14px;font-size:.76rem;cursor:pointer;font-weight:600;transition:all .2s;}
 .refresh-btn:hover{background:rgba(212,168,83,.2);}
 .promo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
@@ -254,26 +254,23 @@ async function loadAnti(){
   }catch(ex){document.getElementById('antiGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';}
 }
 function renderPromo(){
-  var entries=Object.entries(statsData).map(function(e){var p=parseEntry(e[1]);var a=allData.find(function(x){return x.slug===e[0];})||null;return{ref:e[0],p:p,a:a};}).sort(function(a,b){return b.p.total-a.p.total;}).slice(0,20);
-  var tot=entries.reduce(function(s,e){return s+e.p.total;},0);
-  document.getElementById('promoSubtitle').textContent=entries.length+' promotores · '+tot.toLocaleString('es-CO')+' visitas';
-  if(!entries.length){document.getElementById('promoGrid').innerHTML='<div class="no-visits">Sin visitas aun.</div>';return;}
-  var mx=entries[0].p.total||1;
-  var med=['🥇','🥈','🥉'];
-  var html='';
-  entries.forEach(function(e,i){
-    var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p,lk='https://www.innovaia.app/?ref='+encodeURIComponent(e.ref);
-    var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
-    var pct=Math.round((p.total/mx)*100);
-    html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div><div id="pav'+i+'"><div class="promo-avph">👤</div></div>';
-    html+='<div class="promo-info"><div class="promo-name">'+nm+'</div><div class="promo-slug">?ref='+e.ref+'</div>';
-    if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+p.uniq+' unicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
-    html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
-    html+='<span class="pill promo-copy" data-link="'+lk+'" data-orig="📋 Copiar" onclick="copyPill(this)">📋 Copiar</span></div>';
-    html+='<div class="promo-right"><div class="promo-visits">'+p.total.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div></div></div>';
-  });
-  document.getElementById('promoGrid').innerHTML=html;
-  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('pav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
+ var entries=Object.entries(statsData).map(function(e){var p=parseEntry(e[1]);var a=allData.find(function(x){return x.slug===e[0];})||null;return{ref:e[0],p:p,a:a};}).sort(function(a,b){return b.p.total-a.p.total;}).slice(0,50);
+ var tot=entries.reduce(function(s,e){return s+e.p.total;},0);
+ document.getElementById('promoSubtitle').textContent=entries.length+' promotores · '+tot.toLocaleString('es-CO')+' visitas';
+ if(!entries.length){document.getElementById('promoGrid').innerHTML='<div class="no-visits">Sin visitas aun.</div>';return;}
+ var med=['🥇','🥈','🥉'];
+ var html='';
+ entries.forEach(function(e,i){
+  var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p,lk='https://www.innovaia.app/?ref='+encodeURIComponent(e.ref);
+  var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+  html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div><div id="pav'+i+'"><div class="promo-avph">👤</div></div>';
+  html+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+'</span><span class="promo-ref">('+e.ref+')</span><span class="promo-copy-inline" data-link="'+lk+'" data-orig="📋" onclick="copyPill(this)">📋</span></div>';
+  if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row" style="margin-top:3px;"><span class="v-chip unicas">🟢 '+p.uniq+' unicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
+  html+='</div>';
+  html+='<div class="promo-right"><div class="promo-visits">'+p.total.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div></div></div>';
+ });
+ document.getElementById('promoGrid').innerHTML=html;
+ entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('pav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
 }
 function renderAnti(){
   var entries=Object.entries(statsData).map(function(e){var p=parseEntry(e[1]);var a=allData.find(function(x){return x.slug===e[0];})||null;return{ref:e[0],p:p,a:a};}).filter(function(e){return e.p.total>0;}).sort(function(a,b){return b.p.suspicious-a.p.suspicious||b.p.total-a.p.total;});
