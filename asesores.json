@@ -432,5 +432,13 @@
     "frase": "Hola! Soy tu asesor, te ayudo a activar",
     "foto": "fotos/camilo2026.jpg",
     "password": "cami12isa34"
+  },
+  "liz2026": {
+    "nombre": "Lizeth Viviana Ocampo Orjuela",
+    "rol": "Asesora Innova Colombia",
+    "telefono": "573104084821",
+    "frase": "Bienvenido a Innova ✨ Estoy aquí para ayudarte a dar el siguiente paso, ¿qué necesitas?",
+    "foto": "fotos/liz2026.jpg",
+    "password": "Eilyn29"
   }
 }
