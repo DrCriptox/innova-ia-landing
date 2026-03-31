@@ -107,11 +107,11 @@
     "frase": "¡Hola! Soy tu asesora y te ayudo a  activar tu franquicia",
     "foto": "fotos/billonario7.jpg"
   },
-  "alejandraymilena": {
-    "nombre": "Alejandra Hernández",
-    "rol": "Asesora Innova IA",
-    "telefono": "573015458341",
-    "frase": "Hola!! Soy Alejandra tu asistente virtual de Innova",
-    "foto": "fotos/alejandraymilena.jpg"
+  "julianvalencia": {
+    "nombre": "Julian Andres Valencia Garcia",
+    "rol": "Asesor InnovaIA",
+    "telefono": "573217446898",
+    "frase": "¡Hola! Soy su asesor experto  en inteligencia artificial y negocios digitales.",
+    "foto": "fotos/julianvalencia.jpg"
   }
 }
