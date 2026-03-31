@@ -690,5 +690,14 @@
     "foto": "fotos/franyelisv.jpg",
     "password": "Vanessa11",
     "registrado": "2026-03-31T23:39:32.186Z"
+  },
+  "julio2026": {
+    "nombre": "julio Ramirez",
+    "rol": "asesor de innova",
+    "telefono": "573143159102",
+    "frase": "hola soy tu asesor personal como te ayudo",
+    "foto": "fotos/julio2026.jpg",
+    "password": "",
+    "registrado": "2026-03-31T23:45:05.783Z"
   }
 }
