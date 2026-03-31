@@ -216,7 +216,7 @@ function renderPromo(){
     var ref=e[0],visits=e[1];
     var asesor=allData.find(function(a){return a.slug===ref;})||null;
     return {ref:ref,visits:visits,asesor:asesor};
-  }).sort(function(a,b){return b.visits-a.visits;});
+  }).sort(function(a,b){return b.visits-a.visits;}).slice(0,20);
   var totalVisits=entries.reduce(function(s,e){return s+e.visits;},0);
   var totalRefs=entries.length;
   document.getElementById('promoSubtitle').textContent=
