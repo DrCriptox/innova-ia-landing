@@ -553,5 +553,14 @@
     "foto": "fotos/sunithpu.jpg",
     "password": "Innova5k$",
     "registrado": "2026-03-31T22:08:42.574Z"
+  },
+  "irianetf": {
+    "nombre": "Irianet flores",
+    "rol": "Asesor InnovaIA",
+    "telefono": "584129371662",
+    "frase": "Hola! Soy tu asesora.",
+    "foto": "",
+    "password": "",
+    "registrado": "2026-03-31T22:19:50.050Z"
   }
 }
