@@ -72,7 +72,12 @@
   "figuerainn": 3,
   "kenllygarcia": 3,
   "soymarig": 3,
-  "leidyg2026": 8,
+  "leidyg2026": {
+    "total": 9,
+    "ips": {
+      "179.60.73.78": 1
+    }
+  },
   "scarletinn": {
     "total": 8,
     "ips": {
