@@ -92,7 +92,12 @@
   "katherinevera": 5,
   "julio2026": 4,
   "danielmantilla": 1,
-  "david2026": 3,
+  "david2026": {
+    "total": 4,
+    "ips": {
+      "201.233.83.50": 1
+    }
+  },
   "maria0303": 1,
   "wilson": 5,
   "nico2026": 1,
