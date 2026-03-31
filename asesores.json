@@ -156,5 +156,12 @@
     "telefono": "34641213627",
     "frase": "Soy David, tu guía hacia una nueva versión de ti 🔥",
     "foto": "fotos/davidyjef25.jpg"
+  },
+  "julianvalencia": {
+    "nombre": "Julian Andres Valencia Garcia",
+    "rol": "Experto en inteligencia artificial e inversiones",
+    "telefono": "573217446898",
+    "frase": "¡Hola! Soy su asesor experto  en inteligencia artificial y negocios digitales.",
+    "foto": "fotos/julianvalencia.jpg"
   }
 }
