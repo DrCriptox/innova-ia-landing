@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JKPWFN2YQ5"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date());
+    gtag('config','G-JKPWFN2YQ5',{send_page_view:false});
+    window._ga4Ready=true;
+  </script>
   <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','916162744586534');fbq('init','1482869569364321');fbq('track','PageView');</script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=916162744586534&ev=PageView&noscript=1"/></noscript>
   <meta charset="UTF-8"/>
@@ -785,6 +794,22 @@ function renderAdvisor(a){
 }
 
 if(_skyRef){loadAdvisor().then(renderAdvisor);}
+
+// ── Google Analytics 4 — PageView + ref tracking ────
+(function(){
+  var ref=_skyRef||('directo');
+  if(typeof gtag==='function'){
+    gtag('event','page_view',{
+      page_title:document.title,
+      page_location:window.location.href,
+      ref_asesor:ref
+    });
+    if(_skyRef){
+      gtag('event','ref_visit',{ref_asesor:_skyRef});
+      gtag('set','user_properties',{ref_asesor:_skyRef});
+    }
+  }
+})();
 
 // ── Socios WhatsApp (Google Sheets fallback) ───────────
 var SHEET_ID='19lXGUsG_Vt8VzpycSP04cAoQbdjAJDLYizuSIDKxJqQ';
