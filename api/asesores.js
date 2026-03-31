@@ -1,46 +1,67 @@
-// api/asesores.js — Vercel Edge Function
-// Sirve asesores.json en tiempo real desde GitHub (sin caché stale de Vercel)
-// Reemplaza el archivo estático: vercel.json lo redirige aquí
-
 export const config = { runtime: 'edge' };
 
-const GITHUB_REPO   = process.env.GITHUB_REPO || 'DrCriptox/innova-ia-landing';
-const GITHUB_BRANCH = 'main';
-const FILE_PATH     = 'asesores.json';
+const REPO = process.env.GITHUB_REPO || 'DrCriptox/innova-ia-landing';
+const FILE = 'asesores.json';
 
 export default async function handler(req) {
-  const cors = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Cache-Control': 'public, max-age=30, stale-while-revalidate=60',
-    'Content-Type': 'application/json',
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: cors() });
+  }
+
+  const token = process.env.GITHUB_TOKEN;
+  const headers = {
+    Accept: 'application/vnd.github.v3+json',
+    'User-Agent': 'InnovaIA-App',
+    ...(token ? { Authorization: `token ${token}` } : {}),
   };
-  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
 
   try {
-    const token = process.env.GITHUB_TOKEN;
-    const hdrs = { 'Accept': 'application/vnd.github.v3+json', 'User-Agent': 'InnovaIA-App' };
-    if (token) hdrs['Authorization'] = 'token ' + token;
+    // Step 1: Contents API — works for files < 1MB, returns sha for all
+    const contentsUrl = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+    const contentsRes = await fetch(contentsUrl, { headers });
+    if (!contentsRes.ok) throw new Error(`contents ${contentsRes.status}`);
+    const contentsData = await contentsRes.json();
 
-    const r = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + FILE_PATH + '?ref=' + GITHUB_BRANCH, { headers: hdrs });
-    let text;
-    if (r.ok) {
-      const meta = await r.json();
-      if (meta.encoding === 'none' || !meta.content) {
-        const raw = await fetch('https://raw.githubusercontent.com/' + GITHUB_REPO + '/' + GITHUB_BRANCH + '/' + FILE_PATH);
-        text = await raw.text();
-      } else {
-        const bin = atob(meta.content.replace(/\n/g, ''));
-        const bytes = new Uint8Array(bin.length);
-        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-        text = new TextDecoder().decode(bytes);
-      }
+    let jsonText;
+
+    if (contentsData.encoding === 'base64' && contentsData.content) {
+      // Small file — decode inline base64
+      const b64 = contentsData.content.replace(/\n/g, '');
+      jsonText = new TextDecoder().decode(
+        Uint8Array.from(atob(b64), c => c.charCodeAt(0))
+      );
     } else {
-      const raw = await fetch('https://raw.githubusercontent.com/' + GITHUB_REPO + '/' + GITHUB_BRANCH + '/' + FILE_PATH);
-      text = await raw.text();
+      // Large file (encoding:"none") — use Git Blobs API (no 1MB limit, always fresh)
+      const blobUrl = `https://api.github.com/repos/${REPO}/git/blobs/${contentsData.sha}`;
+      const blobRes = await fetch(blobUrl, { headers });
+      if (!blobRes.ok) throw new Error(`blob ${blobRes.status}`);
+      const blobData = await blobRes.json();
+      const b64 = blobData.content.replace(/\n/g, '');
+      jsonText = new TextDecoder().decode(
+        Uint8Array.from(atob(b64), c => c.charCodeAt(0))
+      );
     }
-    return new Response(text, { status: 200, headers: cors });
+
+    return new Response(jsonText, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=15, stale-while-revalidate=30',
+        ...cors(),
+      },
+    });
   } catch (e) {
-    return new Response(JSON.stringify({ error: 'Error cargando asesores' }), { status: 500, headers: cors });
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...cors() },
+    });
   }
+}
+
+function cors() {
+  return {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
 }
