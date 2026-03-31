@@ -22,7 +22,12 @@
   "david2026": 3,
   "maria0303": 1,
   "wilson": 5,
-  "emily2025": 8,
+  "emily2025": {
+    "total": 9,
+    "ips": {
+      "179.1.210.183": 1
+    }
+  },
   "nico2026": 1,
   "mariapcastro77": 1,
   "proverbios17": 2,
