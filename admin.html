@@ -357,7 +357,7 @@ async function saveEdit(){
   try{
     var res=await fetch('/api/edit-asesor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:editingSlug,nombre:nombre,rol:rol,telefono:telefono,foto:foto})});
     var data=await res.json();
-    if(data.ok){var d=allData.find(function(a){return a.slug===editingSlug;});if(d){if(nombre)d.nombre=nombre;if(rol)d.rol=rol;if(telefono){d.telefono=telefono;d.whatsapp=telefono;}if(foto)d.foto=foto;}}msg.textContent='Guardado correctamente';msg.className='modal-msg ok';setTimeout(function(){closeEdit();render();},800);}
+    if(data.ok){var d=allData.find(function(a){return a.slug===editingSlug;});if(d){if(nombre)d.nombre=nombre;if(rol)d.rol=rol;if(telefono){d.telefono=telefono;d.whatsapp=telefono;}if(foto)d.foto=foto;}msg.textContent='Guardado correctamente';msg.className='modal-msg ok';setTimeout(function(){closeEdit();render();},800);}
     else{msg.textContent='Error: '+(data.error||'intenta de nuevo');msg.className='modal-msg err';}
   }catch(ex){msg.textContent='Error de red: '+ex.message;msg.className='modal-msg err';}
   finally{btn.disabled=false;btn.textContent='Guardar cambios';}
