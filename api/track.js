@@ -69,6 +69,11 @@ export default async function handler(req) {
       } else {
         obj.total = (obj.total || 0) + 1;
         if (ip !== 'unknown') obj.ips[ip] = (obj.ips[ip] || 0) + 1;
+        // Contador diario Colombia (UTC-5)
+        const _d=new Date(Date.now()-18000000).toISOString().split('T')[0];
+        if(!obj.days)obj.days={};
+        obj.days[_d]=(obj.days[_d]||0)+1;
+        const _dk=Object.keys(obj.days).sort();if(_dk.length>60)_dk.slice(0,_dk.length-60).forEach(function(k){delete obj.days[k];});
       }
 
       stats[ref] = obj;
