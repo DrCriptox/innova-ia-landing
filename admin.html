@@ -328,7 +328,7 @@ function render(){
     html+='<td><a class="wa" href="https://wa.me/'+waNum+'" target="_blank">'+sanitize(tel)+'</a></td>';
     html+='<td>'+vHtml+'</td><td class="dt">'+fecha+'</td>';
     html+='<td><span class="pill" data-link="'+link+'" data-orig="📋 Copiar" onclick="copyPill(this)">📋 Copiar</span></td>';
-    html+='<td><div class="act-cell"><button class="btn-edit" onclick="openEdit('\''+slug+'\'')">&#9998; Editar</button><button class="btn-del" onclick="deleteAsesor('\''+slug+'\'','\''+nombre+'\'')">&#128465;</button></div></td></tr>';
+    html+='<td><div class="act-cell"><button class="btn-edit" onclick="openEdit(\''+slug+'\')">&#9998; Editar</button><button class="btn-del" onclick="deleteAsesor(\''+slug+'\',\''+nombre+'\')">&#128465;</button></div></td></tr>';
   });
   document.getElementById('tBody').innerHTML=html;
   rows.forEach(function(d,i){if(!d.foto)return;var src=d.foto.indexOf('fotos/')===0?'/'+d.foto:d.foto;var img=new Image();img.className='av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="avph">👤</div>';};var el=document.getElementById('av'+i);if(el){el.innerHTML='';el.appendChild(img);}});
