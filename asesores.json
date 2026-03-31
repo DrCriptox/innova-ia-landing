@@ -654,5 +654,14 @@
     "password": "Tatiana",
     "registrado": "2026-03-31T23:07:49.784Z",
     "whatsapp": "573122229674"
+  },
+  "aizbert": {
+    "nombre": "Aizbert Morales",
+    "rol": "Asesora Innova Venezuela",
+    "telefono": "584147919183",
+    "frase": "¡Bienvenido! Soy Aizbert Morales. Es un placer servirte y guiarte con esta información.",
+    "foto": "fotos/aizbert.jpg",
+    "password": "aiz788*m",
+    "registrado": "2026-03-31T23:24:43.188Z"
   }
 }
