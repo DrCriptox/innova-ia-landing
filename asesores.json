@@ -219,5 +219,12 @@
     "telefono": "5804248579691",
     "frase": "Hola! Soy tu asesora y te ayudo a crear tu franquicia",
     "foto": "fotos/dorelis25.jpg"
+  },
+  "emily2026": {
+    "nombre": "Emily Quintero",
+    "rol": "Asesora Innova Venezuela",
+    "telefono": "586725735",
+    "frase": "¡Hola! Soy Emily Quintero, tu asesor InnovaIA 🚀",
+    "foto": "fotos/emily2026.jpg"
   }
 }
