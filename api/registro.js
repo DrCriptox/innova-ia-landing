@@ -2,140 +2,135 @@
 // Registra un nuevo asesor en asesores.json via GitHub API
 //
 // Env vars necesarias en Vercel:
-//   GITHUB_TOKEN  = Personal Access Token con permiso "repo" (Contents: write)
-//                   Crear en: github.com/settings/tokens/new
-//                   Scopes: repo (o solo "Contents: Read and Write" en fine-grained)
-//   GITHUB_REPO   = DrCriptox/innova-ia-landing  (ya configurado abajo como default)
-
+//   GITHUB_TOKEN    = Personal Access Token con permiso "repo" (Contents read+write)
+//   SKYTEAM_SECRET  = Clave secreta compartida con skyteam.global para llamadas server-to-server
+//
 export const config = { runtime: 'edge' };
 
-const GITHUB_REPO   = process.env.GITHUB_REPO   || 'DrCriptox/innova-ia-landing';
-const GITHUB_BRANCH = 'main';
-const FILE_PATH     = 'asesores.json';
-const ALLOWED_ORIGIN = 'https://www.innovaia.app';
+const ALLOWED_ORIGINS = [
+  'https://www.innovaia.app',
+  'https://innovaia.app',
+  'https://skyteam.global',
+  'https://www.skyteam.global',
+];
+
+const REPO    = 'DrCriptox/innova-ia-landing';
+const BRANCH  = 'main';
+const FILE    = 'asesores.json';
+const GH_API  = 'https://api.github.com';
+
+function json(data, status, req) {
+  const origin = req?.headers?.get('origin') || '';
+  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': allowed,
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Skyteam-Secret',
+      'Vary': 'Origin',
+    },
+  });
+}
 
 export default async function handler(req) {
+  // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders(req) });
+    return json({}, 204, req);
   }
 
   if (req.method !== 'POST') {
     return json({ error: 'Method not allowed' }, 405, req);
   }
 
-  const TOKEN = process.env.GITHUB_TOKEN;
-  if (!TOKEN) {
-    return json({ error: 'Registro no configurado. Contacta al administrador.' }, 500, req);
+  // Auth: valid origin OR valid server-to-server secret
+  const origin     = req.headers.get('origin') || '';
+  const skySecret  = req.headers.get('x-skyteam-secret') || '';
+  const validOrigin = ALLOWED_ORIGINS.includes(origin);
+  const validSecret = !!(process.env.SKYTEAM_SECRET && skySecret === process.env.SKYTEAM_SECRET);
+
+  if (!validOrigin && !validSecret) {
+    return json({ error: 'Unauthorized' }, 403, req);
+  }
+
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) {
+    return json({ error: 'Server misconfiguration: missing GITHUB_TOKEN' }, 500, req);
   }
 
   let body;
-  try { body = await req.json(); } catch {
-    return json({ error: 'JSON inválido' }, 400, req);
+  try {
+    body = await req.json();
+  } catch {
+    return json({ error: 'Invalid JSON body' }, 400, req);
   }
 
-  const { nombre, rol, whatsapp, ref, mensaje, foto } = body;
+  const { nombre, slug, telefono, foto, frase } = body;
 
-  // Validaciones
-  if (!nombre || nombre.length < 2)   return json({ error: 'Nombre requerido' }, 400, req);
-  if (!whatsapp || whatsapp.length < 7) return json({ error: 'WhatsApp requerido' }, 400, req);
-  if (!ref || !/^[a-z0-9]{3,30}$/.test(ref)) return json({ error: 'Código de referido inválido (3-30 letras/números minúsculas)' }, 400, req);
-
-  // Verificar que el ref no contenga palabras reservadas
-  const RESERVED = ['default','admin','api','registro','socios','innova','sky','test'];
-  if (RESERVED.includes(ref)) return json({ error: 'Ese código está reservado. Elige otro.' }, 400, req);
-
-  // Foto: validar tamaño (base64 de 2MB ≈ 2.7MB string)
-  const fotoClean = (foto && foto.startsWith('data:image/')) ? foto : '';
-  if (fotoClean && fotoClean.length > 2_800_000) {
-    return json({ error: 'La foto es demasiado grande. Máximo 2MB.' }, 400, req);
+  if (!nombre || !slug || !telefono) {
+    return json({ error: 'Faltan campos requeridos: nombre, slug, telefono' }, 400, req);
   }
 
-  // ── Leer asesores.json desde GitHub ──────────────────
-  const apiBase = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
-  const headers = {
-    'Authorization': `token ${TOKEN}`,
+  // Validate slug
+  if (!/^[a-z0-9_-]{3,40}$/.test(slug)) {
+    return json({ error: 'Slug inválido. Usa solo letras minúsculas, números, guiones o guion bajo (3-40 chars).' }, 400, req);
+  }
+
+  const ghHeaders = {
+    'Authorization': 'token ' + token,
     'Accept': 'application/vnd.github.v3+json',
     'Content-Type': 'application/json',
-    'User-Agent': 'InnovaIA-App',
+    'User-Agent': 'innovaia-registro',
   };
 
-  let currentData = {};
-  let fileSha = null;
+  // Read current asesores.json
+  const getRes = await fetch(`${GH_API}/repos/${REPO}/contents/${FILE}?ref=${BRANCH}`, {
+    headers: ghHeaders,
+  });
 
-  try {
-    const getRes = await fetch(`${apiBase}?ref=${GITHUB_BRANCH}`, { headers });
-    if (getRes.ok) {
-      const ghFile = await getRes.json();
-      fileSha = ghFile.sha;
-      const decoded = atob(ghFile.content.replace(/\n/g, ''));
-      currentData = JSON.parse(decoded);
-    }
-  } catch (e) {
-    // archivo no existe aún — empezamos fresco
+  if (!getRes.ok) {
+    return json({ error: 'No se pudo leer asesores.json' }, 500, req);
   }
 
-  // Verificar que el ref no esté ya tomado
-  if (currentData[ref]) {
-    return json({ error: 'Ese código de referido ya está en uso. Elige otro.' }, 409, req);
+  const fileData = await getRes.json();
+  const fileSha  = fileData.sha;
+  const decoded  = JSON.parse(atob(fileData.content.replace(/\n/g, '')));
+
+  // Check slug availability
+  if (decoded[slug]) {
+    return json({ error: 'Ese slug ya está en uso. Elige otro.' }, 409, req);
   }
 
-  // Agregar nuevo asesor
-  const nuevoAsesor = {
-    nombre: nombre.trim(),
-    rol: (rol || 'Asesor InnovaIA').trim(),
-    whatsapp: whatsapp.trim(),
-    foto: fotoClean,
-    verificado: true,
-    mensaje: (mensaje || `¡Hola! Soy ${nombre.trim()}, tu asesor InnovaIA 🚀`).trim(),
-    pais: 'CO',
-    registrado: new Date().toISOString(),
+  // Add new advisor
+  decoded[slug] = {
+    nombre,
+    telefono,
+    foto:  foto  || '',
+    frase: frase || '',
   };
 
-  currentData[ref] = nuevoAsesor;
+  const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(decoded, null, 2))));
 
-  // ── Escribir de vuelta a GitHub ───────────────────────
-  const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
-
-  const putBody = {
-    message: `feat: nuevo asesor ${ref} — ${nombre.trim()}`,
-    content: newContent,
-    branch: GITHUB_BRANCH,
-  };
-  if (fileSha) putBody.sha = fileSha;
-
-  const putRes = await fetch(apiBase, {
+  const putRes = await fetch(`${GH_API}/repos/${REPO}/contents/${FILE}`, {
     method: 'PUT',
-    headers,
-    body: JSON.stringify(putBody),
+    headers: ghHeaders,
+    body: JSON.stringify({
+      message: `registro: add asesor ${slug}`,
+      content: newContent,
+      sha:     fileSha,
+      branch:  BRANCH,
+    }),
   });
 
   if (!putRes.ok) {
     const err = await putRes.json().catch(() => ({}));
-    console.error('GitHub PUT error:', err);
-    return json({ error: 'Error al guardar tu perfil. Intenta de nuevo en 30 segundos.' }, 502, req);
+    return json({ error: 'No se pudo guardar el asesor', detail: err }, 500, req);
   }
 
   return json({
     ok: true,
-    ref,
-    link: `https://www.innovaia.app/?ref=${ref}`,
-    fotoUrl: fotoClean || '',
+    slug,
+    url: `https://www.innovaia.app/?ref=${slug}`,
   }, 200, req);
-}
-
-function json(data, status, req) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(req) },
-  });
-}
-
-function corsHeaders(req) {
-  const origin = req ? (req.headers.get('origin') || '') : '';
-  const allowed = (origin === ALLOWED_ORIGIN || origin === 'https://innovaia.app') ? origin : ALLOWED_ORIGIN;
-  return {
-    'Access-Control-Allow-Origin': allowed,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
 }
