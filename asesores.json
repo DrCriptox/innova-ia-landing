@@ -338,5 +338,12 @@
     "telefono": "5123799353",
     "frase": "Hola soy Eswin un Innmigtante que quiere salir de un trabajo tradicional a aprender hacer trading.",
     "foto": "fotos/eswin1.jpg"
+  },
+  "joselininn": {
+    "nombre": "Joselin Machado Pinto",
+    "rol": "Asesora innova Venezuela",
+    "telefono": "584127610929",
+    "frase": "Hola! Soy tu asesora en negocios digitales, en qué puedo ayudarte?",
+    "foto": "fotos/joselininn.jpg"
   }
 }
