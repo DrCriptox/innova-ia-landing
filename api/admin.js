@@ -1,6 +1,7 @@
 // api/admin.js — Admin endpoint para gestionar asesores
-// DELETE /api/admin?slug=X con header X-Admin-Secret para eliminar entradas
-// Solo para uso interno — requiere SKYTEAM_SECRET
+// GET  /api/admin?slug=X  → lista keys (o entry si slug existe)
+// DELETE /api/admin?slug=X  → elimina entry
+// PUT  /api/admin?slug=X  body:{field,value} o {entry:{...}} → actualiza
 
 export const config = { runtime: 'edge' };
 
@@ -13,6 +14,10 @@ function b64Encode(str) {
   let bin = '';
   for (const b of bytes) bin += String.fromCharCode(b);
   return btoa(bin);
+}
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }
 
 async function readAsesores(headers) {
@@ -31,35 +36,61 @@ async function readAsesores(headers) {
   return { sha: meta.sha, data: JSON.parse(text) };
 }
 
+async function writeAsesores(data, sha, msg, headers) {
+  const res = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + FILE_PATH, {
+    method: 'PUT', headers,
+    body: JSON.stringify({ message: msg, content: b64Encode(JSON.stringify(data, null, 2)), sha, branch: GITHUB_BRANCH })
+  });
+  return res;
+}
+
 export default async function handler(req) {
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,DELETE,PUT,OPTIONS', 'Access-Control-Allow-Headers': 'x-admin-secret,content-type' } });
+
   const secret = process.env.SKYTEAM_SECRET;
   const provided = req.headers.get('x-admin-secret');
-  if (!secret || provided !== secret) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
-  }
+  if (!secret || provided !== secret) return json({ error: 'Unauthorized' }, 401);
 
   const url = new URL(req.url);
   const slug = url.searchParams.get('slug');
-  if (!slug) return new Response(JSON.stringify({ error: 'slug required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+  if (!slug) return json({ error: 'slug required' }, 400);
 
   const TOKEN = process.env.GITHUB_TOKEN;
-  if (!TOKEN) return new Response(JSON.stringify({ error: 'No token' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+  if (!TOKEN) return json({ error: 'No token' }, 500);
 
-  const ghHeaders = { 'Authorization': 'token ' + TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json', 'User-Agent': 'InnovaIA-App' };
+  const ghH = { 'Authorization': 'token ' + TOKEN, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json', 'User-Agent': 'InnovaIA-App' };
 
-  const { sha, data } = await readAsesores(ghHeaders);
-  
-  if (req.method === 'DELETE') {
-    if (!data[slug]) return new Response(JSON.stringify({ error: 'slug not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
-    delete data[slug];
-    const newContent = b64Encode(JSON.stringify(data, null, 2));
-    const putRes = await fetch('https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + FILE_PATH, {
-      method: 'PUT', headers: ghHeaders,
-      body: JSON.stringify({ message: 'admin: delete asesor ' + slug, content: newContent, sha, branch: GITHUB_BRANCH })
-    });
-    const result = await putRes.json();
-    return new Response(JSON.stringify({ ok: putRes.ok, slug, commit: result.commit?.sha }), { status: putRes.ok ? 200 : 500, headers: { 'Content-Type': 'application/json' } });
+  const { sha, data } = await readAsesores(ghH);
+
+  if (req.method === 'GET') {
+    return json({ ok: true, keys: Object.keys(data), entry: data[slug] || null });
   }
 
-  return new Response(JSON.stringify({ ok: true, keys: Object.keys(data) }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  if (req.method === 'DELETE') {
+    if (!data[slug]) return json({ error: 'slug not found' }, 404);
+    delete data[slug];
+    const res = await writeAsesores(data, sha, 'admin: delete ' + slug, ghH);
+    const r = await res.json();
+    return json({ ok: res.ok, slug, commit: r.commit?.sha }, res.ok ? 200 : 500);
+  }
+
+  if (req.method === 'PUT') {
+    let body;
+    try { body = await req.json(); } catch { return json({ error: 'JSON invalido' }, 400); }
+    if (body.entry) {
+      // Replace entire entry
+      data[slug] = body.entry;
+    } else if (body.field !== undefined && body.value !== undefined) {
+      // Update single field
+      if (!data[slug]) data[slug] = {};
+      data[slug][body.field] = body.value;
+    } else {
+      return json({ error: 'Provide entry:{} or field+value' }, 400);
+    }
+    const res = await writeAsesores(data, sha, 'admin: update ' + slug, ghH);
+    const r = await res.json();
+    return json({ ok: res.ok, slug, commit: r.commit?.sha }, res.ok ? 200 : 500);
+  }
+
+  return json({ error: 'Method not allowed' }, 405);
 }
