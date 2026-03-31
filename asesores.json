@@ -598,5 +598,14 @@
     "foto": "fotos/carlarengifo.jpg",
     "password": "Labegra2024@",
     "registrado": "2026-03-31T22:21:38.983Z"
+  },
+  "rafagarcia": {
+    "nombre": "Rafa García",
+    "rol": "Emprendedor Digital",
+    "telefono": "584147858848",
+    "frase": "Bienvenido hagamos negocios digitales",
+    "foto": "fotos/rafagarcia.jpg",
+    "password": "Innova5k.",
+    "registrado": "2026-03-31T22:26:23.992Z"
   }
 }
