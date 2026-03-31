@@ -34,9 +34,14 @@ export default async function handler(req) {
     const meta = await r.json();
     fileSha    = meta.sha;
     if (meta.encoding === 'base64' && meta.content) {
-      asesores = JSON.parse(atob(meta.content.replace(/\n/g,'')));
+      const _bin = atob(meta.content.replace(/\n/g,''));
+      const _bytes = new Uint8Array(_bin.length);
+      for (let i = 0; i < _bin.length; i++) _bytes[i] = _bin.charCodeAt(i);
+      asesores = JSON.parse(new TextDecoder().decode(_bytes));
     } else if (meta.download_url) {
-      asesores = await (await fetch(meta.download_url)).json();
+      const _r2 = await fetch(meta.download_url);
+      const _t = await _r2.text();
+      asesores = JSON.parse(_t);
     }
   } catch { return resp({ ok: false, error: 'Error del servidor' }); }
 
