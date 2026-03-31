@@ -369,11 +369,14 @@
     "conversions": 2
   },
   "rafagarcia": {
-    "total": 2,
+    "total": 3,
     "ips": {
-      "45.182.140.173": 2
+      "45.182.140.173": 3
     },
-    "conversions": 2
+    "conversions": 2,
+    "days": {
+      "2026-03-31": 1
+    }
   },
   "mari385": {
     "total": 3,
