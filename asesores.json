@@ -121,11 +121,11 @@
     "frase": "Hola, soy tu asesora personalizada cuéntame en que te puedo ayudar !",
     "foto": "fotos/manuromero25.jpg"
   },
-  "nayi24": {
-    "nombre": "Ocvin Ordoñez",
-    "rol": "Asesor Innova Venezuela",
-    "telefono": "5804126578350",
-    "frase": "Hola! Soy tu asesor de Negocios Digitales",
-    "foto": "fotos/nayi24.jpg"
+  "andrea1": {
+    "nombre": "Andrea Montoya",
+    "rol": "Asesora Innova IA",
+    "telefono": "17867979558",
+    "frase": "Hola 💫 soy Andrea. Te ayudo a crear ingresos desde tu celular con herramientas digitales",
+    "foto": "fotos/andrea1.jpg"
   }
 }
