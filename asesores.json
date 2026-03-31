@@ -429,5 +429,13 @@
     "frase": "Hola! Soy Bernarda Holguín, tu asesor InnovaIA",
     "foto": "fotos/bernarda1.jpg",
     "password": "Samuzulu14"
+  },
+  "camilo2026": {
+    "nombre": "Camilo González",
+    "rol": "Asesor INNOVA IA Colombia",
+    "telefono": "573225814041",
+    "frase": "Hola! Soy tu asesor, te ayudo a activar",
+    "foto": "fotos/camilo2026.jpg",
+    "password": "cami12isa34"
   }
 }
