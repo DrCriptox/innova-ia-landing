@@ -310,5 +310,12 @@
     "telefono": "584244941393",
     "frase": "Hola, soy tu asesora en *innova* te ayudo a descubrir como educarte y emprender, al mismo tiempo.",
     "foto": "fotos/maryuinn.jpg"
+  },
+  "altuveinn": {
+    "nombre": "Arianny Altuve",
+    "rol": "Asesora innova Venezuela",
+    "telefono": "5804124792764",
+    "frase": "Hola soy tu asesora te ayudo a convertir el conocimiento en una herramienta de libertad financiera.",
+    "foto": "fotos/altuveinn.jpg"
   }
 }
