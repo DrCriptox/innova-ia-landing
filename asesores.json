@@ -958,13 +958,14 @@
     "registrado": "2026-04-01T04:02:13.753Z"
   },
   "jbedoya": {
-    "nombre": "Jesús Andrés Bedoya Sánchez",
+    "nombre": "JesÃºs AndrÃ©s Bedoya SÃ¡nchez",
     "rol": "Asesor innova Colombia",
     "telefono": "573132146908",
-    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "frase": "¡Bienvenidos a Innova!\n \nQueridos prospectos,\n \nUn placer enorme recibirles en nuestro espacio.",
     "foto": "fotos/jbedoya.jpg",
     "password": "Trinfo27",
-    "registrado": "2026-04-01T04:07:50.076Z"
+    "registrado": "2026-04-01T04:07:50.076Z",
+    "whatsapp": "573132146908"
   },
   "jacobodelriohoyosgutierrez": {
     "nombre": "Jacobo del rio Hoyos Gutiérrez",
