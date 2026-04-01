@@ -34,7 +34,7 @@ body{background:var(--dark);color:var(--text);font-family:'Segoe UI',sans-serif;
 .promo-av{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;}
 .promo-avph{width:34px;height:34px;border-radius:50%;background:var(--dark-2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.94rem;flex-shrink:0;}
 .promo-info{flex:1;min-width:0;}
-.promo-name{font-weight:700;font-size:.82rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.promo-name{font-weight:700;font-size:.98rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .promo-name-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-width:0;}
 .promo-ref{color:var(--muted);font-size:.7rem;font-family:monospace;white-space:nowrap;flex-shrink:0;}
 .promo-right{text-align:right;flex-shrink:0;}
@@ -82,16 +82,22 @@ function parseEntry(e){
 }
 function sanitize(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function phoneFlag(tel){
-  if(!tel)return'';
-  var t=tel.replace(/\D/g,'');
-  if(t.startsWith('57'))return'🇨🇴';
-  if(t.startsWith('1'))return'🇺🇸';
-  if(t.startsWith('52'))return'🇲🇽';
-  if(t.startsWith('58'))return'🇻🇪';
-  if(t.startsWith('34'))return'🇪🇸';
-  if(t.startsWith('55'))return'🇧🇷';
-  if(t.startsWith('54'))return'🇦🇷';
-  return'';
+  if(!tel) return '';
+  var t=tel.toString().replace(/\D/g,'');
+  var code='';
+  if(t.startsWith('57')) code='CO';
+  else if(t.startsWith('58')) code='VE';
+  else if(t.startsWith('1')) code='US';
+  else if(t.startsWith('52')) code='MX';
+  else if(t.startsWith('54')) code='AR';
+  else if(t.startsWith('51')) code='PE';
+  else if(t.startsWith('56')) code='CL';
+  else if(t.startsWith('593')) code='EC';
+  else if(t.startsWith('591')) code='BO';
+  else if(t.startsWith('595')) code='PY';
+  else if(t.startsWith('598')) code='UY';
+  else return '';
+  return code.toUpperCase().replace(/./g, function(c){ return String.fromCodePoint(0x1F1E6 - 65 + c.charCodeAt(0)); });
 }
 function copyLink(btn,link){
   navigator.clipboard.writeText(link).then(function(){
