@@ -104,6 +104,11 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .promo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
 .promo-title{font-size:.9rem;color:var(--muted);}
 .no-visits{text-align:center;padding:48px 20px;color:var(--muted);font-size:.9rem;}
+.promo-split{display:flex;gap:20px;align-items:flex-start;}
+.promo-col{flex:1;min-width:0;}
+.promo-col-title{font-size:.87rem;font-weight:700;color:var(--gold);margin-bottom:6px;padding-bottom:8px;border-bottom:1px solid var(--border);text-align:center;}
+.promo-col-sub{font-size:.78rem;color:var(--muted);margin-bottom:12px;text-align:center;}
+@media(max-width:720px){.promo-split{flex-direction:column;}}
 .at-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
 .at-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;flex:1;min-width:120px;}
 .at-val{font-size:1.6rem;font-weight:800;color:var(--gold);line-height:1;}
@@ -136,7 +141,6 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <button class="tab-btn active" id="tabBtnAsesores" onclick="switchTab('asesores')">Asesores</button>
     <button class="tab-btn" id="tabBtnPromo" onclick="switchTab('promo')">Top Promotores</button>
     <button class="tab-btn" id="tabBtnAnti" onclick="switchTab('anti')">Anti-trampa</button>
-    <button class="tab-btn" id="tabBtnHoy" onclick="switchTab('hoy')">Top Hoy ☀️</button>
   </div>
   <div id="panelAsesores">
     <div class="search-row">
@@ -151,20 +155,23 @@ tr:hover td{background:rgba(255,255,255,.02);}
       </table>
     </div>
   </div>
-  <div id="panelPromo" style="display:none">
-    <div class="promo-header">
-      <span class="promo-title" id="promoSubtitle">Cargando...</span>
-      <button class="refresh-btn" onclick="loadPromo()">Actualizar</button>
+      <div id="panelPromo" style="display:none">
+      <div class="promo-header">
+        <button class="refresh-btn" onclick="loadPromo()">↺ Actualizar</button>
+      </div>
+      <div class="promo-split">
+        <div class="promo-col">
+          <div class="promo-col-title">🏆 Top Promotores</div>
+          <div class="promo-col-sub" id="promoSubtitle">Cargando...</div>
+          <div class="promo-grid" id="promoGrid"><div class="no-visits">Cargando...</div></div>
+        </div>
+        <div class="promo-col">
+          <div class="promo-col-title">☀️ Top Hoy</div>
+          <div class="promo-col-sub" id="hoySubtitle">Cargando...</div>
+          <div class="promo-grid" id="hoyGrid"><div class="no-visits">Cargando...</div></div>
+        </div>
+      </div>
     </div>
-    <div class="promo-grid" id="promoGrid"><div class="no-visits">Cargando...</div></div>
-  </div>
-  <div id="panelHoy" style="display:none">
-    <div class="promo-header">
-      <span class="promo-title" id="hoySubtitle">Cargando...</span>
-      <button class="refresh-btn" onclick="loadHoy()">Actualizar</button>
-    </div>
-    <div class="promo-grid" id="hoyGrid"><div class="no-visits">Cargando...</div></div>
-  </div>
   <div id="panelAnti" style="display:none">
     <div class="promo-header">
       <span class="promo-title">Deteccion de IPs sospechosas por asesor</span>
@@ -209,19 +216,18 @@ function doLogout(){
   document.getElementById('dashboard').style.display='none';
   document.getElementById('pwInput').value='';document.getElementById('loginErr').textContent='';
 }
+var _promoTimer=null;
 function switchTab(tab){
   currentTab=tab;
   document.getElementById('tabBtnAsesores').classList.toggle('active',tab==='asesores');
   document.getElementById('tabBtnPromo').classList.toggle('active',tab==='promo');
   document.getElementById('tabBtnAnti').classList.toggle('active',tab==='anti');
-  document.getElementById('tabBtnHoy').classList.toggle('active',tab==='hoy');
   document.getElementById('panelAsesores').style.display=tab==='asesores'?'block':'none';
   document.getElementById('panelPromo').style.display=tab==='promo'?'block':'none';
   document.getElementById('panelAnti').style.display=tab==='anti'?'block':'none';
-  document.getElementById('panelHoy').style.display=tab==='hoy'?'block':'none';
-  if(tab==='promo')loadPromo();
+  if(tab==='promo'){loadPromo();if(!_promoTimer)_promoTimer=setInterval(loadPromo,30000);}
+  else{if(_promoTimer){clearInterval(_promoTimer);_promoTimer=null;}}
   if(tab==='anti')loadAnti();
-  if(tab==='hoy')loadHoy();
 }
 function phoneFlag(t){if(!t)return'';t=String(t).replace(/[\s\-\(\)\.]/g,'').replace(/^\+/,'');var m=[['593','ec'],['591','bo'],['595','py'],['598','uy'],['503','sv'],['502','gt'],['504','hn'],['505','ni'],['506','cr'],['507','pa'],['509','ht'],['57','co'],['58','ve'],['51','pe'],['54','ar'],['55','br'],['56','cl'],['52','mx'],['53','cu'],['1','us'],['44','gb'],['34','es'],['49','de'],['33','fr'],['39','it'],['61','au'],['81','jp'],['86','cn'],['91','in'],['20','eg'],['212','ma'],['234','ng']];for(var i=0;i<m.length;i++){if(t.startsWith(m[i][0]))return'<img src="https://flagcdn.com/w20/'+m[i][1]+'.png" style="width:18px;height:13px;border-radius:2px;vertical-align:middle;margin-left:3px;" />';}return'';}
 function parseEntry(entry){
@@ -247,48 +253,78 @@ async function loadData(){
 }
 async function loadPromo(){
   document.getElementById('promoGrid').innerHTML='<div class="no-visits">Cargando...</div>';
-  document.getElementById('promoSubtitle').textContent='Cargando...';
-  try{
-    var [sr,ar]=await Promise.all([fetch('/api/stats?_t='+Date.now()),allData.length?Promise.resolve(null):fetch('/api/asesores?_t='+Date.now())]);
-    statsData=await sr.json();
-    if(ar){var raw=await ar.json();allData=Object.entries(raw).filter(function(e){return e[0]!=='default';}).map(function(e){return Object.assign({slug:e[0]},e[1]);}).sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});render();}
-    renderPromo();
-  }catch(ex){document.getElementById('promoGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';}
-}
-async function loadHoy(){
   document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Cargando...</div>';
+  document.getElementById('promoSubtitle').textContent='Cargando...';
   document.getElementById('hoySubtitle').textContent='Cargando...';
   try{
-    var [sr,ar]=await Promise.all([fetch('/api/stats?_t='+Date.now()),allData.length?Promise.resolve(null):fetch('/api/asesores?_t='+Date.now())]);
-    statsData=await sr.json();
-    if(ar){var raw=await ar.json();allData=Object.entries(raw).filter(function(e){return e[0]!=='default';}).map(function(e){return Object.assign({slug:e[0]},e[1]);}).sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});render();}
+    var [statsRes,asesRes]=await Promise.all([
+      fetch('/api/stats?_t='+Date.now()),
+      allData.length?Promise.resolve(null):fetch('/api/asesores?_t='+Date.now())
+    ]);
+    statsData=await statsRes.json();
+    if(asesRes){
+      var raw=await asesRes.json();
+      allData=Object.entries(raw)
+        .filter(function(e){return e[0]!=='default';})
+        .map(function(e){return Object.assign({slug:e[0]},e[1]);})
+        .sort(function(a,b){return new Date(b.registrado||0)-new Date(a.registrado||0);});
+      render();
+    }
+    renderPromo();
     renderHoy();
-  }catch(ex){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';}
+  }catch(ex){
+    document.getElementById('promoGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';
+    document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';
+  }
 }
 function renderHoy(){
   var today=new Date(Date.now()-18000000).toISOString().split('T')[0];
   var entries=Object.entries(statsData).map(function(e){
-    var raw=e[1];var days=(raw&&typeof raw==='object'&&raw.days)||{};var hoy=days[today]||0;
-    var a=allData.find(function(x){return x.slug===e[0];})||null;
-    return{ref:e[0],a:a,hoy:hoy};
-  }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.hoy-a.hoy;}).slice(0,50);
-  var totHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
-  var fechaStr=today.split('-').reverse().join('/');
-  document.getElementById('hoySubtitle').textContent=entries.length+' promotores · '+totHoy.toLocaleString('es-CO')+' visitas hoy · '+fechaStr;
-  if(!entries.length){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Sin visitas registradas hoy todavía.</div>';return;}
-  var med=['🥇','🥈','🥉'];
+    var ref=e[0],p=e[1];
+    var asesor=allData.find(function(a){return a.slug===ref;})||null;
+    var hoy=(p&&typeof p==='object'&&p.days)?(p.days[today]||0):0;
+    var adj=Math.max(0,hoy-(p.suspicious||0)*2);
+    var tasa=adj>0&&p.conversions?(Math.round((p.conversions/adj)*100))+'%':'—';
+    return {ref:ref,p:p,hoy:hoy,adj:adj,tasa:tasa,asesor:asesor};
+  }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+  var totalHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
+  document.getElementById('hoySubtitle').textContent=
+    entries.length+' promotor'+(entries.length!==1?'es':'')+' hoy · '+totalHoy.toLocaleString('es-CO')+' visitas';
+  if(!entries.length){
+    document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Aún no hay visitas hoy.<br>Actualiza en unos minutos.</div>';
+    return;
+  }
+  var maxV=entries[0].adj||1;
+  var ri=['🥇','🥈','🥉'];
   var html='';
-  entries.forEach(function(e,i){
-    var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,lk='https://www.innovaia.app/?ref='+encodeURIComponent(e.ref);
-    var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
-    html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div>';
-    var flag=e.a?phoneFlag(e.a.telefono||''):'';html+='<div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
-    html+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span><span class="promo-copy-inline" data-link="'+lk+'" data-orig="📋" onclick="copyPill(this)">📋</span></div></div>';
-    html+='<div class="promo-right"><div class="promo-visits">'+e.hoy.toLocaleString('es-CO')+'</div><div class="promo-label">hoy</div></div>';
-    html+='</div>';
+  entries.forEach(function(entry,i){
+    var rank=i+1;var rankClass=rank<=3?'rank'+rank:'';var rankDisplay=rank<=3?ri[i]:rank;
+    var ref=entry.ref;var adj=entry.adj;var pct=Math.round((adj/maxV)*100);
+    var link='https://www.innovaia.app/'+encodeURIComponent(ref);
+    var tel=(entry.asesor&&(entry.asesor.telefono||entry.asesor.whatsapp))||'';
+    var flag=phoneFlag(tel);var nombre='';
+    if(entry.asesor){var nm=sanitize(entry.asesor.nombre||ref);nombre='<div class="promo-name">'+nm+(flag?' '+flag:'')+'</div>';}
+    else{nombre='<div class="promo-name" style="color:var(--muted);font-style:italic">'+ref+'</div>';}
+    html+='<div class="promo-card '+rankClass+'">';
+    html+='<div class="rank-num">'+rankDisplay+'</div>';
+    html+='<div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
+    html+='<div class="promo-info">'+nombre;
+    html+='<div class="promo-slug">'+ref+'</div>';
+    html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
+    html+='<span class="pill promo-copy" data-link="'+link+'" data-orig="📋 Copiar link" onclick="copyPill(this)">📋 Copiar link</span></div>';
+    html+='<div class="promo-right"><div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div>';
+    html+='<div class="promo-label">hoy</div>';
+    if(entry.tasa!=='—')html+='<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">conv '+entry.tasa+'</div>';
+    html+='</div></div>';
   });
   document.getElementById('hoyGrid').innerHTML=html;
-  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
+  entries.forEach(function(entry,i){
+    if(!entry.asesor||!entry.asesor.foto)return;
+    var f=entry.asesor.foto;var src=f.indexOf('fotos/')===0?'/'+f:f;
+    var img=new Image();img.className='promo-av';img.alt=entry.asesor.nombre||'';;img.src=src;
+    img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};
+    var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}
+  });
 }
 async function loadAnti(){
   document.getElementById('antiGrid').innerHTML='<div class="no-visits">Cargando...</div>';
