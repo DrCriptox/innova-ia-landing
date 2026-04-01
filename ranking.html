@@ -210,7 +210,7 @@ function switchTab(tab){
   document.getElementById('tabBtnHoy').classList.toggle('active',tab==='hoy');
   document.getElementById('panelPromo').style.display=tab==='promo'?'block':'none';
   document.getElementById('panelHoy').style.display=tab==='hoy'?'block':'none';
-  if(tab==='hoy'){renderHoy();if(!_hoyTimer)_hoyTimer=setInterval(loadData,30000);}
+  if(tab==='hoy'||tab==='promo'){loadData();if(!_hoyTimer)_hoyTimer=setInterval(loadData,30000);}
   else{if(_hoyTimer){clearInterval(_hoyTimer);_hoyTimer=null;}}
 }
 loadData();
