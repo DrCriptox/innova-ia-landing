@@ -82,23 +82,25 @@ function parseEntry(e){
 }
 function sanitize(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function phoneFlag(tel,pais){
-  if(pais){var pc=pais.toUpperCase();return pc.replace(/./g,function(c){return String.fromCodePoint(0x1F1E6-65+c.charCodeAt(0));});}
-  if(!tel)return '';
-  var t=tel.toString().replace(/\D/g,'');
   var code='';
-  if(t.startsWith('57')||/^3\d{9}$/.test(t))code='CO';
-  else if(t.startsWith('58')||(t.startsWith('04')&&t.length===11))code='VE';
-  else if(t.startsWith('1'))code='US';
-  else if(t.startsWith('52'))code='MX';
-  else if(t.startsWith('54'))code='AR';
-  else if(t.startsWith('51'))code='PE';
-  else if(t.startsWith('56'))code='CL';
-  else if(t.startsWith('593'))code='EC';
-  else if(t.startsWith('591'))code='BO';
-  else if(t.startsWith('595'))code='PY';
-  else if(t.startsWith('598'))code='UY';
-  else return '';
-  return code.replace(/./g,function(c){return String.fromCodePoint(0x1F1E6-65+c.charCodeAt(0));});
+  if(pais){code=pais.toUpperCase();}
+  else{
+    if(!tel)return '';
+    var t=tel.toString().replace(/\D/g,'');
+    if(t.startsWith('57')||/^3\d{9}$/.test(t))code='CO';
+    else if(t.startsWith('58')||(t.startsWith('04')&&t.length===11))code='VE';
+    else if(t.startsWith('1'))code='US';
+    else if(t.startsWith('52'))code='MX';
+    else if(t.startsWith('54'))code='AR';
+    else if(t.startsWith('51'))code='PE';
+    else if(t.startsWith('56'))code='CL';
+    else if(t.startsWith('593'))code='EC';
+    else if(t.startsWith('591'))code='BO';
+    else if(t.startsWith('595'))code='PY';
+    else if(t.startsWith('598'))code='UY';
+    else return '';
+  }
+  return '<img src="https://flagcdn.com/20x15/'+code.toLowerCase()+'.png" alt="'+code+'" title="'+code+'" style="width:18px;height:14px;vertical-align:middle;border-radius:2px;margin-left:3px;flex-shrink:0;">';
 }
 function copyLink(btn,link){
   navigator.clipboard.writeText(link).then(function(){
