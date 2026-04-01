@@ -1176,5 +1176,14 @@
     "foto": "fotos/josedanielb.jpg",
     "password": "teamohija",
     "registrado": "2026-04-01T22:24:11.054Z"
+  },
+  "trinid": {
+    "nombre": "Maria Trinidad D'Elia",
+    "rol": "Asesor InnovaIA",
+    "telefono": "584220555550",
+    "frase": "Bienvenido, soy tu asesor  en Educación, Liderazgo, Crecimiento Personal.",
+    "foto": "fotos/trinid.jpg",
+    "password": "453810",
+    "registrado": "2026-04-01T22:29:10.561Z"
   }
 }
