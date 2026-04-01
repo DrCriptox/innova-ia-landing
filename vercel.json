@@ -1,13 +1,14 @@
 {
   "cleanUrls": true,
+  "ignoreCommand": "git diff HEAD^ HEAD --name-only | grep -v 'stats.json' | grep -qE '.' && exit 1 || exit 0",
   "rewrites": [{"source": "/asesores.json", "destination": "/api/asesores"}],
   "headers": [
-    {"source": "/admin",   "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
+    {"source": "/admin",      "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
     {"source": "/admin.html", "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
-    {"source": "/ranking", "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
-    {"source": "/ranking.html", "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
-    {"source": "/login",   "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
+    {"source": "/ranking",    "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
+    {"source": "/ranking.html","headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
+    {"source": "/login",      "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
     {"source": "/login.html", "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
-    {"source": "/(.*)\.html", "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]}
+    {"source": "/(.*)\.html","headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]}
   ]
 }
