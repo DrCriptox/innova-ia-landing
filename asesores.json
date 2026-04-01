@@ -1,12 +1,13 @@
 {
   "833831": {
     "nombre": "Amanda Garcia",
-    "rol": "Asesora",
-    "telefono": "3215426306",
+    "rol": "Asesora Innova Int",
+    "telefono": "573215426306",
     "frase": "Hola! Soy Amanda Garcia, tu asesor InnovaIA",
     "foto": "fotos/833831.jpg",
     "password": "",
-    "registrado": "2026-04-01T03:50:01.278Z"
+    "registrado": "2026-04-01T03:50:01.278Z",
+    "whatsapp": "573215426306"
   },
   "default": {
     "nombre": "Equipo InnovaIA",
