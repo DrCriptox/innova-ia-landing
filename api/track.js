@@ -29,7 +29,7 @@ export default async function handler(req) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown';
 
   // Redirecciones: slug viejo -> slug nuevo
-  const REDIRECT_MAP = {'nemecisinn26':'nemecisinn96','billonarios':'bellyvane','nayi2026':'nayibe5k'};
+  const REDIRECT_MAP = {'nemecisinn26':'nemecisinn96','billonarios':'bellyvane','nayi2026':'nayibe5k','yane27':'yanecxis27'};
   if (REDIRECT_MAP[ref]) ref = REDIRECT_MAP[ref];
 
   const TOKEN = process.env.GITHUB_TOKEN;
