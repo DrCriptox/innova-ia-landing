@@ -81,23 +81,24 @@ function parseEntry(e){
   return{total:e.total||0,uniq:Object.keys(ips).length,suspicious:vals.filter(function(c){return c>1;}).length,conversions:e.conversions||0,legacy:false};
 }
 function sanitize(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function phoneFlag(tel){
-  if(!tel) return '';
+function phoneFlag(tel,pais){
+  if(pais){var pc=pais.toUpperCase();return pc.replace(/./g,function(c){return String.fromCodePoint(0x1F1E6-65+c.charCodeAt(0));});}
+  if(!tel)return '';
   var t=tel.toString().replace(/\D/g,'');
   var code='';
-  if(t.startsWith('57')) code='CO';
-  else if(t.startsWith('58')) code='VE';
-  else if(t.startsWith('1')) code='US';
-  else if(t.startsWith('52')) code='MX';
-  else if(t.startsWith('54')) code='AR';
-  else if(t.startsWith('51')) code='PE';
-  else if(t.startsWith('56')) code='CL';
-  else if(t.startsWith('593')) code='EC';
-  else if(t.startsWith('591')) code='BO';
-  else if(t.startsWith('595')) code='PY';
-  else if(t.startsWith('598')) code='UY';
+  if(t.startsWith('57')||/^3\d{9}$/.test(t))code='CO';
+  else if(t.startsWith('58')||(t.startsWith('04')&&t.length===11))code='VE';
+  else if(t.startsWith('1'))code='US';
+  else if(t.startsWith('52'))code='MX';
+  else if(t.startsWith('54'))code='AR';
+  else if(t.startsWith('51'))code='PE';
+  else if(t.startsWith('56'))code='CL';
+  else if(t.startsWith('593'))code='EC';
+  else if(t.startsWith('591'))code='BO';
+  else if(t.startsWith('595'))code='PY';
+  else if(t.startsWith('598'))code='UY';
   else return '';
-  return code.toUpperCase().replace(/./g, function(c){ return String.fromCodePoint(0x1F1E6 - 65 + c.charCodeAt(0)); });
+  return code.replace(/./g,function(c){return String.fromCodePoint(0x1F1E6-65+c.charCodeAt(0));});
 }
 function copyLink(btn,link){
   navigator.clipboard.writeText(link).then(function(){
@@ -122,7 +123,7 @@ function renderPromo(){
   entries.forEach(function(e,i){
     var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p;
     var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
-    var flag=e.a?phoneFlag(e.a.telefono||''):'';
+    var flag=e.a?phoneFlag(e.a.whatsapp||e.a.telefono||'',e.a.pais||''):'';
     var conv=p.conversions||0;
     var adj=Math.max(0,p.total-(p.suspicious||0)*2);
     var pct=Math.round((adj/maxV)*100);
@@ -150,7 +151,10 @@ function renderHoy(){
   var entries=Object.entries(statsData).map(function(e){
     var raw=e[1],p=parseEntry(raw);
     var hoy=(raw&&typeof raw==='object'&&raw.days)?(raw.days[today]||0):0;
-    var adj=Math.max(0,hoy-(p.suspicious||0)*2);
+        var todayIps=(raw&&raw.days_ips&&raw.days_ips[today])?raw.days_ips[today]:null;
+        var uniqHoy=todayIps?Object.keys(todayIps).length:0;
+        var suspHoy=todayIps?Object.values(todayIps).filter(function(c){return c>1;}).length:0;
+        var adj=Math.max(0,hoy-suspHoy*2);
     var a=allData.find(function(x){return x.slug===e[0];})||null;
     return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a};
   }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
@@ -162,7 +166,7 @@ function renderHoy(){
   entries.forEach(function(e,i){
     var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p;
     var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
-    var flag=e.a?phoneFlag(e.a.telefono||''):'';
+    var flag=e.a?phoneFlag(e.a.whatsapp||e.a.telefono||'',e.a.pais||''):'';
     var conv=p.conversions||0,adj=e.adj;
     var pct=Math.round((adj/maxV)*100);
     var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0;
@@ -172,7 +176,7 @@ function renderHoy(){
     html+='<div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
     html+='<div class="promo-info">';
     html+='<div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
-    if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+p.uniq+' únicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
+    if(uniqHoy>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+uniqHoy+' únicas hoy</span>';if(suspHoy>0)html+='<span class="v-chip sospechosas">⚠ '+suspHoy+' susp.</span>';html+='</div>';}
     html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
     html+='</div>';
     html+='<div class="promo-right">';
