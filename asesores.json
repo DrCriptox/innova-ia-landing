@@ -974,5 +974,14 @@
     "foto": "fotos/jacobodelriohoyosgutierrez.jpg",
     "password": "@Unal2020",
     "registrado": "2026-04-01T04:10:34.481Z"
+  },
+  "robin": {
+    "nombre": "Robin Horta Castellanos",
+    "rol": "Trader  de Profesión - Empresario Digital",
+    "telefono": "573154469582",
+    "frase": "Hola, soy tu asesor, te ayudo en activar tu cuenta?",
+    "foto": "fotos/robin.jpg",
+    "password": "236001",
+    "registrado": "2026-04-01T04:10:45.001Z"
   }
 }
