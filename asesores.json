@@ -789,5 +789,14 @@
     "foto": "fotos/vicdalysm.jpg",
     "password": "123456",
     "registrado": "2026-04-01T00:31:58.139Z"
+  },
+  "reina25": {
+    "nombre": "Reina Orellana",
+    "rol": "Asesora de franquicias digitales",
+    "telefono": "584128804412",
+    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "foto": "fotos/reina25.jpg",
+    "password": "Nova100k.",
+    "registrado": "2026-04-01T00:33:57.065Z"
   }
 }
