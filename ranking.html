@@ -129,7 +129,7 @@ function renderPromo(){
     html+='<div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
     if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+p.uniq+' únicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
     html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
-    html+=    html+='</div>';
+    html+='</div>';
     html+='<div class="promo-right">';
     html+='<div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div>';
     if(conv>0){html+='<div style="font-size:.82rem;font-weight:700;color:#4ade80;margin-top:3px;">'+conv+' conv.</div>';html+='<div style="font-size:.7rem;color:'+tasaColor+';font-weight:700;">'+tasa+'%</div>';}
@@ -168,7 +168,7 @@ function renderHoy(){
     html+='<div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
     if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+p.uniq+' únicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
     html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
-    html+=    html+='</div>';
+    html+='</div>';
     html+='<div class="promo-right">';
     html+='<div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">hoy</div>';
     if(conv>0){html+='<div style="font-size:.82rem;font-weight:700;color:#4ade80;margin-top:3px;">'+conv+' conv.</div>';html+='<div style="font-size:.7rem;color:'+tasaColor+';font-weight:700;">'+tasa+'%</div>';}
