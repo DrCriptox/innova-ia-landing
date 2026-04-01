@@ -281,7 +281,15 @@
   },
   "mariapcastro77": 1,
   "proverbios17": 2,
-  "wilsonvilla": 1,
+  "wilsonvilla": {
+    "total": 2,
+    "ips": {
+      "181.130.153.136": 1
+    },
+    "days": {
+      "2026-04-01": 1
+    }
+  },
   "leidyinnova": {
     "total": 5,
     "ips": {
