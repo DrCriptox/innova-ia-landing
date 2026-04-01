@@ -717,5 +717,14 @@
     "foto": "fotos/jeffrey23.jpg",
     "password": "1089598016",
     "registrado": "2026-03-31T23:52:33.414Z"
+  },
+  "marlins": {
+    "nombre": "Marlin Sifontes",
+    "rol": "Asesora InnovaIA",
+    "telefono": "584163222942",
+    "frase": "Hola soy tu asesor InnovaIA. Siempre para ayudarte",
+    "foto": "fotos/marlins.jpg",
+    "password": "Salmos10.",
+    "registrado": "2026-04-01T00:01:30.720Z"
   }
 }
