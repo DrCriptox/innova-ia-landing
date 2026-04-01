@@ -780,5 +780,14 @@
     "foto": "fotos/vanevelasquez25.jpg",
     "password": "Isa2181#",
     "registrado": "2026-04-01T00:31:20.141Z"
+  },
+  "vicdalysm": {
+    "nombre": "Vicdalys Marín",
+    "rol": "Asesora de innova Venezuela",
+    "telefono": "584121807119",
+    "frase": "Hola soy tu asesora como puedo ayudarte",
+    "foto": "fotos/vicdalysm.jpg",
+    "password": "123456",
+    "registrado": "2026-04-01T00:31:58.139Z"
   }
 }
