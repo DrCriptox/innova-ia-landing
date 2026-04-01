@@ -856,5 +856,14 @@
     "foto": "fotos/mariapinzon.jpg",
     "password": "Motita14",
     "registrado": "2026-04-01T01:38:17.611Z"
+  },
+  "saraechavarria": {
+    "nombre": "Sara Echavarria",
+    "rol": "Empresaria digital 👩🏼‍💻",
+    "telefono": "573225789034",
+    "frase": "Hola! Soy Sara, consultora en marketing! Conoce más de mi proyecto digital ✨",
+    "foto": "fotos/saraechavarria.jpg",
+    "password": "Sarasalo123*",
+    "registrado": "2026-04-01T01:42:07.994Z"
   }
 }
