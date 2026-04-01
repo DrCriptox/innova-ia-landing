@@ -802,11 +802,12 @@
   "hperez08": {
     "nombre": "Carmen Morante",
     "rol": "Asesor Innova Venezuela",
-    "telefono": "5804244383187",
+    "telefono": "584244383187",
     "frase": "Que gusto saludarte! te doy la bienvenida a este espacio.",
     "foto": "fotos/hperez08.jpg",
     "password": "INNOVA100K",
-    "registrado": "2026-04-01T00:34:38.008Z"
+    "registrado": "2026-04-01T00:34:38.008Z",
+    "whatsapp": "584244383187"
   },
   "silaniinn": {
     "nombre": "Silani Sequera",
