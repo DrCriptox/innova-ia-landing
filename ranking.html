@@ -156,7 +156,7 @@ function renderHoy(){
         var suspHoy=todayIps?Object.values(todayIps).filter(function(c){return c>1;}).length:0;
         var adj=Math.max(0,hoy-suspHoy*2);
     var a=allData.find(function(x){return x.slug===e[0];})||null;
-    return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a};
+    return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a,uniqHoy:uniqHoy,suspHoy:suspHoy};
   }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
   var totalHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
   var totConv=entries.reduce(function(s,e){return s+(e.p.conversions||0);},0);
@@ -176,7 +176,7 @@ function renderHoy(){
     html+='<div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
     html+='<div class="promo-info">';
     html+='<div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
-    if(uniqHoy>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+uniqHoy+' únicas hoy</span>';if(suspHoy>0)html+='<span class="v-chip sospechosas">⚠ '+suspHoy+' susp.</span>';html+='</div>';}
+    if(e.uniqHoy>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+e.uniqHoy+' únicas hoy</span>';if(e.suspHoy>0)html+='<span class="v-chip sospechosas">⚠ '+e.suspHoy+' susp.</span>';html+='</div>';}
     html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
     html+='</div>';
     html+='<div class="promo-right">';
