@@ -818,13 +818,14 @@
     "registrado": "2026-04-01T00:39:40.488Z"
   },
   "franinspira": {
-    "nombre": "Francisco Javier Mejía Yepes",
+    "nombre": "Francisco Javier MejÃ­a Yepes",
     "rol": "Asesor Estratégico en Ingresos Digitales — Innova IA",
     "telefono": "573218033162",
-    "frase": "“Bienvenido, hoy puede empezar algo grande para ti.”",
+    "frase": "Bienvenido, hoy puede empezar algo grande para ti",
     "foto": "fotos/franinspira.jpg",
     "password": "99590189",
-    "registrado": "2026-04-01T00:45:25.581Z"
+    "registrado": "2026-04-01T00:45:25.581Z",
+    "whatsapp": "573218033162"
   },
   "yinaponton": {
     "nombre": "YINA PONTOM",
