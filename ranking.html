@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>InnovaIA — Ranking</title>
+<style>
+:root{--gold:#D4AB53;--gold-light:#F0C97A;--dark:#060810;--dark-2:#0C0F1A;--card:#0E1219;--text:#EAECF4;--muted:#7A8099;--green:#25D366;--border:rgba(255,255,255,.07);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--dark);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;padding-bottom:40px;}
+.topbar{display:flex;align-items:center;justify-content:center;padding:18px 20px 10px;flex-direction:column;}
+.brand{font-size:1.6rem;font-weight:800;letter-spacing:-1px;margin-bottom:2px;}
+.brand span{color:var(--gold);}
+.brand-sub{color:var(--muted);font-size:.72rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+.tab-bar{display:flex;gap:6px;border-bottom:1px solid var(--border);padding:0 16px;justify-content:center;margin-bottom:16px;}
+.tab-btn{background:none;border:none;color:var(--muted);font-size:.9rem;font-weight:600;padding:10px 22px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;}
+.tab-btn:hover{background:rgba(255,255,255,.04);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(212,168,83,.05);}
+.panel{padding:0 12px;max-width:680px;margin:0 auto;}
+.promo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.promo-subtitle{font-size:.78rem;color:var(--muted);}
+.refresh-btn{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;color:var(--muted);padding:5px 12px;font-size:.78rem;cursor:pointer;}
+.refresh-btn:hover{color:var(--text);}
+.live-badge{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;color:#4ade80;font-weight:600;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.promo-grid{display:flex;flex-direction:column;gap:6px;}
+.no-visits{text-align:center;color:var(--muted);padding:40px 20px;font-size:.88rem;}
+.promo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:7px 18px;display:flex;align-items:center;gap:12px;transition:border-color .2s;}
+.promo-card:hover{border-color:rgba(212,168,83,.35);}
+.promo-card.rank1{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.04);}
+.promo-card.rank2{border-color:rgba(192,192,192,.35);background:rgba(192,192,192,.03);}
+.promo-card.rank3{border-color:rgba(205,127,50,.35);background:rgba(205,127,50,.03);}
+.rank-num{font-size:1.15rem;min-width:36px;text-align:center;line-height:1;}
+.promo-av{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;}
+.promo-avph{width:34px;height:34px;border-radius:50%;background:var(--dark-2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.94rem;flex-shrink:0;}
+.promo-info{flex:1;min-width:0;}
+.promo-name{font-weight:700;font-size:.82rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.promo-name-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-width:0;}
+.promo-ref{color:var(--muted);font-size:.7rem;font-family:monospace;white-space:nowrap;flex-shrink:0;}
+.promo-right{text-align:right;flex-shrink:0;}
+.promo-visits{font-size:1.08rem;font-weight:800;color:var(--gold);line-height:1;}
+.promo-label{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.promo-ip-row{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;}
+.v-chip{font-size:.67rem;padding:2px 7px;border-radius:20px;font-weight:600;}
+.v-chip.unicas{background:rgba(37,211,102,.12);color:#25D366;border:1px solid rgba(37,211,102,.25);}
+.v-chip.sospechosas{background:rgba(255,165,0,.1);color:#FFA500;border:1px solid rgba(255,165,0,.2);}
+.bar-wrap{height:3px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:6px;overflow:hidden;}
+.bar-fill{height:100%;background:var(--gold);border-radius:4px;}
+.copy-btn{display:inline-flex;align-items:center;gap:4px;background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.25);border-radius:6px;color:var(--gold);font-size:.67rem;padding:2px 8px;cursor:pointer;margin-top:5px;white-space:nowrap;font-weight:600;}
+.copy-btn:active{opacity:.7;}
+</style></head>
+<body>
+<div class="topbar">
+  <div class="brand">Innova<span>IA</span></div>
+  <div class="brand-sub">Ranking de Promotores</div>
+</div>
+<div class="tab-bar">
+  <button id="tabBtnPromo" class="tab-btn active" onclick="switchTab('promo')">🏆 Top Promotores</button>
+  <button id="tabBtnHoy" class="tab-btn" onclick="switchTab('hoy')">☀️ Top Hoy</button>
+</div>
+<div id="panelPromo" class="panel">
+  <div class="promo-header">
+    <span class="promo-subtitle" id="promoSubtitle">Cargando...</span>
+    <button class="refresh-btn" onclick="loadData()">↺ Actualizar</button>
+  </div>
+  <div class="promo-grid" id="promoGrid"><div class="no-visits">Cargando...</div></div>
+</div>
+<div id="panelHoy" class="panel" style="display:none">
+  <div class="promo-header">
+    <span class="promo-subtitle" id="hoySubtitle">Cargando...</span>
+    <span class="live-badge"><span class="live-dot"></span>En vivo · 30s</span>
+  </div>
+  <div class="promo-grid" id="hoyGrid"><div class="no-visits">Cargando...</div></div>
+</div>
+<script>
+var statsData={},allData=[],_hoyTimer=null;
+function parseEntry(e){
+  if(!e)return{total:0,uniq:0,suspicious:0,conversions:0,legacy:true};
+  if(typeof e==='number')return{total:e,uniq:0,suspicious:0,conversions:0,legacy:true};
+  var ips=e.ips||{},vals=Object.values(ips);
+  return{total:e.total||0,uniq:Object.keys(ips).length,suspicious:vals.filter(function(c){return c>1;}).length,conversions:e.conversions||0,legacy:false};
+}
+function sanitize(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function phoneFlag(tel){
+  if(!tel)return'';
+  var t=tel.replace(/\D/g,'');
+  if(t.startsWith('57'))return'🇨🇴';
+  if(t.startsWith('1'))return'🇺🇸';
+  if(t.startsWith('52'))return'🇲🇽';
+  if(t.startsWith('58'))return'🇻🇪';
+  if(t.startsWith('34'))return'🇪🇸';
+  if(t.startsWith('55'))return'🇧🇷';
+  if(t.startsWith('54'))return'🇦🇷';
+  return'';
+}
+function copyLink(btn,link){
+  navigator.clipboard.writeText(link).then(function(){
+    var orig=btn.textContent;btn.textContent='✓ Copiado';
+    setTimeout(function(){btn.textContent=orig;},2000);
+  });
+}
+function renderPromo(){
+  var entries=Object.entries(statsData).map(function(e){
+    var p=parseEntry(e[1]);
+    var a=allData.find(function(x){return x.slug===e[0];})||null;
+    return{ref:e[0],p:p,a:a};
+  }).sort(function(a,b){
+    return Math.max(0,b.p.total-(b.p.suspicious||0)*2)-Math.max(0,a.p.total-(a.p.suspicious||0)*2);
+  }).slice(0,50);
+  var tot=entries.reduce(function(s,e){return s+Math.max(0,e.p.total-(e.p.suspicious||0)*2);},0);
+  var totConv=entries.reduce(function(s,e){return s+(e.p.conversions||0);},0);
+  document.getElementById('promoSubtitle').textContent=entries.length+' promotores · '+tot.toLocaleString('es-CO')+' visitas · '+totConv+' conv.';
+  if(!entries.length){document.getElementById('promoGrid').innerHTML='<div class="no-visits">Sin visitas aún.</div>';return;}
+  var med=['🥇','🥈','🥉'],html='';
+  var maxV=Math.max(1,Math.max(0,entries[0].p.total-(entries[0].p.suspicious||0)*2));
+  entries.forEach(function(e,i){
+    var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p;
+    var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+    var flag=e.a?phoneFlag(e.a.telefono||''):'';
+    var conv=p.conversions||0;
+    var adj=Math.max(0,p.total-(p.suspicious||0)*2);
+    var pct=Math.round((adj/maxV)*100);
+    var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0;
+    var tasaColor=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
+    var lk='https://www.innovaia.app/'+encodeURIComponent(e.ref);
+    html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div>';
+    html+='<div id="pav'+i+'"><div class="promo-avph">👤</div></div>';
+    html+='<div class="promo-info">';
+    html+='<div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
+    if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+p.uniq+' únicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
+    html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
+    html+='<button class="copy-btn" onclick="copyLink(this,\''+lk+'\')">📋 Copiar link</button>';
+    html+='</div>';
+    html+='<div class="promo-right">';
+    html+='<div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div>';
+    if(conv>0){html+='<div style="font-size:.82rem;font-weight:700;color:#4ade80;margin-top:3px;">'+conv+' conv.</div>';html+='<div style="font-size:.7rem;color:'+tasaColor+';font-weight:700;">'+tasa+'%</div>';}
+    else{html+='<div style="font-size:.7rem;color:var(--muted);margin-top:3px;">0 conv.</div>';}
+    html+='</div></div>';
+  });
+  document.getElementById('promoGrid').innerHTML=html;
+  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('pav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
+}
+function renderHoy(){
+  var today=new Date(Date.now()-18000000).toISOString().split('T')[0];
+  var entries=Object.entries(statsData).map(function(e){
+    var raw=e[1],p=parseEntry(raw);
+    var hoy=(raw&&typeof raw==='object'&&raw.days)?(raw.days[today]||0):0;
+    var adj=Math.max(0,hoy-(p.suspicious||0)*2);
+    var a=allData.find(function(x){return x.slug===e[0];})||null;
+    return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a};
+  }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+  var totalHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
+  var totConv=entries.reduce(function(s,e){return s+(e.p.conversions||0);},0);
+  document.getElementById('hoySubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totalHoy.toLocaleString('es-CO')+' visitas hoy · '+totConv+' conv.';
+  if(!entries.length){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Aún no hay visitas hoy.😊</div>';return;}
+  var maxV=entries[0].adj||1,med=['🥇','🥈','🥉'],html='';
+  entries.forEach(function(e,i){
+    var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p;
+    var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+    var flag=e.a?phoneFlag(e.a.telefono||''):'';
+    var conv=p.conversions||0,adj=e.adj;
+    var pct=Math.round((adj/maxV)*100);
+    var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0;
+    var tasaColor=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
+    var lk='https://www.innovaia.app/'+encodeURIComponent(e.ref);
+    html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div>';
+    html+='<div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
+    html+='<div class="promo-info">';
+    html+='<div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
+    if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+p.uniq+' únicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
+    html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
+    html+='<button class="copy-btn" onclick="copyLink(this,\''+lk+'\')">📋 Copiar link</button>';
+    html+='</div>';
+    html+='<div class="promo-right">';
+    html+='<div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">hoy</div>';
+    if(conv>0){html+='<div style="font-size:.82rem;font-weight:700;color:#4ade80;margin-top:3px;">'+conv+' conv.</div>';html+='<div style="font-size:.7rem;color:'+tasaColor+';font-weight:700;">'+tasa+'%</div>';}
+    else{html+='<div style="font-size:.7rem;color:var(--muted);margin-top:3px;">0 conv.</div>';}
+    html+='</div></div>';
+  });
+  document.getElementById('hoyGrid').innerHTML=html;
+  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
+}
+async function loadData(){
+  try{
+    var r=await fetch('/api/stats?_t='+Date.now());
+    statsData=await r.json();
+    if(!allData.length){
+      var r2=await fetch('/api/asesores?_t='+Date.now());
+      var raw=await r2.json();
+      allData=Object.entries(raw).filter(function(e){return e[0]!=='default';}).map(function(e){return Object.assign({slug:e[0]},e[1]);});
+    }
+    if(document.getElementById('panelPromo').style.display!=='none')renderPromo();
+    if(document.getElementById('panelHoy').style.display!=='none')renderHoy();
+  }catch(ex){
+    document.getElementById('promoGrid').innerHTML='<div class="no-visits">Error cargando datos.</div>';
+  }
+}
+function switchTab(tab){
+  document.getElementById('tabBtnPromo').classList.toggle('active',tab==='promo');
+  document.getElementById('tabBtnHoy').classList.toggle('active',tab==='hoy');
+  document.getElementById('panelPromo').style.display=tab==='promo'?'block':'none';
+  document.getElementById('panelHoy').style.display=tab==='hoy'?'block':'none';
+  if(tab==='hoy'){renderHoy();if(!_hoyTimer)_hoyTimer=setInterval(loadData,30000);}
+  else{if(_hoyTimer){clearInterval(_hoyTimer);_hoyTimer=null;}}
+}
+loadData();
+</script>
+</body>
+</html>
