@@ -1,6 +1,5 @@
 {
   "cleanUrls": true,
-  "ignoreCommand": "[ -z \"$VERCEL_GIT_PREVIOUS_SHA\" ] && exit 1; git diff $VERCEL_GIT_PREVIOUS_SHA $VERCEL_GIT_COMMIT_SHA --name-only 2>/dev/null | grep -v '^stats\.json$' | grep -q . && exit 1 || exit 0",
   "rewrites": [{"source": "/asesores.json", "destination": "/api/asesores"}],
   "headers": [
     {"source": "/admin",        "headers": [{"key": "Cache-Control", "value": "no-store, must-revalidate"}]},
