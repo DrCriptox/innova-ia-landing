@@ -81,19 +81,19 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .modal-msg.err{color:var(--red);}
 .modal-msg.ok{color:#4ade80;}
 .promo-grid{display:flex;flex-direction:column;gap:10px;}
-.promo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:9px 18px;display:flex;align-items:center;gap:14px;transition:border-color .2s;}
+.promo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:7px 18px;display:flex;align-items:center;gap:12px;transition:border-color .2s;}
 .promo-card:hover{border-color:rgba(212,168,83,.35);}
 .promo-card.rank1{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.04);}
 .promo-card.rank2{border-color:rgba(192,192,192,.35);background:rgba(192,192,192,.03);}
 .promo-card.rank3{border-color:rgba(205,127,50,.35);background:rgba(205,127,50,.03);}
-.rank-num{font-size:1.44rem;min-width:40px;text-align:center;line-height:1;}
-.promo-av{width:43px;height:43px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;}
-.promo-avph{width:43px;height:43px;border-radius:50%;background:var(--dark-2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.17rem;flex-shrink:0;}
+.rank-num{font-size:1.15rem;min-width:40px;text-align:center;line-height:1;}
+.promo-av{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--border);flex-shrink:0;}
+.promo-avph{width:34px;height:34px;border-radius:50%;background:var(--dark-2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.94rem;flex-shrink:0;}
 .promo-info{flex:1;min-width:0;}
-.promo-name{font-weight:700;font-size:1.03rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.promo-name{font-weight:700;font-size:0.82rem;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .promo-slug{color:var(--muted);font-size:.78rem;font-family:monospace;}
 .promo-right{text-align:right;flex-shrink:0;}
-.promo-visits{font-size:1.35rem;font-weight:800;color:var(--gold);line-height:1;}
+.promo-visits{font-size:1.08rem;font-weight:800;color:var(--gold);line-height:1;}
 .promo-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
 .promo-ip-row{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
 .bar-wrap{height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:8px;overflow:hidden;}
@@ -278,53 +278,40 @@ async function loadPromo(){
   }
 }
 function renderHoy(){
-  var today=new Date(Date.now()-18000000).toISOString().split('T')[0];
-  var entries=Object.entries(statsData).map(function(e){
-    var ref=e[0],p=e[1];
-    var asesor=allData.find(function(a){return a.slug===ref;})||null;
-    var hoy=(p&&typeof p==='object'&&p.days)?(p.days[today]||0):0;
-    var adj=Math.max(0,hoy-(p.suspicious||0)*2);
-    var tasa=adj>0&&p.conversions?(Math.round((p.conversions/adj)*100))+'%':'—';
-    return {ref:ref,p:p,hoy:hoy,adj:adj,tasa:tasa,asesor:asesor};
-  }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
-  var totalHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
-  document.getElementById('hoySubtitle').textContent=
-    entries.length+' promotor'+(entries.length!==1?'es':'')+' hoy · '+totalHoy.toLocaleString('es-CO')+' visitas';
-  if(!entries.length){
-    document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Aún no hay visitas hoy.<br>Actualiza en unos minutos.</div>';
-    return;
-  }
-  var maxV=entries[0].adj||1;
-  var ri=['🥇','🥈','🥉'];
-  var html='';
-  entries.forEach(function(entry,i){
-    var rank=i+1;var rankClass=rank<=3?'rank'+rank:'';var rankDisplay=rank<=3?ri[i]:rank;
-    var ref=entry.ref;var adj=entry.adj;var pct=Math.round((adj/maxV)*100);
-    var link='https://www.innovaia.app/'+encodeURIComponent(ref);
-    var tel=(entry.asesor&&(entry.asesor.telefono||entry.asesor.whatsapp))||'';
-    var flag=phoneFlag(tel);var nombre='';
-    if(entry.asesor){var nm=sanitize(entry.asesor.nombre||ref);nombre='<div class="promo-name">'+nm+(flag?' '+flag:'')+'</div>';}
-    else{nombre='<div class="promo-name" style="color:var(--muted);font-style:italic">'+ref+'</div>';}
-    html+='<div class="promo-card '+rankClass+'">';
-    html+='<div class="rank-num">'+rankDisplay+'</div>';
-    html+='<div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
-    html+='<div class="promo-info">'+nombre;
-    html+='<div class="promo-slug">'+ref+'</div>';
-    html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
-    html+='<span class="pill promo-copy" data-link="'+link+'" data-orig="📋 Copiar link" onclick="copyPill(this)">📋 Copiar link</span></div>';
-    html+='<div class="promo-right"><div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div>';
-    html+='<div class="promo-label">hoy</div>';
-    if(entry.tasa!=='—')html+='<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">conv '+entry.tasa+'</div>';
-    html+='</div></div>';
-  });
-  document.getElementById('hoyGrid').innerHTML=html;
-  entries.forEach(function(entry,i){
-    if(!entry.asesor||!entry.asesor.foto)return;
-    var f=entry.asesor.foto;var src=f.indexOf('fotos/')===0?'/'+f:f;
-    var img=new Image();img.className='promo-av';img.alt=entry.asesor.nombre||'';;img.src=src;
-    img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};
-    var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}
-  });
+ var today=new Date(Date.now()-18000000).toISOString().split('T')[0];
+ var entries=Object.entries(statsData).map(function(e){
+  var raw=e[1];var p=parseEntry(raw);
+  var hoy=(raw&&typeof raw==='object'&&raw.days)?(raw.days[today]||0):0;
+  var adj=Math.max(0,hoy-(p.suspicious||0)*2);
+  var a=allData.find(function(x){return x.slug===e[0];})||null;
+  return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a};
+ }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+ var totalHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
+ var totConv=entries.reduce(function(s,e){return s+(e.p.conversions||0);},0);
+ document.getElementById('hoySubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' hoy · '+totalHoy.toLocaleString('es-CO')+' visitas · '+totConv+' conv.';
+ if(!entries.length){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Aún no hay visitas hoy.<br>Actualiza en unos minutos.</div>';return;}
+ var med=['🥇','🥈','🥉'];
+ var html='';
+ entries.forEach(function(e,i){
+  var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p;
+  var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+  var flag=e.a?phoneFlag(e.a.telefono||''): '';
+  var conv=p.conversions||0;
+  var adj=e.adj;
+  var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0;
+  var tasaColor=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
+  html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div><div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
+  html+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
+  if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row" style="margin-top:3px;"><span class="v-chip unicas">🟢 '+p.uniq+' unicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
+  html+='</div>';
+  html+='<div class="promo-right">';
+  html+='<div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">hoy</div>';
+  if(conv>0){html+='<div style="font-size:.85rem;font-weight:700;color:#4ade80;margin-top:4px;">'+conv+' conv.</div>';html+='<div style="font-size:.72rem;color:'+tasaColor+';font-weight:700;">'+tasa+'%</div>';}
+  else{html+='<div style="font-size:.72rem;color:var(--muted);margin-top:4px;">0 conv.</div>';}
+  html+='</div></div>';
+ });
+ document.getElementById('hoyGrid').innerHTML=html;
+ entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
 }
 async function loadAnti(){
   document.getElementById('antiGrid').innerHTML='<div class="no-visits">Cargando...</div>';
