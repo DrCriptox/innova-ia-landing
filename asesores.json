@@ -876,13 +876,14 @@
     "registrado": "2026-04-01T01:42:07.994Z"
   },
   "genraringresos": {
-    "nombre": "Henry Jesús perez Rondón",
+    "nombre": "Henry Jesús perez RondÃ³n",
     "rol": "Empresario Digital",
     "telefono": "584144180637",
-    "frase": "Hola, soy Henry Pérez. Mi misión es ayudar a personas visionarias a capitalizar las tendencias digit",
+    "frase": "Hola, soy Henry Pérez Mi mision  es ayudar a personas visionarias a capitalizar las tendencias digital",
     "foto": "fotos/genraringresos.jpg",
     "password": "Nova50k.",
-    "registrado": "2026-04-01T01:49:24.972Z"
+    "registrado": "2026-04-01T01:49:24.972Z",
+    "whatsapp": "584144180637"
   },
   "hildam7": {
     "nombre": "Hilda Melo",
