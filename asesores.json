@@ -919,5 +919,14 @@
     "foto": "fotos/sandra7.jpg",
     "password": "Tobby202010@",
     "registrado": "2026-04-01T02:56:08.137Z"
+  },
+  "molinasalo": {
+    "nombre": "Salome Molina",
+    "rol": "Asesora de innova",
+    "telefono": "573007605476",
+    "frase": "Hola!! 💕 soy salome tu asesora, te ayudaré y guiare en todo este hermoso proceso. ✨",
+    "foto": "fotos/molinasalo.jpg",
+    "password": "saloinnova",
+    "registrado": "2026-04-01T03:22:53.250Z"
   }
 }
