@@ -297,7 +297,15 @@
       "179.60.73.78": 1
     }
   },
-  "soycesarmartinez": 4,
+  "soycesarmartinez": {
+    "total": 5,
+    "ips": {
+      "186.86.52.112": 1
+    },
+    "days": {
+      "2026-04-01": 1
+    }
+  },
   "maryuinn": {
     "total": 13,
     "ips": {
