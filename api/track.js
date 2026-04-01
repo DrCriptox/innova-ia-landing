@@ -78,6 +78,7 @@ export default async function handler(req) {
         if(!obj.days)obj.days={};
         obj.days[_d]=(obj.days[_d]||0)+1;
         const _dk=Object.keys(obj.days).sort();if(_dk.length>60)_dk.slice(0,_dk.length-60).forEach(function(k){delete obj.days[k];});
+              if(ip!=='unknown'){if(!obj.days_ips)obj.days_ips={};if(!obj.days_ips[_d])obj.days_ips[_d]={};obj.days_ips[_d][ip]=(obj.days_ips[_d][ip]||0)+1;const _dik=Object.keys(obj.days_ips).sort();if(_dik.length>7)_dik.slice(0,_dik.length-7).forEach(function(k){delete obj.days_ips[k];});}
       }
 
       stats[ref] = obj;
