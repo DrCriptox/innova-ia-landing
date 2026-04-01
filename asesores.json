@@ -762,5 +762,14 @@
     "foto": "fotos/greidyinn.jpg",
     "password": "Lemmygael.08",
     "registrado": "2026-04-01T00:25:48.529Z"
+  },
+  "cesarvarela": {
+    "nombre": "CESAR VARELA",
+    "rol": "ASESOR INNOVA IA",
+    "telefono": "573187978801",
+    "frase": "Hola! soy tu asesor INNOVA, te ayudo a activar tu franquicia.",
+    "foto": "fotos/cesarvarela.jpg",
+    "password": "Jirafita2004",
+    "registrado": "2026-04-01T00:27:01.652Z"
   }
 }
