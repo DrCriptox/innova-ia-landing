@@ -1104,5 +1104,14 @@
     "password": "Carolina-1",
     "registrado": "2026-04-01T17:03:10.424Z",
     "whatsapp": "573163419127"
+  },
+  "monikdigital": {
+    "nombre": "Mónica Alexandra González",
+    "rol": "Empresaria digital",
+    "telefono": "573103882988",
+    "frase": "Hola,te ayuda a activar tú franquicia digital",
+    "foto": "fotos/monikdigital.jpg",
+    "password": "Monika76#",
+    "registrado": "2026-04-01T17:46:56.353Z"
   }
 }
