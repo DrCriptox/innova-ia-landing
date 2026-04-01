@@ -139,7 +139,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
   </div>
   <div class="tab-bar">
     <button class="tab-btn active" id="tabBtnAsesores" onclick="switchTab('asesores')">Asesores</button>
-    <button class="tab-btn" id="tabBtnPromo" onclick="switchTab('promo')">Top Promotores</button>
+    <button class="tab-btn" id="tabBtnHoy" onclick="switchTab('hoy')">Top Hoy</button>
+        <button class="tab-btn" id="tabBtnPromo" onclick="switchTab('promo')">Top Promotores</button>
     <button class="tab-btn" id="tabBtnAnti" onclick="switchTab('anti')">Anti-trampa</button>
   </div>
   <div id="panelAsesores">
@@ -155,24 +156,21 @@ tr:hover td{background:rgba(255,255,255,.02);}
       </table>
     </div>
   </div>
-      <div id="panelPromo" style="display:none">
+      <div id="panelHoy" style="display:none">
       <div class="promo-header">
-        <button class="refresh-btn" onclick="loadPromo()">↺ Actualizar</button>
+        <span class="promo-title" id="hoySubtitle">Cargando...</span>
+        <button class="refresh-btn" onclick="loadPromo()">&#8635; Actualizar</button>
       </div>
-      <div class="promo-split">
-        <div class="promo-col">
-          <div class="promo-col-title">🏆 Top Promotores</div>
-          <div class="promo-col-sub" id="promoSubtitle">Cargando...</div>
-          <div class="promo-grid" id="promoGrid"><div class="no-visits">Cargando...</div></div>
-        </div>
-        <div class="promo-col">
-          <div class="promo-col-title">☀️ Top Hoy</div>
-          <div class="promo-col-sub" id="hoySubtitle">Cargando...</div>
-          <div class="promo-grid" id="hoyGrid"><div class="no-visits">Cargando...</div></div>
-        </div>
-      </div>
+      <div class="promo-grid" id="hoyGrid"><div class="no-visits">Cargando...</div></div>
     </div>
-  <div id="panelAnti" style="display:none">
+    <div id="panelPromo" style="display:none">
+      <div class="promo-header">
+        <span class="promo-title" id="promoSubtitle">Cargando...</span>
+        <button class="refresh-btn" onclick="loadPromo()">&#8635; Actualizar</button>
+      </div>
+      <div class="promo-grid" id="promoGrid"><div class="no-visits">Cargando...</div></div>
+    </div>
+    <div id="panelAnti" style="display:none">
     <div class="promo-header">
       <span class="promo-title">Deteccion de IPs sospechosas por asesor</span>
       <button class="refresh-btn" onclick="loadAnti()">Actualizar</button>
@@ -217,19 +215,16 @@ function doLogout(){
   document.getElementById('pwInput').value='';document.getElementById('loginErr').textContent='';
 }
 var _promoTimer=null;
-function switchTab(tab){
-  currentTab=tab;
-  document.getElementById('tabBtnAsesores').classList.toggle('active',tab==='asesores');
-  document.getElementById('tabBtnPromo').classList.toggle('active',tab==='promo');
-  document.getElementById('tabBtnAnti').classList.toggle('active',tab==='anti');
-  document.getElementById('panelAsesores').style.display=tab==='asesores'?'block':'none';
-  document.getElementById('panelPromo').style.display=tab==='promo'?'block':'none';
-  document.getElementById('panelAnti').style.display=tab==='anti'?'block':'none';
-  if(tab==='promo'){loadPromo();if(!_promoTimer)_promoTimer=setInterval(loadPromo,30000);}
-  else{if(_promoTimer){clearInterval(_promoTimer);_promoTimer=null;}}
-  if(tab==='anti')loadAnti();
-}
-function phoneFlag(t){if(!t)return'';t=String(t).replace(/[\s\-\(\)\.]/g,'').replace(/^\+/,'');var m=[['593','ec'],['591','bo'],['595','py'],['598','uy'],['503','sv'],['502','gt'],['504','hn'],['505','ni'],['506','cr'],['507','pa'],['509','ht'],['57','co'],['58','ve'],['51','pe'],['54','ar'],['55','br'],['56','cl'],['52','mx'],['53','cu'],['1','us'],['44','gb'],['34','es'],['49','de'],['33','fr'],['39','it'],['61','au'],['81','jp'],['86','cn'],['91','in'],['20','eg'],['212','ma'],['234','ng']];for(var i=0;i<m.length;i++){if(t.startsWith(m[i][0]))return'<img src="https://flagcdn.com/w20/'+m[i][1]+'.png" style="width:18px;height:13px;border-radius:2px;vertical-align:middle;margin-left:3px;" />';}return'';}
+function switchTab(tab){ currentTab=tab;
+    ['tabBtnAsesores','tabBtnHoy','tabBtnPromo','tabBtnAnti'].forEach(function(id){document.getElementById(id).classList.remove('active');});
+    document.getElementById('tabBtn'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+    ['panelAsesores','panelHoy','panelPromo','panelAnti'].forEach(function(id){document.getElementById(id).style.display='none';});
+    document.getElementById('panel'+tab.charAt(0).toUpperCase()+tab.slice(1)).style.display='block';
+    if(tab==='promo'||tab==='hoy'){loadPromo();if(!_promoTimer)_promoTimer=setInterval(loadPromo,30000);}
+    else{if(_promoTimer){clearInterval(_promoTimer);_promoTimer=null;}}
+    if(tab==='anti')loadAnti();
+  }
+  function phoneFlag(t){if(!t)return'';t=String(t).replace(/[\s\-\(\)\.]/g,'').replace(/^\+/,'');var m=[['593','ec'],['591','bo'],['595','py'],['598','uy'],['503','sv'],['502','gt'],['504','hn'],['505','ni'],['506','cr'],['507','pa'],['509','ht'],['57','co'],['58','ve'],['51','pe'],['54','ar'],['55','br'],['56','cl'],['52','mx'],['53','cu'],['1','us'],['44','gb'],['34','es'],['49','de'],['33','fr'],['39','it'],['61','au'],['81','jp'],['86','cn'],['91','in'],['20','eg'],['212','ma'],['234','ng']];for(var i=0;i<m.length;i++){if(t.startsWith(m[i][0]))return'<img src="https://flagcdn.com/w20/'+m[i][1]+'.png" style="width:18px;height:13px;border-radius:2px;vertical-align:middle;margin-left:3px;" />';}return'';}
 function parseEntry(entry){
   if(!entry)return{total:0,uniq:0,suspicious:0,conversions:0,legacy:true};
   if(typeof entry==='number')return{total:entry,uniq:0,suspicious:0,conversions:0,legacy:true};
@@ -278,41 +273,44 @@ async function loadPromo(){
   }
 }
 function renderHoy(){
- var today=new Date(Date.now()-18000000).toISOString().split('T')[0];
- var entries=Object.entries(statsData).map(function(e){
-  var raw=e[1];var p=parseEntry(raw);
-  var hoy=(raw&&typeof raw==='object'&&raw.days)?(raw.days[today]||0):0;
-  var adj=Math.max(0,hoy-(p.suspicious||0)*2);
-  var a=allData.find(function(x){return x.slug===e[0];})||null;
-  return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a};
- }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
- var totalHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
- var totConv=entries.reduce(function(s,e){return s+(e.p.conversions||0);},0);
- document.getElementById('hoySubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' hoy · '+totalHoy.toLocaleString('es-CO')+' visitas · '+totConv+' conv.';
- if(!entries.length){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Aún no hay visitas hoy.<br>Actualiza en unos minutos.</div>';return;}
- var med=['🥇','🥈','🥉'];
- var html='';
- entries.forEach(function(e,i){
-  var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p;
-  var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
-  var flag=e.a?phoneFlag(e.a.telefono||''): '';
-  var conv=p.conversions||0;
-  var adj=e.adj;
-  var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0;
-  var tasaColor=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
-  html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div><div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
-  html+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
-  if(!p.legacy&&p.uniq>0){html+='<div class="promo-ip-row" style="margin-top:3px;"><span class="v-chip unicas">🟢 '+p.uniq+' unicas</span>';if(p.suspicious>0)html+='<span class="v-chip sospechosas">⚠ '+p.suspicious+' susp.</span>';html+='</div>';}
-  html+='</div>';
-  html+='<div class="promo-right">';
-  html+='<div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">hoy</div>';
-  if(conv>0){html+='<div style="font-size:.85rem;font-weight:700;color:#4ade80;margin-top:4px;">'+conv+' conv.</div>';html+='<div style="font-size:.72rem;color:'+tasaColor+';font-weight:700;">'+tasa+'%</div>';}
-  else{html+='<div style="font-size:.72rem;color:var(--muted);margin-top:4px;">0 conv.</div>';}
-  html+='</div></div>';
- });
- document.getElementById('hoyGrid').innerHTML=html;
- entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
-}
+    var today=new Date(Date.now()-18000000).toISOString().split('T')[0];
+    var entries=Object.entries(statsData).map(function(e){
+      var raw=e[1]; var p=parseEntry(raw);
+      var hoy=(raw&&typeof raw==='object'&&raw.days)?(raw.days[today]||0):0;
+      var todayIps=(raw&&raw.days_ips&&raw.days_ips[today])?raw.days_ips[today]:null;
+      var uniqHoy=todayIps?Object.keys(todayIps).length:0;
+      var suspHoy=todayIps?Object.values(todayIps).filter(function(c){return c>1;}).length:0;
+      var adj=Math.max(0,hoy-suspHoy*2);
+      var a=allData.find(function(x){return x.slug===e[0];})||null;
+      return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a,uniqHoy:uniqHoy,suspHoy:suspHoy};
+    }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+    var totalHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
+    var totConv=entries.reduce(function(s,e){return s+(e.p.conversions||0);},0);
+    document.getElementById('hoySubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' hoy · '+totalHoy.toLocaleString('es-CO')+' visitas · '+totConv+' conv.';
+    if(!entries.length){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Aún no hay visitas hoy.<br>Actualiza en unos minutos.</div>';return;}
+    var med=['🥇','🥈','🥉'];var html='';var maxV=entries[0].adj||1;
+    entries.forEach(function(e,i){
+      var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p;
+      var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+      var flag=e.a?phoneFlag(e.a.whatsapp||e.a.telefono||''):'';
+      var conv=p.conversions||0,adj=e.adj;
+      var pct=Math.round((adj/maxV)*100);
+      var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0;
+      var tasaColor=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
+      html+='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div><div id="hav'+i+'"><div class="promo-avph">👤</div></div>';
+      html+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
+      if(e.uniqHoy>0){html+='<div class="promo-ip-row" style="margin-top:3px;"><span class="v-chip unicas">🟢 '+e.uniqHoy+' únicas hoy</span>';if(e.suspHoy>0)html+='<span class="v-chip sospechosas">⚠ '+e.suspHoy+' susp.</span>';html+='</div>';}
+      html+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
+      html+='</div><div class="promo-right">';
+      html+='<div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">hoy</div>';
+      if(conv>0){html+='<div style="font-size:.85rem;font-weight:700;color:#4ade80;margin-top:4px;">'+conv+' conv.</div>';html+='<div style="font-size:.72rem;color:'+tasaColor+';font-weight:700;">'+tasa+'%</div>';}
+      else{html+='<div style="font-size:.72rem;color:var(--muted);margin-top:4px;">0 conv.</div>';}
+      html+='</div></div>';
+    });
+    document.getElementById('hoyGrid').innerHTML=html;
+    entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
+  }
+  
 async function loadAnti(){
   document.getElementById('antiGrid').innerHTML='<div class="no-visits">Cargando...</div>';
   document.getElementById('antiSummary').innerHTML='';
