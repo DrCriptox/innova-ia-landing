@@ -928,5 +928,14 @@
     "foto": "fotos/molinasalo.jpg",
     "password": "saloinnova",
     "registrado": "2026-04-01T03:22:53.250Z"
+  },
+  "innova": {
+    "nombre": "Margarita Orrego Tamayo",
+    "rol": "Asesor  de Innova Colombia",
+    "telefono": "573117269302",
+    "frase": "Hola , soy tu asesora, te ayudo déjame  tus datos .",
+    "foto": "fotos/innova.jpg",
+    "password": "Samantha201014/*",
+    "registrado": "2026-04-01T03:36:30.977Z"
   }
 }
