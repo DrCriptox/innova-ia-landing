@@ -187,10 +187,14 @@ function previewFoto(input){
   reader.onload=function(ev){
     var img=new Image();
     img.onload=function(){
-      _cropImg=img; _cropScale=1; _cropX=0; _cropY=0;
-      document.getElementById('cropZoom').value=1;
-      document.getElementById('cropModal').classList.add('open');
-      initCropCanvas();
+      _cropImg=img;
+            var cs=Math.min(window.innerWidth-64,380);
+            var fitScale=cs/Math.max(img.width,img.height);
+            _cropScale=fitScale; _cropX=0; _cropY=0;
+            var sl=document.getElementById('cropZoom');
+            sl.min=fitScale; sl.max=fitScale*3; sl.step=0.001; sl.value=fitScale;
+            document.getElementById('cropModal').classList.add('open');
+            initCropCanvas();
     };
     img.src=ev.target.result;
   };
@@ -316,7 +320,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.get
     <canvas id="cropCanvas"></canvas>
     <div id="cropSliderRow">
       <span>&#128269;</span>
-      <input type="range" id="cropZoom" min="1" max="3" step="0.01" value="1"/>
+      <input type="range" id="cropZoom" min="0.1" max="3" step="0.001" value="1"/>
       <span>&#128247;</span>
     </div>
     <div id="cropActions">
