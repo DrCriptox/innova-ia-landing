@@ -70,6 +70,10 @@ export default async function handler(req) {
 
       if (isConversion) {
         obj.conversions = (obj.conversions || 0) + 1;
+        const _dc=new Date(Date.now()-18000000).toISOString().split('T')[0];
+        if(!obj.days_conversions)obj.days_conversions={};
+        obj.days_conversions[_dc]=(obj.days_conversions[_dc]||0)+1;
+        const _dck=Object.keys(obj.days_conversions).sort();if(_dck.length>60)_dck.slice(0,_dck.length-60).forEach(function(k){delete obj.days_conversions[k];});
       } else {
         obj.total = (obj.total || 0) + 1;
         if (ip !== 'unknown') obj.ips[ip] = (obj.ips[ip] || 0) + 1;
