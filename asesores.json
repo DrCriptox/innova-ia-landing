@@ -203,11 +203,12 @@
     "foto": "fotos/sunithpu2026.jpg"
   },
   "jose26": {
-    "nombre": "José Luis Ruiz-Peinado García",
+    "nombre": "José Luis Ruiz",
     "rol": "Experto En Automatización De Youtube",
     "telefono": "34636931497",
     "frase": "Hola, soy José Luis. Tu guía para generar nuevos ingresos",
-    "foto": "fotos/jose26.jpg"
+    "foto": "fotos/jose26.jpg",
+    "whatsapp": "34636931497"
   },
   "dorelis25": {
     "nombre": "Amanda Marquez",
