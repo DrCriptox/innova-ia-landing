@@ -33,7 +33,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
-  <style>
+<!-- Microsoft Clarity -->
+  <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","CLARITY_ID");</script>
+  <!-- AB Test Hero -->
+  <script>(function(){var v=sessionStorage.getItem("ab_hero");if(!v){v=Math.random()<0.5?"A":"B";sessionStorage.setItem("ab_hero",v);}if(window.gtag)gtag("event","ab_assign",{test:"hero_title",variant:v});if(v==="B"){document.addEventListener("DOMContentLoaded",function(){var h=document.querySelector(".hero-wrap h1");if(h)h.innerHTML="Genera ingresos de <em>$400</em> a <em>$2,500/mes</em><br>desde tu celular";});}})();</script>
+    <style>
     :root{--gold:#D4A853;--gold-light:#F0C97A;--gold-glow:rgba(212,168,83,0.25);--dark:#060810;--dark-2:#0C0F1A;--dark-3:#111520;--dark-card:#0E1219;--text:#EAECF4;--text-muted:#7A8099;--accent:#2AFFD5;--green:#25D366;--red:#FF4F4F;--border:rgba(212,168,83,0.14);--radius:14px;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
@@ -752,7 +756,7 @@
 })();
 
 // ── YouTube Player ─────────────────────────────────────
-var ytPlayer,vslDuration=0,progressInterval=null,lastTime=0,seekBlocked=false,videoStarted=false,barProgress=0;
+var ytPlayer,vslDuration=0,progressInterval=null,lastTime=0,seekBlocked=false,videoStarted=false,barProgress=0,vslMilestonesHit={};
 function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('ytPlayer',{videoId:'iqvEqCgNOMk',playerVars:{controls:0,disablekb:1,rel:0,modestbranding:1,iv_load_policy:3,fs:1},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
 }
@@ -769,7 +773,7 @@ function onPlayerStateChange(e){
       if(cur-lastTime>4&&!seekBlocked){seekBlocked=true;ytPlayer.seekTo(lastTime,true);setTimeout(function(){seekBlocked=false;},800);return;}
       lastTime=cur;
       var pct=getWeightedProgress(cur,dur);
-      if(pct>barProgress){barProgress=pct;document.getElementById('vslProgress').style.width=barProgress+'%';}
+      if(pct>barProgress){barProgress=pct;document.getElementById('vslProgress').style.width=barProgress+'%';[25,50,75,100].forEach(function(m){if(barProgress>=m&&!vslMilestonesHit[m]){vslMilestonesHit[m]=true;if(typeof fbq==='function')fbq('trackCustom','VideoProgress',{percent:m,video:'VSL_InnovaIA'});if(window.gtag)gtag('event','video_progress',{video_percent:m,video_title:'VSL InnovaIA'});}});}
     },800);
   }
   if(s===YT.PlayerState.PAUSED){if(progressInterval)clearInterval(progressInterval);if(videoStarted)setTimeout(function(){if(ytPlayer.getPlayerState()===YT.PlayerState.PAUSED)document.getElementById('pauseOverlay').classList.add('active');},800);}
