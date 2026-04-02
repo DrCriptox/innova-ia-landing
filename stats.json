@@ -2817,7 +2817,10 @@
         "181.208.171.232": 1
       }
     },
-    "conversions": 1
+    "conversions": 2,
+    "days_conversions": {
+      "2026-04-02": 1
+    }
   },
   "jennygi": {
     "total": 6,
