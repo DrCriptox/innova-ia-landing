@@ -1260,5 +1260,14 @@
     "foto": "fotos/impactodigital.jpg",
     "password": "Lahiam1011.",
     "registrado": "2026-04-02T18:29:39.512Z"
+  },
+  "teinvitoaqueveaselvdeo": {
+    "nombre": "Miguel Angel",
+    "rol": "Asesor de innova en Venezuela",
+    "telefono": "5804149015240",
+    "frase": "Hola soy tu asesor Miguel Angel en qué te puedo ayudar",
+    "foto": "fotos/teinvitoaqueveaselvdeo.jpg",
+    "password": "123456",
+    "registrado": "2026-04-02T18:56:03.385Z"
   }
 }
