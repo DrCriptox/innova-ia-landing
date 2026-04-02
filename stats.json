@@ -3625,7 +3625,10 @@
         "190.203.185.42": 1
       }
     },
-    "conversions": 1
+    "conversions": 2,
+    "days_conversions": {
+      "2026-04-02": 1
+    }
   },
   "johainn": {
     "total": 1,
