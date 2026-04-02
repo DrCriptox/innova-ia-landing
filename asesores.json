@@ -906,13 +906,14 @@
     "registrado": "2026-04-01T02:05:21.534Z"
   },
   "jenniinn": {
-    "nombre": "Ennifer Rodríguez",
+    "nombre": "Jennifer Rodríguez",
     "rol": "Socia de innova Venezuela",
     "telefono": "584140391840",
     "frase": "Hola soy tu asesora! Me complace darte la bienvenida a la empresa aquí estoy para ayudarte",
     "foto": "fotos/jenniinn.jpg",
     "password": "Yanye.15",
-    "registrado": "2026-04-01T02:14:10.126Z"
+    "registrado": "2026-04-01T02:14:10.126Z",
+    "whatsapp": "584140391840"
   },
   "profitqueen": {
     "nombre": "Luisa Fernanda Cossio Giraldo",
