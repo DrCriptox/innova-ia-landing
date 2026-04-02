@@ -139,7 +139,9 @@ tr:hover td{background:rgba(255,255,255,.02);}
   </div>
   <div class="tab-bar">
     <button class="tab-btn active" id="tabBtnAsesores" onclick="switchTab('asesores')">Asesores</button>
-    <button class="tab-btn" id="tabBtnHoy" onclick="switchTab('hoy')">Top Hoy</button>
+    <button class="tab-btn" id="tabBtnHoy" onclick="switchTab('hoy')">☀️ Top Hoy</button>
+        <button class="tab-btn" id="tabBtnSemanal" onclick="switchTab('semanal')">📅 Top Semanal</button>
+        <button class="tab-btn" id="tabBtnMensual" onclick="switchTab('mensual')">🗓️ Top Mensual</button>
         <button class="tab-btn" id="tabBtnPromo" onclick="switchTab('promo')">Top Promotores</button>
     <button class="tab-btn" id="tabBtnAnti" onclick="switchTab('anti')">Anti-trampa</button>
   </div>
@@ -162,6 +164,20 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <button class="refresh-btn" onclick="loadPromo()">&#8635; Actualizar</button>
       </div>
       <div class="promo-grid" id="hoyGrid"><div class="no-visits">Cargando...</div></div>
+    </div>
+    <div id="panelSemanal" style="display:none">
+      <div class="promo-header">
+        <span class="promo-title" id="semanalSubtitle">Cargando...</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;font-size:.7rem;color:#4ade80;"><span style="width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 1.5s infinite;display:inline-block;"></span>En vivo · 30s</span>
+      </div>
+      <div class="promo-grid" id="semanalGrid"><div class="no-visits">Cargando...</div></div>
+    </div>
+    <div id="panelMensual" style="display:none">
+      <div class="promo-header">
+        <span class="promo-title" id="mensualSubtitle">Cargando...</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;font-size:.7rem;color:#4ade80;"><span style="width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 1.5s infinite;display:inline-block;"></span>En vivo · 30s</span>
+      </div>
+      <div class="promo-grid" id="mensualGrid"><div class="no-visits">Cargando...</div></div>
     </div>
     <div id="panelPromo" style="display:none">
       <div class="promo-header">
@@ -216,11 +232,11 @@ function doLogout(){
 }
 var _promoTimer=null;
 function switchTab(tab){ currentTab=tab;
-    ['tabBtnAsesores','tabBtnHoy','tabBtnPromo','tabBtnAnti'].forEach(function(id){document.getElementById(id).classList.remove('active');});
-    document.getElementById('tabBtn'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
-    ['panelAsesores','panelHoy','panelPromo','panelAnti'].forEach(function(id){document.getElementById(id).style.display='none';});
-    document.getElementById('panel'+tab.charAt(0).toUpperCase()+tab.slice(1)).style.display='block';
-    if(tab==='promo'||tab==='hoy'){loadPromo();if(!_promoTimer)_promoTimer=setInterval(loadPromo,30000);}
+    ['tabBtnAsesores','tabBtnHoy','tabBtnSemanal','tabBtnMensual','tabBtnPromo','tabBtnAnti'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('active');});
+    var btnEl=document.getElementById('tabBtn'+tab.charAt(0).toUpperCase()+tab.slice(1));if(btnEl)btnEl.classList.add('active');
+    ['panelAsesores','panelHoy','panelSemanal','panelMensual','panelPromo','panelAnti'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+    var panEl=document.getElementById('panel'+tab.charAt(0).toUpperCase()+tab.slice(1));if(panEl)panEl.style.display='block';
+    if(tab==='promo'||tab==='hoy'||tab==='semanal'||tab==='mensual'){loadPromo();if(!_promoTimer)_promoTimer=setInterval(loadPromo,30000);}
     else{if(_promoTimer){clearInterval(_promoTimer);_promoTimer=null;}}
     if(tab==='anti')loadAnti();
   }
@@ -267,6 +283,8 @@ async function loadPromo(){
     }
     renderPromo();
     renderHoy();
+    if(document.getElementById('panelSemanal').style.display!=='none')renderSemanal();
+    if(document.getElementById('panelMensual').style.display!=='none')renderMensual();
   }catch(ex){
     document.getElementById('promoGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';
     document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Error: '+ex.message+'</div>';
@@ -281,11 +299,12 @@ function renderHoy(){
       var uniqHoy=todayIps?Object.keys(todayIps).length:0;
       var suspHoy=todayIps?Object.values(todayIps).filter(function(c){return c>1;}).length:0;
       var adj=Math.max(0,hoy-suspHoy*2);
+      var convHoy=(raw&&raw.days_conversions&&raw.days_conversions[today])?raw.days_conversions[today]:0;
       var a=allData.find(function(x){return x.slug===e[0];})||null;
-      return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a,uniqHoy:uniqHoy,suspHoy:suspHoy};
+      return{ref:e[0],p:p,hoy:hoy,adj:adj,a:a,uniqHoy:uniqHoy,suspHoy:suspHoy,convHoy:convHoy};
     }).filter(function(e){return e.hoy>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
     var totalHoy=entries.reduce(function(s,e){return s+e.hoy;},0);
-    var totConv=entries.reduce(function(s,e){return s+(e.p.conversions||0);},0);
+    var totConv=entries.reduce(function(s,e){return s+(e.convHoy||0);},0);
     document.getElementById('hoySubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' hoy · '+totalHoy.toLocaleString('es-CO')+' visitas · '+totConv+' conv.';
     if(!entries.length){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Aún no hay visitas hoy.<br>Actualiza en unos minutos.</div>';return;}
     var med=['🥇','🥈','🥉'];var html='';var maxV=entries[0].adj||1;
@@ -293,7 +312,7 @@ function renderHoy(){
       var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?med[i]:rk,p=e.p;
       var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
       var flag=e.a?phoneFlag(e.a.whatsapp||e.a.telefono||''):'';
-      var conv=p.conversions||0,adj=e.adj;
+      var conv=e.convHoy||0,adj=e.adj;
       var pct=Math.round((adj/maxV)*100);
       var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0;
       var tasaColor=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
@@ -311,6 +330,58 @@ function renderHoy(){
     entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('hav'+i);if(el){el.innerHTML='';el.appendChild(img);}});
   }
   
+function colOff2(days){return new Date(Date.now()-18000000+(days||0)*86400000).toISOString().split('T')[0];}
+function dateRange2(a,b){var dates=[],c=new Date(a+'T12:00:00Z'),e=new Date(b+'T12:00:00Z');while(c<=e){dates.push(c.toISOString().split('T')[0]);c.setUTCDate(c.getUTCDate()+1);}return dates;}
+function weekDates2(){var now=new Date(Date.now()-18000000),dow=now.getUTCDay(),dtm=dow===0?6:dow-1;return dateRange2(colOff2(-dtm),colOff2(6-dtm));}
+function monthDates2(){var now=new Date(Date.now()-18000000),y=now.getUTCFullYear(),m=now.getUTCMonth();return dateRange2(new Date(Date.UTC(y,m,1)).toISOString().split('T')[0],new Date(Date.UTC(y,m+1,0)).toISOString().split('T')[0]);}
+function fmtDateShort(d){var mo=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],p=d.split('-');return parseInt(p[2])+' '+mo[parseInt(p[1])-1];}
+function aggregateRange2(raw,dates){var total=0,ips={},convs=0;dates.forEach(function(d){total+=(raw&&raw.days&&raw.days[d])?raw.days[d]:0;if(raw&&raw.days_ips&&raw.days_ips[d])Object.entries(raw.days_ips[d]).forEach(function(e){ips[e[0]]=(ips[e[0]]||0)+e[1];});convs+=(raw&&raw.days_conversions&&raw.days_conversions[d])?raw.days_conversions[d]:0;});var uniq=Object.keys(ips).length,susp=Object.values(ips).filter(function(c){return c>1;}).length;return{total:total,uniq:uniq,susp:susp,adj:Math.max(0,total-susp*2),conversions:convs};}
+function buildCardAdmin(pfx,e,i,lbl,maxV){
+  var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?['🥇','🥈','🥉'][i]:rk;
+  var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
+  var flag=e.a?phoneFlag(e.a.whatsapp||e.a.telefono||''):'';
+  var conv=e.conversions||0,adj=e.adj,pct=Math.round((adj/maxV)*100);
+  var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0,tc=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
+  var h='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div>';
+  h+='<div id="'+pfx+i+'"><div class="promo-avph">👤</div></div>';
+  h+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
+  if(e.uniq>0){h+='<div class="promo-ip-row" style="margin-top:3px;"><span class="v-chip unicas">🟢 '+e.uniq+' únicas</span>';if(e.susp>0)h+='<span class="v-chip sospechosas">⚠ '+e.susp+' susp.</span>';h+='</div>';}
+  h+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
+  h+='</div><div class="promo-right"><div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">'+lbl+'</div>';
+  if(conv>0){h+='<div style="font-size:.82rem;font-weight:700;color:#4ade80;margin-top:3px;">'+conv+' conv.</div><div style="font-size:.7rem;color:'+tc+';font-weight:700;">'+tasa+'%</div>';}
+  else{h+='<div style="font-size:.7rem;color:var(--muted);margin-top:3px;">0 conv.</div>';}
+  return h+'</div></div>';
+}
+function renderSemanal(){
+  var dates=weekDates2();
+  var entries=Object.entries(statsData).map(function(e){
+    var raw=e[1],p=parseEntry(raw),agg=aggregateRange2(raw,dates);
+    var a=allData.find(function(x){return x.slug===e[0];})||null;
+    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
+  }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+  var totV=entries.reduce(function(s,e){return s+e.total;},0),totC=entries.reduce(function(s,e){return s+(e.conversions||0);},0);
+  document.getElementById('semanalSubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totV.toLocaleString('es-CO')+' visitas · '+totC+' conv. ('+fmtDateShort(dates[0])+' – '+fmtDateShort(dates[dates.length-1])+')';
+  if(!entries.length){document.getElementById('semanalGrid').innerHTML='<div class="no-visits">Sin visitas esta semana.</div>';return;}
+  var maxV=entries[0].adj||1;
+  document.getElementById('semanalGrid').innerHTML=entries.map(function(e,i){return buildCardAdmin('sadm',e,i,'semana',maxV);}).join('');
+  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('sadm'+i);if(el){el.innerHTML='';el.appendChild(img);}});
+}
+function renderMensual(){
+  var dates=monthDates2(),now=new Date(Date.now()-18000000);
+  var mo=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  var ml=mo[now.getUTCMonth()]+' '+now.getUTCFullYear();
+  var entries=Object.entries(statsData).map(function(e){
+    var raw=e[1],p=parseEntry(raw),agg=aggregateRange2(raw,dates);
+    var a=allData.find(function(x){return x.slug===e[0];})||null;
+    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
+  }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+  var totV=entries.reduce(function(s,e){return s+e.total;},0),totC=entries.reduce(function(s,e){return s+(e.conversions||0);},0);
+  document.getElementById('mensualSubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totV.toLocaleString('es-CO')+' visitas · '+totC+' conv. ('+ml+')';
+  if(!entries.length){document.getElementById('mensualGrid').innerHTML='<div class="no-visits">Sin visitas este mes.</div>';return;}
+  var maxV=entries[0].adj||1;
+  document.getElementById('mensualGrid').innerHTML=entries.map(function(e,i){return buildCardAdmin('madm',e,i,'mes',maxV);}).join('');
+  entries.forEach(function(e,i){if(!e.a||!e.a.foto)return;var src=e.a.foto.indexOf('fotos/')===0?'/'+e.a.foto:e.a.foto;var img=new Image();img.className='promo-av';img.src=src;img.onerror=function(){this.parentNode.innerHTML='<div class="promo-avph">👤</div>';};var el=document.getElementById('madm'+i);if(el){el.innerHTML='';el.appendChild(img);}});
+}
 async function loadAnti(){
   document.getElementById('antiGrid').innerHTML='<div class="no-visits">Cargando...</div>';
   document.getElementById('antiSummary').innerHTML='';
