@@ -3457,7 +3457,10 @@
         "77.247.123.40": 1
       }
     },
-    "conversions": 6
+    "conversions": 7,
+    "days_conversions": {
+      "2026-04-02": 1
+    }
   },
   "impactodigital": {
     "total": 1,
