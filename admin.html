@@ -342,14 +342,15 @@ function buildCardAdmin(pfx,e,i,lbl,maxV){
   var flag=e.a?phoneFlag(e.a.whatsapp||e.a.telefono||''):'';
   var conv=e.conversions||0,adj=e.adj,pct=Math.round((adj/maxV)*100);
   var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0,tc=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
+  var alerta=(adj>=30&&tasa<5)?'<div style="font-size:.65rem;background:#FF4444;color:#fff;border-radius:3px;padding:1px 5px;font-weight:700;margin-top:2px;">&#9888; alerta CVR</div>':'';
   var h='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div>';
   h+='<div id="'+pfx+i+'"><div class="promo-avph">👤</div></div>';
   h+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
   if(e.uniq>0){h+='<div class="promo-ip-row" style="margin-top:3px;"><span class="v-chip unicas">🟢 '+e.uniq+' únicas</span>';if(e.susp>0)h+='<span class="v-chip sospechosas">⚠ '+e.susp+' susp.</span>';h+='</div>';}
   h+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
   h+='</div><div class="promo-right"><div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">'+lbl+'</div>';
-  if(conv>0){h+='<div style="font-size:.82rem;font-weight:700;color:#4ade80;margin-top:3px;">'+conv+' conv.</div><div style="font-size:.7rem;color:'+tc+';font-weight:700;">'+tasa+'%</div>';}
-  else{h+='<div style="font-size:.7rem;color:var(--muted);margin-top:3px;">0 conv.</div>';}
+  if(conv>0){h+='<div style="font-size:.82rem;font-weight:700;color:#4ade80;margin-top:3px;">'+conv+' conv.</div><div style="font-size:.7rem;color:'+tc+';font-weight:700;">'+tasa+'%</div>'+alerta;}
+  else{h+='<div style="font-size:.7rem;color:var(--muted);margin-top:3px;">0 conv.</div>'+alerta;}
   return h+'</div></div>';
 }
 function renderSemanal(){
