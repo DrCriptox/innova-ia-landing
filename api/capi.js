@@ -60,7 +60,7 @@ export default async function handler(req) {
   if (process.env.CAPI_TEST_CODE) capiPayload.test_event_code = process.env.CAPI_TEST_CODE;
   try {
     const metaRes = await fetch(
-      'https://graph.facebook.com/v19.0/' + PIXEL_ID + '/events?access_token=' + TOKEN,
+      'https://graph.facebook.com/v21.0/' + PIXEL_ID + '/events?access_token=' + TOKEN,
       { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(capiPayload) }
     );
     const result = await metaRes.json();
