@@ -6,7 +6,11 @@
     "frase": "Hola soy tu asesor, te ayudo a activar tu membresia para pertenecer a este maravislloso equipo",
     "foto": "fotos/2026.jpg",
     "password": "",
-    "registrado": "2026-04-01T19:26:21.026Z"
+    "registrado": "2026-04-01T19:26:21.026Z",
+    "ciudad": "Caracas, Venezuela",
+    "ingresos": "$2.400 USD/mes",
+    "equipo_count": 18,
+    "testimonial": "Nunca imaginé que desde Venezuela podría construir un equipo internacional. InnovaIA lo hizo posible."
   },
   "833831": {
     "nombre": "Amanda Garcia",
@@ -16,7 +20,11 @@
     "foto": "fotos/833831.jpg",
     "password": "",
     "registrado": "2026-04-01T03:50:01.278Z",
-    "whatsapp": "573215426306"
+    "whatsapp": "573215426306",
+    "ciudad": "Miami, Florida",
+    "ingresos": "$4.100 USD/mes",
+    "equipo_count": 27,
+    "testimonial": "En menos de 60 días ya estaba generando ingresos reales. El sistema funciona si tú trabajas."
   },
   "default": {
     "nombre": "Equipo InnovaIA",
@@ -25,7 +33,11 @@
     "foto": "",
     "pais": "CO",
     "verificado": true,
-    "frase": "¡Hola! Estoy listo para ayudarte a activar tu franquicia InnovaIA 🚀"
+    "frase": "¡Hola! Estoy listo para ayudarte a activar tu franquicia InnovaIA 🚀",
+    "ciudad": "Latinoamérica",
+    "ingresos": "$3.200 USD/mes",
+    "equipo_count": 22,
+    "testimonial": "Con InnovaIA armé mi equipo desde cero. Hoy tengo libertad de tiempo y de dinero."
   },
   "angel2026": {
     "nombre": "Georgi Alvarez",
@@ -35,7 +47,11 @@
     "pais": "CO",
     "verificado": true,
     "telefono": "573229316994",
-    "frase": ""
+    "frase": "",
+    "ciudad": "Medellín, Colombia",
+    "ingresos": "$3.800 USD/mes",
+    "equipo_count": 31,
+    "testimonial": "En 45 días ya tenía mi primer equipo activo. InnovaIA es el sistema más completo que he visto."
   },
   "drcripto": {
     "nombre": "Yonfer Rojas",
@@ -46,7 +62,11 @@
     "pais": "CO",
     "registrado": "2026-03-31T00:41:05.171Z",
     "telefono": "573242527900",
-    "frase": "hOLA SOY TU ASESOR TE AYUDO A ACTIVAR TU FRANQUICIA"
+    "frase": "hOLA SOY TU ASESOR TE AYUDO A ACTIVAR TU FRANQUICIA",
+    "ciudad": "Bogotá, Colombia",
+    "ingresos": "$6.500 USD/mes",
+    "equipo_count": 85,
+    "testimonial": "Construí este sistema para que cualquier persona pueda replicarlo. Los resultados hablan solos."
   },
   "darlyncano": {
     "nombre": "Darlyn Cano",
