@@ -3084,7 +3084,10 @@
         "190.6.19.80": 1
       }
     },
-    "conversions": 1
+    "conversions": 2,
+    "days_conversions": {
+      "2026-04-02": 1
+    }
   },
   "te": {
     "total": 4,
