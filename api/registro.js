@@ -65,7 +65,7 @@ export default async function handler(req) {
   try { body = await req.json(); }
   catch { return json({ error: 'Invalid JSON body' }, 400, req); }
 
-  const { nombre, rol, slug, telefono, foto, frase, password } = body;
+  const { nombre, rol, slug, telefono, foto, frase, password, ciudad } = body;
   if (!nombre || !slug || !telefono) return json({ error: 'Faltan campos: nombre, slug, telefono' }, 400, req);
   if (!/^[a-z0-9_-]{3,40}$/.test(slug)) return json({ error: 'Slug invalido (solo a-z, 0-9, guion, 3-40 chars)' }, 400, req);
 
@@ -99,7 +99,7 @@ export default async function handler(req) {
 
     if (asesores.data[slug]) return json({ error: 'Ese slug ya esta en uso. Elige otro.' }, 409, req);
 
-    asesores.data[slug] = { nombre, rol: rol||'Asesor InnovaIA', telefono, frase: frase||'', foto: fotoRef, password: password||'', registrado: new Date().toISOString() };
+    asesores.data[slug] = { nombre, rol: rol||'Asesor InnovaIA', telefono, frase: frase||'', ciudad: ciudad||'', foto: fotoRef, password: password||'', registrado: new Date().toISOString() };
 
     const putRes = await fetch(GH_API + '/repos/' + REPO + '/contents/' + FILE, {
       method: 'PUT',
