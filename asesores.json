@@ -1379,5 +1379,14 @@
     "foto": "fotos/edca82.jpg",
     "password": "Edca$8283",
     "registrado": "2026-04-03T01:32:52.083Z"
+  },
+  "laicainn": {
+    "nombre": "Joselin Laica",
+    "rol": "Asesora Innova Venezuela",
+    "telefono": "584162122224",
+    "frase": "HOLA! SOY TU ASESORA DE INNOVA, ESTOY ACÁ PARA ACLARAR TODAS TUS DUDAS.",
+    "foto": "fotos/laicainn.jpg",
+    "password": "Digital26.",
+    "registrado": "2026-04-03T02:02:03.118Z"
   }
 }
