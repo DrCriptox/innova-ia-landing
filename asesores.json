@@ -1441,5 +1441,15 @@
     "foto": "fotos/camilatoroarangocom.jpg",
     "password": "CAMILAtoro1094@",
     "registrado": "2026-04-03T20:44:25.774Z"
+  },
+  "juandavidromero": {
+    "nombre": "Juan romero",
+    "rol": "empresario digital y embajador de franquicias",
+    "telefono": "573246101245",
+    "frase": "Hola soy asesor en cómo generar ingresos a través de habilidades digitales y tener tu franquicia !",
+    "ciudad": "Puerto boyaca Colombia",
+    "foto": "fotos/juandavidromero.jpg",
+    "password": "juandavid1.",
+    "registrado": "2026-04-03T22:52:16.574Z"
   }
 }
