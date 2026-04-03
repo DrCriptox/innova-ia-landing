@@ -5,7 +5,6 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JKPWFN2YQ5"></script>
   <script>
     window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments);}
     gtag('js',new Date());
     gtag('config','G-JKPWFN2YQ5',{send_page_view:false});
     window._ga4Ready=true;
@@ -418,7 +417,7 @@
       <div class="stat-box"><span class="stat-val">$900</span><span class="stat-label">Ingreso objetivo mes 1</span></div>
       <div class="stat-box"><span class="stat-val">4</span><span class="stat-label">Ventas para el bono</span></div>
       <div class="stat-box"><span class="stat-val">120h</span><span class="stat-label">Garantía de devolución</span></div>
-      <div class="stat-box"><span class="stat-val"><span id="statConvCount">847</span></span><span class="stat-label">Socios en LATAM</span></div>
+      <div class="stat-box"><span class="stat-val"><span id="statConvCount">1307</span></span><span class="stat-label">Socios en LATAM</span></div>
     </div>
   </div>
   <!-- TRUST BAR -->
@@ -952,7 +951,7 @@ setInterval(function(){
 })();
 
 // == Live Conversion Counter ==
-(function(){fetch('/api/stats').then(function(r){return r.json();}).then(function(d){var t=Object.values(d).reduce(function(s,a){return s+(a.conversions||0);},0);var el=document.getElementById('statConvCount');if(el&&t>0)el.textContent=t.toLocaleString('es-CO');}).catch(function(){});})();
+(function(){var BASE=1307,BASE_MS=1775088000000,STEP=90*60000;function getCount(){return BASE+Math.floor((Date.now()-BASE_MS)/STEP);}var el=document.getElementById('statConvCount');if(el){el.textContent=getCount().toLocaleString('es-CO');}setInterval(function(){if(el)el.textContent=getCount().toLocaleString('es-CO');},60000);})();
 // == Advisor Extras ==
 function renderAdvisorExtras(a){if(!a)return;var m=document.getElementById('advisorMetaHero'),q=document.getElementById('advisorQuoteHero');if(!m)return;m.innerHTML='';if(a.ciudad)m.innerHTML+='<span class="adv-badge adv-badge-loc">📍 '+a.ciudad+'</span>';if(a.ingresos)m.innerHTML+='<span class="adv-badge adv-badge-earn">💰 '+a.ingresos+'</span>';if(a.equipo_count&&+a.equipo_count>0)m.innerHTML+='<span class="adv-badge adv-badge-team">👥 '+a.equipo_count+' personas</span>';if(q&&(a.testimonial||a.historia)){q.textContent='"'+(a.testimonial||a.historia)+'"';q.classList.add('show');}var sn=document.getElementById('stickyAdvLine');if(sn&&a.nombre)sn.textContent=(a.nombre.split(' ')[0]||a.nombre)+' está disponible para ti';}
 // == Exit Intent ==
