@@ -3862,9 +3862,10 @@
         "191.95.17.84": 1
       }
     },
-    "conversions": 12,
+    "conversions": 13,
     "days_conversions": {
-      "2026-04-02": 6
+      "2026-04-02": 6,
+      "2026-04-03": 1
     }
   },
   "impactodigital": {
