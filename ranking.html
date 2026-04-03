@@ -106,6 +106,12 @@ function phoneFlag(tel,pais){
     else if(t.startsWith('591'))code='BO';
     else if(t.startsWith('595'))code='PY';
     else if(t.startsWith('598'))code='UY';
+    else if(t.startsWith('34'))code='ES';
+    else if(t.startsWith('55'))code='BR';
+    else if(t.startsWith('507'))code='PA';
+    else if(t.startsWith('506'))code='CR';
+    else if(t.startsWith('1809')||t.startsWith('1829')||t.startsWith('1849'))code='DO';
+    else if(t.startsWith('351'))code='PT';
     else return '';
   }
   return '<img src="https://flagcdn.com/20x15/'+code.toLowerCase()+'.png" alt="'+code+'" title="'+code+'" style="width:18px;height:14px;vertical-align:middle;border-radius:2px;margin-left:3px;flex-shrink:0;">';
