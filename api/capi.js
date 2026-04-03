@@ -1,9 +1,9 @@
 // Meta Conversions API (CAPI) — Vercel Edge Function
-// Pixel ID: 916162744586534
+// Pixel ID: 1482869569364321
 
 export const config = { runtime: 'edge' };
 
-const PIXEL_ID = '916162744586534';
+const PIXEL_ID = '1482869569364321';
 const ALLOWED_ORIGIN = 'https://www.innovaia.app';
 
 export default async function handler(req) {
