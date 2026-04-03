@@ -787,7 +787,7 @@ var ytPlayer,vslDuration=0,progressInterval=null,lastTime=0,seekBlocked=false,vi
 function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('ytPlayer',{videoId:'iqvEqCgNOMk',playerVars:{controls:0,disablekb:1,rel:0,modestbranding:1,iv_load_policy:3,fs:1},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
 }
-function onPlayerReady(e){vslDuration=ytPlayer.getDuration()||795;ytPlayer.mute();ytPlayer.playVideo();}
+function onPlayerReady(e){vslDuration=ytPlayer.getDuration()||795;ytPlayer.mute();ytPlayer.playVideo();try{var _sv=parseInt(localStorage.getItem('vslPos')||'0');if(_sv>15){setTimeout(function(){ytPlayer.seekTo(_sv,true);lastTime=_sv;},800);}}catch(e){}}
 function onPlayerStateChange(e){
   var s=e.data;
   if(s===YT.PlayerState.PLAYING){
@@ -798,7 +798,7 @@ function onPlayerStateChange(e){
     progressInterval=setInterval(function(){
       var cur=ytPlayer.getCurrentTime(),dur=ytPlayer.getDuration()||vslDuration;
       if(cur-lastTime>4&&!seekBlocked){seekBlocked=true;ytPlayer.seekTo(lastTime,true);setTimeout(function(){seekBlocked=false;},800);return;}
-      lastTime=cur;
+      lastTime=cur;try{localStorage.setItem('vslPos',Math.floor(cur));}catch(e){}
       var pct=getWeightedProgress(cur,dur);
       if(pct>barProgress){barProgress=pct;document.getElementById('vslProgress').style.width=barProgress+'%';[25,50,75,100].forEach(function(m){if(barProgress>=m&&!vslMilestonesHit[m]){vslMilestonesHit[m]=true;if(typeof fbq==='function')fbq('trackCustom','VideoProgress',{percent:m,video:'VSL_InnovaIA'});if(window.gtag)gtag('event','video_progress',{video_percent:m,video_title:'VSL InnovaIA'});}});}
     },800);
@@ -809,7 +809,7 @@ function onPlayerStateChange(e){
 function getWeightedProgress(c,t){var seg=[[0,60,10],[60,180,5],[180,300,2],[300,600,1],[600,1800,.5],[1800,1920,.3]],tw=0,cw=0;for(var i=0;i<seg.length;i++){var s0=seg[i][0],s1=Math.min(seg[i][1],t),m=seg[i][2];if(s0>=t)break;var d=s1-s0;tw+=d*m;if(c>=s1)cw+=d*m;else if(c>s0)cw+=(c-s0)*m;}if(t>1920){tw+=(t-1920)*.3;if(c>1920)cw+=(c-1920)*.3;}return tw>0?Math.min((cw/tw)*100,100):0;}
 function unmuteVideo(){document.getElementById('mutedOverlay').classList.add('hidden');if(ytPlayer){ytPlayer.unMute();ytPlayer.setVolume(100);}}
 function resumeVideo(){document.getElementById('pauseOverlay').classList.remove('active');if(ytPlayer&&ytPlayer.playVideo)ytPlayer.playVideo();}
-function replayVideo(){document.getElementById('endOverlay').classList.remove('active');barProgress=0;lastTime=0;videoStarted=false;document.getElementById('vslProgress').style.width='0%';if(ytPlayer){ytPlayer.seekTo(0,true);ytPlayer.playVideo();}}
+function replayVideo(){document.getElementById('endOverlay').classList.remove('active');barProgress=0;lastTime=0;videoStarted=false;document.getElementById('vslProgress').style.width='0%';try{localStorage.removeItem('vslPos');}catch(e){}if(ytPlayer){ytPlayer.seekTo(0,true);ytPlayer.playVideo();}}
 
 // ── Advisor System ─────────────────────────────────────
 var _advisorData=null;
@@ -958,7 +958,7 @@ function renderAdvisorExtras(a){if(!a)return;var m=document.getElementById('advi
 var _exitShown=false;
 function showExitIntent(){if(_exitShown||sessionStorage.getItem('exitSeen'))return;_exitShown=true;sessionStorage.setItem('exitSeen','1');var p=document.getElementById('exitPopup');if(p)p.classList.add('show');}
 function closeExit(){var p=document.getElementById('exitPopup');if(p)p.classList.remove('show');}
-document.addEventListener('mouseleave',function(e){if(e.clientY<10)showExitIntent();});
+var _pageLoadTime=Date.now();document.addEventListener('mouseleave',function(e){if(e.clientY<10&&Date.now()-_pageLoadTime>20*60*1000)showExitIntent();});
 // == Sticky CTA Bar ==
 var _stickyShown=false;
 function showStickyBar(){if(_stickyShown)return;_stickyShown=true;var b=document.getElementById('stickyCTABar');if(b)b.classList.add('show');}
@@ -968,7 +968,7 @@ var _formEl2=document.getElementById('form');
 if(_formEl2){var _stickyObs=new IntersectionObserver(function(entries){var b=document.getElementById('stickyCTABar');if(b)b.style.transform=entries[0].isIntersecting?'translateY(100%)':'';},{threshold:0.2});_stickyObs.observe(_formEl2);}
 </script>
 <!-- Exit Intent Popup -->
-<div id="exitPopup"><div class="exit-box"><button class="exit-close" onclick="closeExit()">×</button><div style="font-size:2.1rem;margin-bottom:10px">⏳</div><h3 style="color:var(--gold);font-size:1.15rem;margin-bottom:8px;font-weight:800">Espera un momento...</h3><p style="color:var(--muted);font-size:.87rem;line-height:1.55;margin-bottom:0">Personas sin experiencia están generando sus primeros ingresos <strong style="color:var(--text)">esta semana</strong>. ¿Ya viste los resultados reales?</p><a href="#form" class="exit-cta" onclick="closeExit()">Sí, quiero verlo →</a><button class="exit-skip" onclick="closeExit()">No me interesa por ahora</button></div></div>
+<div id="exitPopup"><div class="exit-box"><button class="exit-close" onclick="closeExit()">×</button><div style="font-size:2.1rem;margin-bottom:10px">🎯</div><h3 style="color:var(--gold);font-size:1.15rem;margin-bottom:8px;font-weight:800">¡El video aún no terminó!</h3><p style="color:var(--muted);font-size:.87rem;line-height:1.55;margin-bottom:0">Los detalles de cómo funciona el sistema y los <strong style="color:var(--text)">resultados reales</strong> están en los próximos minutos. Vale la pena terminar de verlo.</p><a href="javascript:void(0)" class="exit-cta" onclick="closeExit();if(ytPlayer&&ytPlayer.playVideo)ytPlayer.playVideo()">Sí, sigo viendo →</a><button class="exit-skip" onclick="closeExit()">Cerrar</button></div></div>
 <!-- Sticky CTA Bar -->
 <div id="stickyCTABar"><div class="sticky-info"><div class="sticky-urgency">⏰ Cupos limitados hoy</div><div class="sticky-adv" id="stickyAdvLine">Tu asesor está disponible ahora</div></div><a href="#form" class="sticky-btn" onclick="if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{content_name:'Sticky CTA'})">Activar ahora →</a></div>
 </body>
