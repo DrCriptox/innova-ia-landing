@@ -72,14 +72,14 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 
     /* ADVISOR CARD */
-    .advisor-card{display:none;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(42,255,213,.04));border:1px solid rgba(212,168,83,.25);border-radius:var(--radius);padding:14px 18px;max-width:420px;margin:0 auto 28px;animation:fadeUp .5s .2s ease both;text-align:left;}
+    .advisor-card{display:none;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(42,255,213,.04));border:1px solid rgba(212,168,83,.25);border-radius:12px;padding:11px 14px;max-width:340px;margin:0 auto 22px;animation:fadeUp .5s .2s ease both;text-align:left;}
     .advisor-card.show{display:flex;}
     .advisor-avatar{width:54px;height:54px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;flex-shrink:0;background:var(--dark-3);}
     .advisor-avatar-ph{width:54px;height:54px;border-radius:50%;border:2px solid var(--gold);flex-shrink:0;background:linear-gradient(135deg,var(--dark-3),rgba(212,168,83,.2));display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
     .advisor-info{flex:1;min-width:0;}
     .advisor-label{font-size:.65rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px;}
-    .advisor-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--text);display:flex;align-items:center;gap:6px;}
-    .verified{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:var(--accent);border-radius:50%;flex-shrink:0;}
+    .advisor-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--text);display:flex;align-items:center;gap:5px;}
+    .verified{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;background:#0866FF;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(8,102,255,.25);}
     .verified svg{width:10px;height:10px;}
     .advisor-rol{font-size:.78rem;color:var(--gold);margin-top:1px;}
     .advisor-msg{font-size:.78rem;color:var(--text-muted);margin-top:4px;line-height:1.4;font-style:italic;}
@@ -405,7 +405,7 @@
   </div>
 
   <!-- CTA POST-VSL -->
-  <div style="text-align:center;padding:0 16px 0;max-width:600px;margin:0 auto;">
+  <div style="text-align:center;padding:0 16px 32px;max-width:600px;margin:0 auto;">
     <a href="#form" style="display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#fff;padding:16px 36px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;animation:pulseG 2s infinite;transition:background .2s,transform .15s;" onmouseover="this.style.background='#1ebe5a'" onmouseout="this.style.background='var(--green)'" onclick="if(typeof fbq==='function')fbq('track','InitiateCheckout',{content_name:'CTA Post VSL',currency:'USD',value:100})">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Quiero activar mi franquicia
@@ -413,16 +413,16 @@
   </div>
 
   <!-- STATS ROW -->
-  <div style="max-width:880px;margin:0 auto;padding:0 16px 8px;animation:fadeUp .5s .32s ease both;">
+  <div style="max-width:880px;margin:0 auto;padding:0 16px 0;animation:fadeUp .5s .32s ease both;">
     <div class="stats-row">
       <div class="stat-box"><span class="stat-val">$900</span><span class="stat-label">Ingreso objetivo mes 1</span></div>
       <div class="stat-box"><span class="stat-val">4</span><span class="stat-label">Ventas para el bono</span></div>
       <div class="stat-box"><span class="stat-val">120h</span><span class="stat-label">Garantía de devolución</span></div>
-      <div class="stat-box"><span class="stat-val"><span id="statConvCount">847</span></span<span class="stat-label">Socios activos</span></div>
+      <div class="stat-box"><span class="stat-val"><span id="statConvCount">847</span></span><span class="stat-label">Socios en LATAM</span></div>
     </div>
   </div>
   <!-- TRUST BAR -->
-  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;padding:10px 12px 36px;max-width:880px;margin:0 auto;">
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;padding:4px 12px 32px;max-width:880px;margin:0 auto;">
     <div class="trust-item" style="font-size:.78rem;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Sin experiencia necesaria</div>
     <div class="trust-item" style="font-size:.78rem;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Sistema duplicable listo</div>
     <div class="trust-item" style="font-size:.78rem;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Financiamiento disponible</div>
@@ -917,8 +917,7 @@ document.querySelectorAll('.reveal').forEach(function(r){revObs.observe(r);});
 // ── Float CTA ─────────────────────────────────────────
 var floatShown=false;
 function showFloat(){if(!floatShown){floatShown=true;document.getElementById('floatCta').classList.add('visible');}}
-setTimeout(showFloat,4000);
-window.addEventListener('scroll',function(){if(window.scrollY>400)showFloat();},{passive:true});
+setTimeout(showFloat,120000);
 var bubbleMessages=['¿Listo para activar tu franquicia? 👆','4 ventas = $900 en el primer mes 💰','Sin experiencia · Sin seguidores 🚀','20 min de conversación, sin compromiso ✅'];
 var bubbleIdx=0;
 setInterval(function(){
