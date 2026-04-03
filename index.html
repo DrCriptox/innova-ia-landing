@@ -294,6 +294,32 @@
   .trust-item{font-size:.8rem;}
   .vsl-wrap{margin-bottom:28px;padding:0 12px;}
 }
+
+/* == Advisor Badges == */
+.advisor-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
+.adv-badge{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;padding:3px 9px;border-radius:20px;font-weight:600;letter-spacing:.01em;line-height:1.4;}
+.adv-badge-loc{background:rgba(212,168,83,.13);color:var(--gold);}
+.adv-badge-earn{background:rgba(74,222,128,.13);color:#4ade80;}
+.adv-badge-team{background:rgba(165,180,252,.13);color:#a5b4fc;}
+.advisor-quote{font-size:.71rem;font-style:italic;color:var(--muted);margin-top:7px;padding:5px 10px;border-left:2px solid rgba(212,168,83,.35);line-height:1.5;display:none;}
+.advisor-quote.show{display:block;}
+/* == Exit Intent == */
+#exitPopup{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.78);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:16px;}
+#exitPopup.show{display:flex;}
+.exit-box{background:var(--dark-2);border:1px solid rgba(212,168,83,.22);border-radius:22px;max-width:390px;width:100%;padding:30px 22px 24px;text-align:center;position:relative;animation:fadeUp .35s ease;}
+.exit-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;line-height:1;padding:4px;}
+.exit-cta{display:block;background:var(--gold);color:#000 !important;font-weight:800;padding:13px 20px;border-radius:13px;text-decoration:none;font-size:.95rem;margin-top:18px;transition:opacity .2s;}
+.exit-cta:hover{opacity:.88;}
+.exit-skip{background:none;border:none;color:var(--muted);font-size:.77rem;cursor:pointer;margin-top:11px;text-decoration:underline;display:block;width:100%;text-align:center;}
+/* == Sticky CTA Bar == */
+#stickyCTABar{position:fixed;bottom:0;left:0;right:0;z-index:997;background:linear-gradient(135deg,#071a0f,#0e2618);border-top:1px solid rgba(37,211,102,.18);padding:10px 16px;transform:translateY(100%);transition:transform .45s cubic-bezier(.22,.61,.36,1);display:flex;align-items:center;gap:12px;}
+#stickyCTABar.show{transform:translateY(0);}
+.sticky-info{flex:1;min-width:0;}
+.sticky-urgency{font-size:.67rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.sticky-adv{font-size:.79rem;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sticky-btn{background:var(--gold);color:#000 !important;font-weight:800;padding:10px 20px;border-radius:11px;text-decoration:none;font-size:.84rem;white-space:nowrap;flex-shrink:0;transition:opacity .2s;}
+.sticky-btn:hover{opacity:.88;}
+@media(max-width:360px){.sticky-adv{display:none;}.sticky-urgency{font-size:.63rem;}}
 </style>
 </head>
 <body>
@@ -329,6 +355,8 @@
         </div>
         <div class="advisor-rol" id="advisorRolHero"></div>
         <div class="advisor-msg" id="advisorMsgHero"></div>
+        <div class="advisor-meta" id="advisorMetaHero"></div>
+        <div class="advisor-quote" id="advisorQuoteHero"></div>
       </div>
     </div>
 
@@ -390,7 +418,7 @@
       <div class="stat-box"><span class="stat-val">$900</span><span class="stat-label">Ingreso objetivo mes 1</span></div>
       <div class="stat-box"><span class="stat-val">4</span><span class="stat-label">Ventas para el bono</span></div>
       <div class="stat-box"><span class="stat-val">120h</span><span class="stat-label">Garantía de devolución</span></div>
-      <div class="stat-box"><span class="stat-val">LATAM</span><span class="stat-label">Socios activos</span></div>
+      <div class="stat-box"><span class="stat-val"><span id="statConvCount">847</span></span<span class="stat-label">Socios activos</span></div>
     </div>
   </div>
   <!-- TRUST BAR -->
@@ -798,7 +826,7 @@ async function loadAdvisor(){
   }catch(e){return null;}
 }
 
-function renderAdvisor(a){
+function renderAdvisor(a);renderAdvisorExtras(a){
   if(!a)return;
   _advisorData=a;
   // Hero card
@@ -923,6 +951,27 @@ setInterval(function(){
   if(typeof fbq==='function')fbq('track','PageView',{},{eventID:pvId});
   window.addEventListener('load',function(){window.sendCAPIEvent('PageView',pvId);});
 })();
+
+// == Live Conversion Counter ==
+(function(){fetch('/api/stats').then(function(r){return r.json();}).then(function(d){var t=Object.values(d).reduce(function(s,a){return s+(a.conversions||0);},0);var el=document.getElementById('statConvCount');if(el&&t>0)el.textContent=t.toLocaleString('es-CO');}).catch(function(){});})();
+// == Advisor Extras ==
+function renderAdvisorExtras(a){if(!a)return;var m=document.getElementById('advisorMetaHero'),q=document.getElementById('advisorQuoteHero');if(!m)return;m.innerHTML='';if(a.ciudad)m.innerHTML+='<span class="adv-badge adv-badge-loc">📍 '+a.ciudad+'</span>';if(a.ingresos)m.innerHTML+='<span class="adv-badge adv-badge-earn">💰 '+a.ingresos+'</span>';if(a.equipo_count&&+a.equipo_count>0)m.innerHTML+='<span class="adv-badge adv-badge-team">👥 '+a.equipo_count+' personas</span>';if(q&&(a.testimonial||a.historia)){q.textContent='"'+(a.testimonial||a.historia)+'"';q.classList.add('show');}var sn=document.getElementById('stickyAdvLine');if(sn&&a.nombre)sn.textContent=(a.nombre.split(' ')[0]||a.nombre)+' está disponible para ti';}
+// == Exit Intent ==
+var _exitShown=false;
+function showExitIntent(){if(_exitShown||sessionStorage.getItem('exitSeen'))return;_exitShown=true;sessionStorage.setItem('exitSeen','1');var p=document.getElementById('exitPopup');if(p)p.classList.add('show');}
+function closeExit(){var p=document.getElementById('exitPopup');if(p)p.classList.remove('show');}
+document.addEventListener('mouseleave',function(e){if(e.clientY<10)showExitIntent();});
+// == Sticky CTA Bar ==
+var _stickyShown=false;
+function showStickyBar(){if(_stickyShown)return;_stickyShown=true;var b=document.getElementById('stickyCTABar');if(b)b.classList.add('show');}
+setTimeout(showStickyBar,25000);
+window.addEventListener('scroll',function(){if(window.scrollY>window.innerHeight)showStickyBar();},{passive:true});
+var _formEl2=document.getElementById('form');
+if(_formEl2){var _stickyObs=new IntersectionObserver(function(entries){var b=document.getElementById('stickyCTABar');if(b)b.style.transform=entries[0].isIntersecting?'translateY(100%)':'';},{threshold:0.2});_stickyObs.observe(_formEl2);}
 </script>
+<!-- Exit Intent Popup -->
+<div id="exitPopup"><div class="exit-box"><button class="exit-close" onclick="closeExit()">×</button><div style="font-size:2.1rem;margin-bottom:10px">⏳</div><h3 style="color:var(--gold);font-size:1.15rem;margin-bottom:8px;font-weight:800">Espera un momento...</h3><p style="color:var(--muted);font-size:.87rem;line-height:1.55;margin-bottom:0">Personas sin experiencia están generando sus primeros ingresos <strong style="color:var(--text)">esta semana</strong>. ¿Ya viste los resultados reales?</p><a href="#form" class="exit-cta" onclick="closeExit()">Sí, quiero verlo →</a><button class="exit-skip" onclick="closeExit()">No me interesa por ahora</button></div></div>
+<!-- Sticky CTA Bar -->
+<div id="stickyCTABar"><div class="sticky-info"><div class="sticky-urgency">⏰ Cupos limitados hoy</div><div class="sticky-adv" id="stickyAdvLine">Tu asesor está disponible ahora</div></div><a href="#form" class="sticky-btn" onclick="if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{content_name:'Sticky CTA'})">Activar ahora →</a></div>
 </body>
 </html>
