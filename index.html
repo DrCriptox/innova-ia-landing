@@ -826,7 +826,7 @@ async function loadAdvisor(){
   }catch(e){return null;}
 }
 
-function renderAdvisor(a);renderAdvisorExtras(a){
+function renderAdvisor(a){
   if(!a)return;
   _advisorData=a;
   // Hero card
@@ -847,7 +847,7 @@ function renderAdvisor(a);renderAdvisorExtras(a){
   if(a.foto){var img2=document.createElement('img');img2.src=a.foto.startsWith('fotos/')?'/'+a.foto:a.foto;img2.alt=a.nombre;img2.className='afc-avatar';img2.onerror=function(){};formCard.replaceChild(img2,fAvatar);}
 }
 
-if(_skyRef){loadAdvisor().then(renderAdvisor);}
+if(_skyRef){loadAdvisor().then(function(a){renderAdvisor(a);renderAdvisorExtras(a);});}
 // ── Tracking de visitas por ref (1 vez por sesión) ─────
 (function(){
   if(!_skyRef)return;
