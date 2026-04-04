@@ -3062,7 +3062,10 @@
         "190.142.109.238": 3
       }
     },
-    "conversions": 2
+    "conversions": 3,
+    "days_conversions": {
+      "2026-04-03": 1
+    }
   },
   "yordaninn": {
     "total": 30,
