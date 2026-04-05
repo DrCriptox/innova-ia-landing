@@ -1493,5 +1493,15 @@
     "foto": "fotos/enriquemoreno.jpg",
     "password": "Papa*2610",
     "registrado": "2026-04-05T03:35:08.422Z"
+  },
+  "danielmantilla": {
+    "nombre": "Daniel mantilla",
+    "rol": "ESTRATEGA DIGITAL",
+    "telefono": "573016544466",
+    "frase": "Estoy listo para ayudarte y guiarte en nuestra franquicia digital !!",
+    "ciudad": "Medellín - Colombia",
+    "foto": "fotos/danielmantilla.jpg",
+    "password": "Felipe20decumple@",
+    "registrado": "2026-04-05T21:19:14.978Z"
   }
 }
