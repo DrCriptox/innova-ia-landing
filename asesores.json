@@ -1483,5 +1483,15 @@
     "foto": "fotos/juanm.jpg",
     "password": "0621Juanyeye",
     "registrado": "2026-04-05T02:48:05.168Z"
+  },
+  "enriquemoreno": {
+    "nombre": "Enrique Moreno",
+    "rol": "Empresario digital",
+    "telefono": "584145575899",
+    "frase": "Te hacemos generar dinero",
+    "ciudad": "Venezuela",
+    "foto": "fotos/enriquemoreno.jpg",
+    "password": "Papa*2610",
+    "registrado": "2026-04-05T03:35:08.422Z"
   }
 }
