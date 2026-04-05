@@ -530,12 +530,13 @@
     "password": ""
   },
   "innova500": {
-    "nombre": "Rita Mercedes Sánchez M",
+    "nombre": "Rita Mercedes Sanchez M",
     "rol": "Embajadora de Marca Innova Venezuela",
     "telefono": "584244237310",
     "frase": "Hola, te ayudo a activar tu franquicia digital",
     "foto": "fotos/innova500.jpg",
-    "password": "220565"
+    "password": "220565",
+    "whatsapp": "584244237310"
   },
   "nai2024": {
     "nombre": "Naimary Gabriela Arteaga Noguera",
