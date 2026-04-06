@@ -99,16 +99,21 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .promo-name{font-weight:700;font-size:.95rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .promo-slug{color:var(--muted);font-size:.78rem;font-family:monospace;}
 .promo-right{text-align:right;flex-shrink:0;}
-.promo-visits{font-size:1.5rem;font-weight:800;color:var(--gold);line-height:1;}
-.promo-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.promo-visits{font-size:1.05rem;font-weight:700;color:var(--gold-light);line-height:1;opacity:.85;}
+.promo-pts{font-size:1.5rem;font-weight:800;color:var(--gold);line-height:1;}
+.promo-label{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
 .bar-wrap{height:4px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:8px;overflow:hidden;}
 .bar-fill{height:100%;background:var(--gold);border-radius:4px;transition:width .6s ease;}
 .promo-copy{display:inline-block;margin-top:6px;}
 .refresh-btn{background:rgba(212,168,83,.1);border:1px solid var(--border);color:var(--gold);border-radius:8px;padding:6px 14px;font-size:.76rem;cursor:pointer;font-weight:600;transition:all .2s;}
 .refresh-btn:hover{background:rgba(212,168,83,.2);}
-.promo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.promo-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
 .promo-title{font-size:.9rem;color:var(--muted);}
 .no-visits{text-align:center;padding:48px 20px;color:var(--muted);font-size:.9rem;}
+.period-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.period-btn{background:rgba(212,168,83,.06);border:1px solid rgba(212,168,83,.18);color:var(--muted);border-radius:8px;padding:5px 13px;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;}
+.period-btn:hover{color:var(--gold);border-color:rgba(212,168,83,.35);}
+.period-btn.active{background:rgba(212,168,83,.14);border-color:var(--gold);color:var(--gold);}
 </style>
 </head>
 <body>
@@ -159,6 +164,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
   <!-- Panel: Top Promotores -->
   <div id="panelPromo" style="display:none">
+    <div class="period-bar">
+      <button class="period-btn active" onclick="setPromoPeriod('all')">📊 Total</button>
+      <button class="period-btn" onclick="setPromoPeriod('daily')">📅 Hoy</button>
+      <button class="period-btn" onclick="setPromoPeriod('weekly')">🗓 Semanal</button>
+      <button class="period-btn" onclick="setPromoPeriod('monthly')">📆 Mensual</button>
+    </div>
     <div class="promo-header">
       <span class="promo-title" id="promoSubtitle">Cargando estadísticas...</span>
       <button class="refresh-btn" onclick="loadPromo()">↺ Actualizar</button>
@@ -284,24 +295,67 @@ async function loadPromo(){
   }
 }
 
+var _promoPeriod='all';
+
+function setPromoPeriod(p){
+  _promoPeriod=p;
+  var keys=['all','daily','weekly','monthly'];
+  document.querySelectorAll('.period-btn').forEach(function(b,i){b.classList.toggle('active',keys[i]===p);});
+  renderPromo();
+}
+
+function _calcPeriodStats(s,period){
+  // Soporte formato antiguo (número) y nuevo (objeto con days/ips)
+  if(typeof s==='number') return {visitas:s,uniqueIps:0,dupes:0,conversiones:0};
+  var obj=s||{};
+  if(period==='all'||!period){
+    var vis=obj.total||0,uIps=obj.ips?Object.keys(obj.ips).length:0;
+    return {visitas:vis,uniqueIps:uIps,dupes:Math.max(0,vis-uIps),conversiones:obj.conversions||0};
+  }
+  var now=new Date(),dateFrom='';
+  if(period==='daily'){
+    dateFrom=new Date(Date.now()-18000000).toISOString().split('T')[0]; // UTC-5
+  }else if(period==='weekly'){
+    var day=now.getDay(),diff=day===0?6:day-1;
+    var mon=new Date(now);mon.setDate(now.getDate()-diff);mon.setHours(0,0,0,0);
+    dateFrom=mon.toISOString().split('T')[0];
+  }else if(period==='monthly'){
+    dateFrom=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-01';
+  }
+  var pVis=0,pIps={};
+  if(obj.days) Object.keys(obj.days).forEach(function(d){if(d>=dateFrom)pVis+=(typeof obj.days[d]==='number'?obj.days[d]:0);});
+  if(obj.days_ips) Object.keys(obj.days_ips).forEach(function(d){if(d>=dateFrom&&typeof obj.days_ips[d]==='object') Object.keys(obj.days_ips[d]).forEach(function(ip){pIps[ip]=true;});});
+  var pUnique=Object.keys(pIps).length;
+  return {visitas:pVis,uniqueIps:pUnique,dupes:Math.max(0,pVis-pUnique),conversiones:obj.conversions||0};
+}
+
+function _calcScore(v){
+  var validConv=Math.min(v.conversiones,v.uniqueIps>0?v.uniqueIps:v.visitas);
+  return Math.max(0,v.visitas-v.dupes*2+validConv*15);
+}
+
 function renderPromo(){
   var entries=Object.entries(statsData).map(function(e){
-    var ref=e[0],visits=e[1];
+    var ref=e[0],raw=e[1];
     var asesor=allData.find(function(a){return a.slug===ref;})||null;
-    return {ref:ref,visits:visits,asesor:asesor};
-  }).sort(function(a,b){return b.visits-a.visits;}).slice(0,20);
+    var st=_calcPeriodStats(raw,_promoPeriod);
+    var score=_calcScore(st);
+    return {ref:ref,st:st,score:score,asesor:asesor};
+  }).filter(function(e){return _promoPeriod==='all'?true:e.st.visitas>0;})
+    .sort(function(a,b){return b.score-a.score;}).slice(0,20);
 
-  var totalVisits=entries.reduce(function(s,e){return s+e.visits;},0);
+  var totalVisits=entries.reduce(function(s,e){return s+e.st.visitas;},0);
   var totalRefs=entries.length;
+  var periodLabel=_promoPeriod==='daily'?'hoy':_promoPeriod==='weekly'?'esta semana':_promoPeriod==='monthly'?'este mes':'totales';
   document.getElementById('promoSubtitle').textContent=
-    totalRefs+' promotor'+(totalRefs!==1?'es':'')+' · '+totalVisits.toLocaleString('es-CO')+' visitas totales';
+    totalRefs+' promotor'+(totalRefs!==1?'es':'')+' · '+totalVisits.toLocaleString('es-CO')+' visitas '+periodLabel;
 
   if(!entries.length){
-    document.getElementById('promoGrid').innerHTML='<div class="no-visits">Aún no hay visitas registradas.<br>Las visitas se cuentan cuando alguien entra por un link <strong>?ref=código</strong>.</div>';
+    document.getElementById('promoGrid').innerHTML='<div class="no-visits">Sin visitas para este período.<br>Las visitas se registran cuando alguien entra por un link <strong>?ref=código</strong>.</div>';
     return;
   }
 
-  var maxVisits=entries[0].visits||1;
+  var maxScore=entries[0].score||1;
   var medals=['🥇','🥈','🥉'];
   var html='';
 
@@ -309,17 +363,16 @@ function renderPromo(){
     var rank=i+1;
     var rankClass=rank<=3?'rank'+rank:'';
     var rankDisplay=rank<=3?medals[i]:rank;
-    var visits=entry.visits;
-    var pct=Math.round((visits/maxVisits)*100);
+    var vis=entry.st.visitas,score=entry.score;
+    var pct=Math.round((score/maxScore)*100);
     var ref=entry.ref;
     var link='https://www.innovaia.app/?ref='+encodeURIComponent(ref);
     var nombre='—';
     if(entry.asesor){
       nombre=sanitize(entry.asesor.nombre||ref);
-    } else {
+    }else{
       nombre='<span style="color:var(--muted);font-style:italic">'+ref+'</span> (no registrado)';
     }
-
     html+='<div class="promo-card '+rankClass+'">';
     html+='<div class="rank-num">'+rankDisplay+'</div>';
     html+='<div id="pav'+i+'"><div class="promo-avph">👤</div></div>';
@@ -330,8 +383,10 @@ function renderPromo(){
     html+='<span class="pill promo-copy" data-link="'+link+'" data-orig="📋 Copiar link" onclick="copyPill(this)">📋 Copiar link</span>';
     html+='</div>';
     html+='<div class="promo-right">';
-    html+='<div class="promo-visits">'+visits.toLocaleString('es-CO')+'</div>';
-    html+='<div class="promo-label">visitas</div>';
+    html+='<div style="display:flex;gap:10px;align-items:flex-end;">';
+    html+='<div style="text-align:right;"><div class="promo-visits">'+vis.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div></div>';
+    html+='<div style="text-align:right;"><div class="promo-pts">'+score.toLocaleString('es-CO')+'</div><div class="promo-label">puntos</div></div>';
+    html+='</div>';
     html+='</div>';
     html+='</div>';
   });
