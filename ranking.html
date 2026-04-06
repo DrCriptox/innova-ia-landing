@@ -39,8 +39,9 @@ body{background:var(--dark);color:var(--text);font-family:'Segoe UI',sans-serif;
 .promo-name-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-width:0;}
 .promo-ref{color:var(--muted);font-size:.7rem;font-family:monospace;white-space:nowrap;flex-shrink:0;}
 .promo-right{text-align:right;flex-shrink:0;}
-.promo-visits{font-size:1.08rem;font-weight:800;color:var(--gold);line-height:1;}
-.promo-label{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.promo-visits{font-size:.76rem;font-weight:700;color:var(--gold-light,#F0C97A);line-height:1;opacity:.85;}
+.promo-pts{font-size:1.08rem;font-weight:800;color:var(--gold);line-height:1;}
+.promo-label{font-size:.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
 .promo-ip-row{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;}
 .v-chip{font-size:.67rem;padding:2px 7px;border-radius:20px;font-weight:600;}
 .v-chip.unicas{background:rgba(37,211,102,.12);color:#25D366;border:1px solid rgba(37,211,102,.25);}
@@ -146,16 +147,19 @@ function buildCard(pfx,e,i,lbl,maxV){
   var rk=i+1,rc=rk<=3?'rank'+rk:'',rd=rk<=3?['🥇','🥈','🥉'][i]:rk;
   var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
   var flag=e.a?phoneFlag(e.a.whatsapp||e.a.telefono||'',e.a.pais||''):'';
-  var conv=e.conversions||0,adj=e.adj,pct=Math.round((adj/maxV)*100);
+  var conv=e.conversions||0,adj=e.adj,score=e.score!=null?e.score:adj,pct=Math.round((score/maxV)*100);
   var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0,tc=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
   var h='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div>';
   h+='<div id="'+pfx+i+'"><div class="promo-avph">👤</div></div>';
   h+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
   if(e.uniq>0){h+='<div class="promo-ip-row"><span class="v-chip unicas">🟢 '+e.uniq+' únicas</span>';if(e.susp>0)h+='<span class="v-chip sospechosas">⚠ '+e.susp+' susp.</span>';h+='</div>';}
   h+='<div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%"></div></div>';
-  h+='</div><div class="promo-right"><div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">'+lbl+'</div>';
-  if(conv>0){h+='<div style="font-size:.82rem;font-weight:700;color:#4ade80;margin-top:3px;">'+conv+' conv.</div><div style="font-size:.7rem;color:'+tc+';font-weight:700;">'+tasa+'%</div>';}
-  else{h+='<div style="font-size:.7rem;color:var(--muted);margin-top:3px;">0 conv.</div>';}
+  h+='</div><div class="promo-right">';
+  h+='<div style="display:flex;gap:8px;align-items:flex-end;justify-content:flex-end;margin-bottom:3px;">';
+  h+='<div style="text-align:right;"><div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div></div>';
+  h+='<div style="text-align:right;"><div class="promo-pts">'+score.toLocaleString('es-CO')+'</div><div class="promo-label">puntos</div></div>';
+  h+='</div>';
+  if(conv>0){h+='<div style="font-size:.78rem;font-weight:700;color:#4ade80;">'+conv+' conv. <span style="color:'+tc+';font-size:.7rem;">'+tasa+'%</span></div>';}
   return h+'</div></div>';
 }
 function loadAvatars(entries,pfx){
@@ -176,12 +180,13 @@ function renderHoy(){
     var uniq=dips?Object.keys(dips).length:0,susp=dips?Object.values(dips).filter(function(c){return c>1;}).length:0;
     var convHoy=(raw&&raw.days_conversions&&raw.days_conversions[today])?raw.days_conversions[today]:0;
     var a=allData.find(function(x){return x.slug===e[0];})||null;
-    return{ref:e[0],p:p,total:hoy,adj:Math.max(0,hoy-susp*2),a:a,uniq:uniq,susp:susp,conversions:convHoy};
-  }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+    var _adj=Math.max(0,hoy-susp*2);
+    return{ref:e[0],p:p,total:hoy,adj:_adj,score:_adj+(convHoy*15),a:a,uniq:uniq,susp:susp,conversions:convHoy};
+  }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,20);
   var totV=entries.reduce(function(s,e){return s+e.total;},0),totC=entries.reduce(function(s,e){return s+(e.conversions||0);},0);
   document.getElementById('hoySubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totV.toLocaleString('es-CO')+' visitas hoy · '+totC+' conv.';
   if(!entries.length){document.getElementById('hoyGrid').innerHTML='<div class="no-visits">Aún no hay visitas hoy. 😊</div>';return;}
-  var maxV=entries[0].adj||1;
+  var maxV=entries[0].score||1;
   document.getElementById('hoyGrid').innerHTML=entries.map(function(e,i){return buildCard('hav',e,i,'hoy',maxV);}).join('');
   loadAvatars(entries,'hav');
 }
@@ -190,12 +195,12 @@ function renderSemanal(){
   var entries=Object.entries(statsData).map(function(e){
     var raw=e[1],p=parseEntry(raw),agg=aggregateRange(raw,dates);
     var a=allData.find(function(x){return x.slug===e[0];})||null;
-    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
-  }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,score:agg.adj+(agg.conversions*15),a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
+  }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,20);
   var totV=entries.reduce(function(s,e){return s+e.total;},0),totC=entries.reduce(function(s,e){return s+(e.conversions||0);},0);
   document.getElementById('semanalSubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totV.toLocaleString('es-CO')+' visitas · '+totC+' conv. ('+fmtDate(dates[0])+' – '+fmtDate(dates[dates.length-1])+')';
   if(!entries.length){document.getElementById('semanalGrid').innerHTML='<div class="no-visits">Sin visitas esta semana.</div>';return;}
-  var maxV=entries[0].adj||1;
+  var maxV=entries[0].score||1;
   document.getElementById('semanalGrid').innerHTML=entries.map(function(e,i){return buildCard('sav',e,i,'semana',maxV);}).join('');
   loadAvatars(entries,'sav');
 }
@@ -206,12 +211,12 @@ function renderMensual(){
   var entries=Object.entries(statsData).map(function(e){
     var raw=e[1],p=parseEntry(raw),agg=aggregateRange(raw,dates);
     var a=allData.find(function(x){return x.slug===e[0];})||null;
-    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
-  }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.adj-a.adj;}).slice(0,20);
+    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,score:agg.adj+(agg.conversions*15),a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
+  }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,20);
   var totV=entries.reduce(function(s,e){return s+e.total;},0),totC=entries.reduce(function(s,e){return s+(e.conversions||0);},0);
   document.getElementById('mensualSubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totV.toLocaleString('es-CO')+' visitas · '+totC+' conv. ('+ml+')';
   if(!entries.length){document.getElementById('mensualGrid').innerHTML='<div class="no-visits">Sin visitas este mes.</div>';return;}
-  var maxV=entries[0].adj||1;
+  var maxV=entries[0].score||1;
   document.getElementById('mensualGrid').innerHTML=entries.map(function(e,i){return buildCard('mav',e,i,'mes',maxV);}).join('');
   loadAvatars(entries,'mav');
 }
