@@ -39,7 +39,7 @@
     <style>
     :root{--gold:#D4A853;--gold-light:#F0C97A;--gold-glow:rgba(212,168,83,0.25);--dark:#060810;--dark-2:#0C0F1A;--dark-3:#111520;--dark-card:#0E1219;--text:#EAECF4;--text-muted:#7A8099;--accent:#2AFFD5;--green:#25D366;--red:#FF4F4F;--border:rgba(212,168,83,0.14);--radius:14px;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
+    html{}
     body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden;}
     body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.35;}
     .glow{position:absolute;border-radius:50%;filter:blur(130px);pointer-events:none;}
@@ -110,7 +110,10 @@
     .end-cta:hover{background:#1ebe5a;transform:translateY(-2px);}
     .end-replay{background:none;border:1px solid rgba(255,255,255,.12);color:var(--text-muted);border-radius:8px;padding:9px 20px;font-size:.8rem;cursor:pointer;width:100%;transition:border-color .2s,color .2s;}
     .end-replay:hover{border-color:rgba(255,255,255,.3);color:var(--text);}
-    .vsl-note{background:rgba(0,0,0,.45);padding:9px 16px;text-align:center;font-size:.73rem;color:var(--text-muted);border-top:1px solid var(--border);}
+    .vsl-rewind-btn{position:absolute;bottom:14px;left:14px;z-index:25;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.20);color:#fff;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;display:none;align-items:center;gap:5px;backdrop-filter:blur(4px);font-family:inherit;transition:background 0.15s;}
+.vsl-rewind-btn:hover{background:rgba(0,0,0,0.75);}
+.vsl-rewind-btn.visible{display:flex;}
+.vsl-note{background:rgba(0,0,0,.45);padding:9px 16px;text-align:center;font-size:.73rem;color:var(--text-muted);border-top:1px solid var(--border);}
     .yt-shield{position:absolute;inset:0;z-index:10;}
     .muted-overlay{position:absolute;inset:0;background:rgba(6,8,16,.85);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:25;cursor:pointer;transition:opacity .3s;}
     .muted-overlay.hidden{opacity:0;pointer-events:none;}
@@ -335,7 +338,7 @@
   </div>
   <div class="header-right">
     <div class="header-pill">Sistema activo · LATAM</div>
-    <a href="#form" class="cta-top" onclick="if(typeof fbq==='function')fbq('track','InitiateCheckout',{content_name:'CTA Header',currency:'USD',value:100})">Quiero activar →</a>
+    <a href="javascript:void(0)" class="cta-top" onclick="if(typeof fbq==='function')fbq('track','InitiateCheckout',{content_name:'CTA Header',currency:'USD',value:100});document.getElementById('form').scrollIntoView({behavior:'smooth'});">Quiero activar →</a>
   </div>
 </header>
 
@@ -373,6 +376,7 @@
       <div class="vsl-frame" id="vslContainer">
         <div id="ytPlayer"></div>
         <div class="yt-shield"></div>
+        <button class="vsl-rewind-btn" id="vslRewindBtn" onclick="rewindVideo()">⏪ −10s</button>
         <div class="muted-overlay" id="mutedOverlay" onclick="unmuteVideo()">
           <div>
             <div class="muted-icon">
@@ -395,7 +399,7 @@
             <p class="end-badge">✅ Ya tienes toda la información</p>
             <h3 class="end-title">¿Listo para activar<br>tu franquicia?</h3>
             <p class="end-sub">Una conversación de 20 min. Sin compromiso. Sin presión.</p>
-            <a class="end-cta" href="#form" onclick="document.getElementById('endOverlay').classList.remove('active')">
+            <a class="end-cta" href="javascript:void(0)" onclick="document.getElementById('endOverlay').classList.remove('active');document.getElementById('form').scrollIntoView({behavior:'smooth'});">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               Hablar con el equipo ahora
             </a>
@@ -410,7 +414,7 @@
 
   <!-- CTA POST-VSL -->
   <div style="text-align:center;padding:0 16px 32px;max-width:600px;margin:0 auto;">
-    <a href="#form" style="display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#fff;padding:16px 36px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;animation:pulseG 2s infinite;transition:background .2s,transform .15s;" onmouseover="this.style.background='#1ebe5a'" onmouseout="this.style.background='var(--green)'" onclick="if(typeof fbq==='function')fbq('track','InitiateCheckout',{content_name:'CTA Post VSL',currency:'USD',value:100})">
+    <a href="javascript:void(0)" style="display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#fff;padding:16px 36px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;animation:pulseG 2s infinite;transition:background .2s,transform .15s;" onmouseover="this.style.background='#1ebe5a'" onmouseout="this.style.background='var(--green)'" onclick="if(typeof fbq==='function')fbq('track','InitiateCheckout',{content_name:'CTA Post VSL',currency:'USD',value:100});document.getElementById('form').scrollIntoView({behavior:'smooth'});">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Quiero activar mi franquicia
     </a>
@@ -624,7 +628,7 @@
 <!-- MID-PAGE CTA -->
 <div style="text-align:center;padding:0 24px 64px;max-width:680px;margin:0 auto;">
   <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:14px;letter-spacing:.5px;">¿Ya viste suficiente? Muchos no esperan hasta el final.</p>
-  <a href="#form" style="display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#fff;padding:16px 36px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;animation:pulseG 2s infinite;" onclick="if(typeof fbq==='function')fbq('track','InitiateCheckout',{content_name:'CTA Mid Page',currency:'USD',value:100})">
+  <a href="javascript:void(0)" style="display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#fff;padding:16px 36px;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;text-decoration:none;animation:pulseG 2s infinite;" onclick="if(typeof fbq==='function')fbq('track','InitiateCheckout',{content_name:'CTA Mid Page',currency:'USD',value:100});document.getElementById('form').scrollIntoView({behavior:'smooth'});">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     Quiero activar mi franquicia →
   </a>
@@ -771,7 +775,7 @@
 <!-- BOTÓN FLOTANTE -->
 <div class="float-cta" id="floatCta">
   <div class="float-bubble" id="floatBubble">¿Listo para activar tu franquicia? 👆</div>
-  <a class="float-btn" href="#form" onclick="document.getElementById('floatBubble').style.display='none'">
+  <a class="float-btn" href="javascript:void(0)" onclick="document.getElementById('floatBubble').style.display='none';document.getElementById('form').scrollIntoView({behavior:'smooth'});">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
 </div>
@@ -792,13 +796,13 @@ var ytPlayer,vslDuration=0,progressInterval=null,lastTime=0,seekBlocked=false,vi
 function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('ytPlayer',{videoId:'iqvEqCgNOMk',playerVars:{controls:0,disablekb:1,rel:0,modestbranding:1,iv_load_policy:3,fs:1},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
 }
-function onPlayerReady(e){vslDuration=ytPlayer.getDuration()||795;ytPlayer.mute();ytPlayer.playVideo();try{var _sv=parseInt(localStorage.getItem('vslPos_'+(_skyRef||'x'))||'0');var _dur=ytPlayer.getDuration()||795;if(_sv>15&&_sv<_dur-30){setTimeout(function(){ytPlayer.seekTo(_sv,true);lastTime=_sv;},800);}else if(_sv>=_dur-30){localStorage.removeItem('vslPos_'+(_skyRef||'x'));}}catch(e){}}
+function onPlayerReady(e){vslDuration=ytPlayer.getDuration()||795;ytPlayer.mute();ytPlayer.playVideo();try{var _sv=parseInt(localStorage.getItem('vslPos_'+(_skyRef||'x'))||'0');if(_sv>15){setTimeout(function(){ytPlayer.seekTo(_sv,true);lastTime=_sv;},800);}}catch(e){}}
 function onPlayerStateChange(e){
   var s=e.data;
   if(s===YT.PlayerState.PLAYING){
     document.getElementById('pauseOverlay').classList.remove('active');
     document.getElementById('endOverlay').classList.remove('active');
-    if(!videoStarted)videoStarted=true;
+    if(!videoStarted){videoStarted=true;var rb=document.getElementById('vslRewindBtn');if(rb)rb.classList.add('visible');}
     if(progressInterval)clearInterval(progressInterval);
     progressInterval=setInterval(function(){
       var cur=ytPlayer.getCurrentTime(),dur=ytPlayer.getDuration()||vslDuration;
@@ -809,9 +813,10 @@ function onPlayerStateChange(e){
     },800);
   }
   if(s===YT.PlayerState.PAUSED){if(progressInterval)clearInterval(progressInterval);if(videoStarted)setTimeout(function(){if(ytPlayer.getPlayerState()===YT.PlayerState.PAUSED)document.getElementById('pauseOverlay').classList.add('active');},800);}
-  if(s===YT.PlayerState.ENDED){if(progressInterval)clearInterval(progressInterval);document.getElementById('vslProgress').style.width='100%';document.getElementById('pauseOverlay').classList.remove('active');try{localStorage.removeItem('vslPos_'+(_skyRef||'x'));}catch(e){}setTimeout(function(){document.getElementById('endOverlay').classList.add('active');},600);}
+  if(s===YT.PlayerState.ENDED){if(progressInterval)clearInterval(progressInterval);document.getElementById('vslProgress').style.width='100%';document.getElementById('pauseOverlay').classList.remove('active');setTimeout(function(){document.getElementById('endOverlay').classList.add('active');},600);}
 }
 function getWeightedProgress(c,t){var seg=[[0,60,10],[60,180,5],[180,300,2],[300,600,1],[600,1800,.5],[1800,1920,.3]],tw=0,cw=0;for(var i=0;i<seg.length;i++){var s0=seg[i][0],s1=Math.min(seg[i][1],t),m=seg[i][2];if(s0>=t)break;var d=s1-s0;tw+=d*m;if(c>=s1)cw+=d*m;else if(c>s0)cw+=(c-s0)*m;}if(t>1920){tw+=(t-1920)*.3;if(c>1920)cw+=(c-1920)*.3;}return tw>0?Math.min((cw/tw)*100,100):0;}
+function rewindVideo(){if(!ytPlayer)return;var t=ytPlayer.getCurrentTime();ytPlayer.seekTo(Math.max(0,t-10),true);lastTime=Math.max(0,t-10);}
 function unmuteVideo(){document.getElementById('mutedOverlay').classList.add('hidden');if(ytPlayer){ytPlayer.unMute();ytPlayer.setVolume(100);}}
 function resumeVideo(){document.getElementById('pauseOverlay').classList.remove('active');if(ytPlayer&&ytPlayer.playVideo)ytPlayer.playVideo();}
 function replayVideo(){document.getElementById('endOverlay').classList.remove('active');barProgress=0;lastTime=0;videoStarted=false;document.getElementById('vslProgress').style.width='0%';try{localStorage.removeItem('vslPos_'+(_skyRef||'x'));}catch(e){}if(ytPlayer){ytPlayer.seekTo(0,true);ytPlayer.playVideo();}}
@@ -973,6 +978,6 @@ if(_formEl2){var _stickyObs=new IntersectionObserver(function(entries){var b=doc
 <!-- Exit Intent Popup -->
 <div id="exitPopup"><div class="exit-box"><button class="exit-close" onclick="closeExit()">×</button><div style="font-size:2.1rem;margin-bottom:10px">🎯</div><h3 style="color:var(--gold);font-size:1.15rem;margin-bottom:8px;font-weight:800">¡El video aún no terminó!</h3><p style="color:var(--muted);font-size:.87rem;line-height:1.55;margin-bottom:0">Los detalles de cómo funciona el sistema y los <strong style="color:var(--text)">resultados reales</strong> están en los próximos minutos. Vale la pena terminar de verlo.</p><a href="javascript:void(0)" class="exit-cta" onclick="closeExit();if(ytPlayer&&ytPlayer.playVideo)ytPlayer.playVideo()">Sí, sigo viendo →</a><button class="exit-skip" onclick="closeExit()">Cerrar</button></div></div>
 <!-- Sticky CTA Bar -->
-<div id="stickyCTABar"><div class="sticky-info"><div class="sticky-urgency">⏰ Cupos limitados hoy</div><div class="sticky-adv" id="stickyAdvLine">Tu asesor está disponible ahora</div></div><a href="#form" class="sticky-btn" onclick="if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{content_name:'Sticky CTA'})">Activar ahora →</a></div>
+<div id="stickyCTABar"><div class="sticky-info"><div class="sticky-urgency">⏰ Cupos limitados hoy</div><div class="sticky-adv" id="stickyAdvLine">Tu asesor está disponible ahora</div></div><a href="javascript:void(0)" class="sticky-btn" onclick="if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{content_name:'Sticky CTA'});document.getElementById('form').scrollIntoView({behavior:'smooth'});">Activar ahora →</a></div>
 </body>
 </html>
