@@ -1577,5 +1577,15 @@
     "foto": "fotos/gzea39.jpg",
     "password": "Gato39*Z",
     "registrado": "2026-04-06T20:36:05.978Z"
+  },
+  "crp04": {
+    "nombre": "Clara Rojas",
+    "rol": "Asesora Innova",
+    "telefono": "573174015932",
+    "frase": "Hola soy tu asesora digital, anímate a cambiar tu vida hoy es el momento. Vamos con toda anímate!",
+    "ciudad": "Cali-Colombia",
+    "foto": "fotos/crp04.jpg",
+    "password": "CROJASp1977*",
+    "registrado": "2026-04-06T21:12:07.549Z"
   }
 }
