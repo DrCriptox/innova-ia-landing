@@ -148,7 +148,8 @@ function buildCard(pfx,e,i,lbl,maxV){
   var nm=e.a?sanitize(e.a.nombre||e.ref):'<span style="color:var(--muted);font-style:italic">'+e.ref+'</span>';
   var flag=e.a?phoneFlag(e.a.whatsapp||e.a.telefono||'',e.a.pais||''):'';
   var conv=e.conversions||0,adj=e.adj,score=e.score!=null?e.score:adj,pct=Math.round((score/maxV)*100);
-  var tasa=adj>0&&conv>0?Math.round((conv/adj)*100):0,tc=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
+  var validConv=Math.min(conv,e.uniq||adj); // conversiones únicas para mostrar tasa real
+  var tasa=adj>0&&validConv>0?Math.round((validConv/adj)*100):0,tc=tasa>=20?'#4ade80':tasa>=10?'var(--gold)':'#FF8888';
   var h='<div class="promo-card '+rc+'"><div class="rank-num">'+rd+'</div>';
   h+='<div id="'+pfx+i+'"><div class="promo-avph">👤</div></div>';
   h+='<div class="promo-info"><div class="promo-name-row"><span class="promo-name">'+nm+(flag?' '+flag:'')+'</span><span class="promo-ref">('+e.ref+')</span></div>';
@@ -159,7 +160,7 @@ function buildCard(pfx,e,i,lbl,maxV){
   h+='<div style="text-align:right;"><div class="promo-visits">'+adj.toLocaleString('es-CO')+'</div><div class="promo-label">visitas</div></div>';
   h+='<div style="text-align:right;"><div class="promo-pts">'+score.toLocaleString('es-CO')+'</div><div class="promo-label">puntos</div></div>';
   h+='</div>';
-  if(conv>0){h+='<div style="font-size:.78rem;font-weight:700;color:#4ade80;">'+conv+' conv. <span style="color:'+tc+';font-size:.7rem;">'+tasa+'%</span></div>';}
+  if(validConv>0){h+='<div style="font-size:.78rem;font-weight:700;color:#4ade80;">'+validConv+' conv. <span style="color:'+tc+';font-size:.7rem;">'+tasa+'%</span></div>';}
   return h+'</div></div>';
 }
 function loadAvatars(entries,pfx){
@@ -181,7 +182,8 @@ function renderHoy(){
     var convHoy=(raw&&raw.days_conversions&&raw.days_conversions[today])?raw.days_conversions[today]:0;
     var a=allData.find(function(x){return x.slug===e[0];})||null;
     var _adj=Math.max(0,hoy-susp*2);
-    return{ref:e[0],p:p,total:hoy,adj:_adj,score:_adj+(convHoy*15),a:a,uniq:uniq,susp:susp,conversions:convHoy};
+    var _validConv=Math.min(convHoy,uniq); // solo conversiones únicas (cap en IPs únicas)
+    return{ref:e[0],p:p,total:hoy,adj:_adj,score:_adj+(_validConv*15),a:a,uniq:uniq,susp:susp,conversions:convHoy};
   }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,20);
   var totV=entries.reduce(function(s,e){return s+e.total;},0),totC=entries.reduce(function(s,e){return s+(e.conversions||0);},0);
   document.getElementById('hoySubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totV.toLocaleString('es-CO')+' visitas hoy · '+totC+' conv.';
@@ -195,7 +197,8 @@ function renderSemanal(){
   var entries=Object.entries(statsData).map(function(e){
     var raw=e[1],p=parseEntry(raw),agg=aggregateRange(raw,dates);
     var a=allData.find(function(x){return x.slug===e[0];})||null;
-    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,score:agg.adj+(agg.conversions*15),a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
+    var _validConv=Math.min(agg.conversions,agg.uniq);
+    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,score:agg.adj+(_validConv*15),a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
   }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,20);
   var totV=entries.reduce(function(s,e){return s+e.total;},0),totC=entries.reduce(function(s,e){return s+(e.conversions||0);},0);
   document.getElementById('semanalSubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totV.toLocaleString('es-CO')+' visitas · '+totC+' conv. ('+fmtDate(dates[0])+' – '+fmtDate(dates[dates.length-1])+')';
@@ -211,7 +214,8 @@ function renderMensual(){
   var entries=Object.entries(statsData).map(function(e){
     var raw=e[1],p=parseEntry(raw),agg=aggregateRange(raw,dates);
     var a=allData.find(function(x){return x.slug===e[0];})||null;
-    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,score:agg.adj+(agg.conversions*15),a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
+    var _validConv=Math.min(agg.conversions,agg.uniq);
+    return{ref:e[0],p:p,total:agg.total,adj:agg.adj,score:agg.adj+(_validConv*15),a:a,uniq:agg.uniq,susp:agg.susp,conversions:agg.conversions};
   }).filter(function(e){return e.total>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,20);
   var totV=entries.reduce(function(s,e){return s+e.total;},0),totC=entries.reduce(function(s,e){return s+(e.conversions||0);},0);
   document.getElementById('mensualSubtitle').textContent=entries.length+' promotor'+(entries.length!==1?'es':'')+' · '+totV.toLocaleString('es-CO')+' visitas · '+totC+' conv. ('+ml+')';
