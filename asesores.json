@@ -644,13 +644,14 @@
     "registrado": "2026-03-31T22:21:38.983Z"
   },
   "rafagarcia": {
-    "nombre": "Rafa García",
+    "nombre": "Rafa Garcia",
     "rol": "Emprendedor Digital",
     "telefono": "584147858848",
     "frase": "Bienvenido hagamos negocios digitales",
     "foto": "fotos/rafagarcia.jpg",
     "password": "Innova5k.",
-    "registrado": "2026-03-31T22:26:23.992Z"
+    "registrado": "2026-03-31T22:26:23.992Z",
+    "whatsapp": "584147858848"
   },
   "teamgarcia": {
     "nombre": "Humberto Vergel",
