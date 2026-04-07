@@ -1605,5 +1605,15 @@
     "foto": "fotos/nelmaru2026.jpg",
     "password": "Valera05*",
     "registrado": "2026-04-06T22:55:47.594Z"
+  },
+  "rossi": {
+    "nombre": "Rossi Canache",
+    "rol": "Emabajadora de marca",
+    "telefono": "584128327118",
+    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "ciudad": "Piritu",
+    "foto": "fotos/rossi.jpg",
+    "password": "Innova",
+    "registrado": "2026-04-07T00:44:38.030Z"
   }
 }
