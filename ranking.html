@@ -133,14 +133,20 @@ function monthDates(){
 }
 function fmtDate(d){var mo=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],p=d.split('-');return parseInt(p[2])+' '+mo[parseInt(p[1])-1];}
 function aggregateRange(raw,dates){
-  var total=0,ips={},convs=0;
+  var total=0,ips={},convIps={},convCount=0;
   dates.forEach(function(d){
     total+=(raw&&raw.days&&raw.days[d])?raw.days[d]:0;
     if(raw&&raw.days_ips&&raw.days_ips[d])
       Object.entries(raw.days_ips[d]).forEach(function(e){ips[e[0]]=(ips[e[0]]||0)+e[1];});
-    convs+=(raw&&raw.days_conversions&&raw.days_conversions[d])?raw.days_conversions[d]:0;
+    // IPs únicas que convirtieron en este período
+    if(raw&&raw.days_conversions_ips&&raw.days_conversions_ips[d])
+      Object.keys(raw.days_conversions_ips[d]).forEach(function(ip){convIps[ip]=true;});
+    else
+      convCount+=(raw&&raw.days_conversions&&raw.days_conversions[d])?raw.days_conversions[d]:0;
   });
   var uniq=Object.keys(ips).length,susp=Object.values(ips).filter(function(c){return c>1;}).length;
+  // Preferir IPs únicas de conversión; si no hay dato de IPs usar contador bruto
+  var convs=Object.keys(convIps).length||convCount;
   return{total:total,uniq:uniq,susp:susp,adj:Math.max(0,total-susp*2),conversions:convs};
 }
 function buildCard(pfx,e,i,lbl,maxV){
@@ -179,7 +185,9 @@ function renderHoy(){
     var hoy=(raw&&raw.days)?(raw.days[today]||0):0;
     var dips=(raw&&raw.days_ips&&raw.days_ips[today])?raw.days_ips[today]:null;
     var uniq=dips?Object.keys(dips).length:0,susp=dips?Object.values(dips).filter(function(c){return c>1;}).length:0;
-    var convHoy=(raw&&raw.days_conversions&&raw.days_conversions[today])?raw.days_conversions[today]:0;
+    // Conversiones únicas hoy: contar IPs únicas que convirtieron; fallback al contador bruto
+    var _dcips=(raw&&raw.days_conversions_ips&&raw.days_conversions_ips[today])?raw.days_conversions_ips[today]:null;
+    var convHoy=_dcips?Object.keys(_dcips).length:((raw&&raw.days_conversions&&raw.days_conversions[today])?raw.days_conversions[today]:0);
     var a=allData.find(function(x){return x.slug===e[0];})||null;
     var _adj=Math.max(0,hoy-susp*2);
     var _validConv=Math.min(convHoy,uniq); // solo conversiones únicas (cap en IPs únicas)

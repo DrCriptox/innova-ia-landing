@@ -73,6 +73,15 @@ export default async function handler(req) {
         const _dc=new Date(Date.now()-18000000).toISOString().split('T')[0];
         if(!obj.days_conversions)obj.days_conversions={};
         obj.days_conversions[_dc]=(obj.days_conversions[_dc]||0)+1;
+        // Rastrear IPs únicas que convirtieron (igual que days_ips para visitas)
+        if(ip!=='unknown'){
+          if(!obj.conversions_ips)obj.conversions_ips={};
+          obj.conversions_ips[ip]=true; // set: misma IP no cuenta dos veces
+          if(!obj.days_conversions_ips)obj.days_conversions_ips={};
+          if(!obj.days_conversions_ips[_dc])obj.days_conversions_ips[_dc]={};
+          obj.days_conversions_ips[_dc][ip]=true;
+          const _dcik=Object.keys(obj.days_conversions_ips).sort();if(_dcik.length>60)_dcik.slice(0,_dcik.length-60).forEach(function(k){delete obj.days_conversions_ips[k];});
+        }
         const _dck=Object.keys(obj.days_conversions).sort();if(_dck.length>60)_dck.slice(0,_dck.length-60).forEach(function(k){delete obj.days_conversions[k];});
       } else {
         obj.total = (obj.total || 0) + 1;
