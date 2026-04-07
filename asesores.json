@@ -621,12 +621,10 @@
   "bellyvane": {
     "nombre": "Bellyvanesa",
     "rol": "Empresaria digital",
-    "telefono": "584144355974",
-    "frase": "Hola, te ayudo a crear ingresos con internet",
+    "whatsapp": "+584144355974",
     "foto": "fotos/bellyvane.jpg",
-    "password": "Nova100k.",
-    "registrado": "2026-03-31T22:21:12.481Z",
-    "whatsapp": "584144355974"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "carlarengifo": {
     "nombre": "Carla Rengifo",
