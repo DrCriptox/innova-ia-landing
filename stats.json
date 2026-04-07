@@ -2437,6 +2437,18 @@
       "2026-04-07": {
         "181.133.43.105": 1
       }
+    },
+    "conversions": 1,
+    "days_conversions": {
+      "2026-04-07": 1
+    },
+    "conversions_ips": {
+      "181.133.43.105": true
+    },
+    "days_conversions_ips": {
+      "2026-04-07": {
+        "181.133.43.105": true
+      }
     }
   },
   "thegoodlife": {
