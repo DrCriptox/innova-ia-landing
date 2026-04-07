@@ -8814,9 +8814,17 @@
         "190.217.112.158": 1
       }
     },
-    "conversions": 2,
+    "conversions": 3,
     "days_conversions": {
-      "2026-04-06": 2
+      "2026-04-06": 3
+    },
+    "conversions_ips": {
+      "190.217.112.158": true
+    },
+    "days_conversions_ips": {
+      "2026-04-06": {
+        "190.217.112.158": true
+      }
     }
   },
   "enriquemoreno": {
