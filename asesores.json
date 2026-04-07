@@ -1613,5 +1613,15 @@
     "foto": "fotos/rossi.jpg",
     "password": "Innova",
     "registrado": "2026-04-07T00:44:38.030Z"
+  },
+  "luisavendano": {
+    "nombre": "LUIS EDUARDO AVENDAÑO PATIÑO",
+    "rol": "ASESOR",
+    "telefono": "573118539892",
+    "frase": "¡Hola! Soy su asesor experto en inteligencia artificial  y negocios digitales.",
+    "ciudad": "SOGAMOSO, BOYACA",
+    "foto": "fotos/luisavendano.jpg",
+    "password": "Esposa93967151971",
+    "registrado": "2026-04-07T02:47:34.208Z"
   }
 }
