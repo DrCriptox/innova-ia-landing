@@ -148,10 +148,11 @@
   },
   "alejotri25": {
     "nombre": "Alejandro Triviño",
-    "rol": "Asesor InnovaIA",
-    "telefono": "573176713403",
-    "frase": "♾️ ¡Hola! Soy tu asesora, te ayudo a activar 💻🚀",
-    "foto": "fotos/alejotri25.jpg"
+    "rol": "Consultor Innova IA",
+    "whatsapp": "+573176713403",
+    "foto": "fotos/alejotri25.jpg",
+    "verificado": true,
+    "mensaje": "♾️ Te ayudo a activar tu franquicia digital y generar ingresos reales desde tu casa 💻 o donde quieras que te encuentres 🚀"
   },
   "nayi24": {
     "nombre": "Aizbert Morales",
