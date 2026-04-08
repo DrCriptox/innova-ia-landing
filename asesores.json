@@ -961,12 +961,11 @@
   },
   "molinasalo": {
     "nombre": "Salome Molina",
-    "rol": "Asesora de innova",
-    "telefono": "573007605476",
-    "frase": "Hola!! 💕 soy salome tu asesora, te ayudaré y guiare en todo este hermoso proceso. ✨",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+573007605476",
     "foto": "fotos/molinasalo.jpg",
-    "password": "saloinnova",
-    "registrado": "2026-04-01T03:22:53.250Z"
+    "verificado": true,
+    "mensaje": "Te ayudó a crear tu franquicia digital y generar ingresos reales con tu celular💸🔥🪄"
   },
   "innova": {
     "nombre": "Margarita Orrego Tamayo",
