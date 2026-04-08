@@ -837,12 +837,14 @@
     "registrado": "2026-04-01T00:33:57.065Z"
   },
   "hperez08": {
-    "nombre": "Henry Pérez",
-    "rol": "Asesor InnovaIA",
-    "whatsapp": "+584144180637",
+    "nombre": "Carmen Morante",
+    "rol": "Asesora Innova Venezuela",
+    "telefono": "584244383187",
+    "frase": "Que gusto saludarte! te doy la bienvenida a este espacio.",
     "foto": "fotos/hperez08.jpg",
-    "verificado": true,
-    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
+    "password": "INNOVA100K",
+    "registrado": "2026-04-01T00:34:38.008Z",
+    "whatsapp": "584244383187"
   },
   "silaniinn": {
     "nombre": "Silani Sequera",
@@ -1051,11 +1053,10 @@
   "jennygi": {
     "nombre": "Jenny Giraldo",
     "rol": "Asesora IA Colombia",
-    "telefono": "573104441387",
-    "frase": "¡Hola! Soy tu asesora virtual, te ayudo a activar tu franquicia",
+    "whatsapp": "+573104441387",
     "foto": "fotos/jennygi.jpg",
-    "password": "Cris-1703",
-    "registrado": "2026-04-01T05:09:37.603Z"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "sindyrojas95": {
     "nombre": "Sindy Yesenia Rojas Hernandez",
