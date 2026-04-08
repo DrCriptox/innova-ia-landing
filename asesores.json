@@ -1658,5 +1658,15 @@
     "foto": "fotos/maritamayo.jpg",
     "password": "cucpyc-pYszeq-0pabcu",
     "registrado": "2026-04-08T02:40:17.995Z"
+  },
+  "jonathanpereira12": {
+    "nombre": "Jonathan pereira",
+    "rol": "Asesor innova",
+    "telefono": "573185327079",
+    "frase": "Hola!, soy tu asesor, en que te puedo servir",
+    "ciudad": "Cali, colombia",
+    "foto": "fotos/jonathanpereira12.jpg",
+    "password": "Colombia#12",
+    "registrado": "2026-04-08T02:41:44.481Z"
   }
 }
