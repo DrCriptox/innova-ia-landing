@@ -9,40 +9,33 @@ export default async function handler(req) {
   }
 
   const token = process.env.GITHUB_TOKEN;
-  const headers = {
-    Accept: 'application/vnd.github.v3+json',
-    'User-Agent': 'InnovaIA-App',
-    ...(token ? { Authorization: `token ${token}` } : {}),
-  };
 
   try {
-    // Step 1: Contents API — works for files < 1MB, returns sha for all
-    const contentsUrl = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
-    const contentsRes = await fetch(contentsUrl, { headers });
-    if (!contentsRes.ok) throw new Error(`contents ${contentsRes.status}`);
-    const contentsData = await contentsRes.json();
+    // Use raw content URL — much faster than Contents API (no base64 encoding overhead)
+    const rawUrl = `https://raw.githubusercontent.com/${REPO}/main/${FILE}`;
+    const headers = {
+      'User-Agent': 'InnovaIA-App',
+      'Cache-Control': 'no-cache',
+      ...(token ? { Authorization: `token ${token}` } : {}),
+    };
 
-    let jsonText;
+    const ctrl = new AbortController();
+    const timeout = setTimeout(() => ctrl.abort(), 8000);
+    const res = await fetch(rawUrl, { headers, signal: ctrl.signal });
+    clearTimeout(timeout);
 
-    if (contentsData.encoding === 'base64' && contentsData.content) {
-      // Small file — decode inline base64
-      const b64 = contentsData.content.replace(/\n/g, '');
-      jsonText = new TextDecoder().decode(
-        Uint8Array.from(atob(b64), c => c.charCodeAt(0))
-      );
-    } else {
-      // Large file (encoding:"none") — use Git Blobs API (no 1MB limit, always fresh)
-      const blobUrl = `https://api.github.com/repos/${REPO}/git/blobs/${contentsData.sha}`;
-      const blobRes = await fetch(blobUrl, { headers });
-      if (!blobRes.ok) throw new Error(`blob ${blobRes.status}`);
-      const blobData = await blobRes.json();
-      const b64 = blobData.content.replace(/\n/g, '');
-      jsonText = new TextDecoder().decode(
-        Uint8Array.from(atob(b64), c => c.charCodeAt(0))
-      );
-    }
+    if (!res.ok) throw new Error(`raw ${res.status}`);
 
-    return new Response(jsonText, {
+    const data = await res.json();
+
+    // Strip base64 photos from response — landing page uses fotos/ paths, not base64
+    Object.keys(data).forEach(function(key) {
+      if (data[key] && data[key].foto && data[key].foto.startsWith('data:')) {
+        data[key].foto = '';
+      }
+    });
+
+    return new Response(JSON.stringify(data), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
