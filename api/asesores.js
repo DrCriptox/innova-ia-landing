@@ -19,10 +19,7 @@ export default async function handler(req) {
       ...(token ? { Authorization: `token ${token}` } : {}),
     };
 
-    const ctrl = new AbortController();
-    const timeout = setTimeout(() => ctrl.abort(), 8000);
-    const res = await fetch(rawUrl, { headers, signal: ctrl.signal });
-    clearTimeout(timeout);
+    const res = await fetch(rawUrl, { headers, signal: AbortSignal.timeout(8000) });
 
     if (!res.ok) throw new Error(`raw ${res.status}`);
 
