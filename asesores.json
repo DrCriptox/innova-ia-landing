@@ -425,12 +425,12 @@
     "foto": "fotos/konna2025.jpg"
   },
   "carlosyedy": {
-    "nombre": "Carlos Andrés Acevedo Rincón",
-    "rol": "Asesor experto en Negocio Digital",
-    "telefono": "573202315113",
-    "frase": "Hola, soy tu asesor y guía en esta nueva experiencia de Negocios Digitales.",
+    "nombre": "Carlos Andres Acevedo Rincon",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+573202315113",
     "foto": "fotos/carlosyedy.jpg",
-    "whatsapp": "573202315113"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "nataalzate1": {
     "nombre": "Laura Nataly Alzate Quinetro",
