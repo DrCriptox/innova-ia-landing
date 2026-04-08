@@ -10494,6 +10494,18 @@
         "200.59.191.97": 3,
         "45.182.140.173": 1
       }
+    },
+    "conversions": 1,
+    "days_conversions": {
+      "2026-04-07": 1
+    },
+    "conversions_ips": {
+      "200.59.191.97": true
+    },
+    "days_conversions_ips": {
+      "2026-04-07": {
+        "200.59.191.97": true
+      }
     }
   },
   "maritamayo": {
