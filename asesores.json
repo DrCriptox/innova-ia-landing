@@ -837,14 +837,12 @@
     "registrado": "2026-04-01T00:33:57.065Z"
   },
   "hperez08": {
-    "nombre": "Carmen Morante",
-    "rol": "Asesora Innova Venezuela",
-    "telefono": "584244383187",
-    "frase": "Que gusto saludarte! te doy la bienvenida a este espacio.",
+    "nombre": "Henry Pérez",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+584144180637",
     "foto": "fotos/hperez08.jpg",
-    "password": "INNOVA100K",
-    "registrado": "2026-04-01T00:34:38.008Z",
-    "whatsapp": "584244383187"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "silaniinn": {
     "nombre": "Silani Sequera",
