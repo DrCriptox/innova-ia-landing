@@ -1487,13 +1487,11 @@
   },
   "danielmantilla": {
     "nombre": "Daniel mantilla",
-    "rol": "ESTRATEGA DIGITAL",
-    "telefono": "573016544466",
-    "frase": "Estoy listo para ayudarte y guiarte en nuestra franquicia digital !!",
-    "ciudad": "Medellín - Colombia",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+573016544463",
     "foto": "fotos/danielmantilla.jpg",
-    "password": "Felipe20decumple@",
-    "registrado": "2026-04-05T21:19:14.978Z"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "roanmary": {
     "nombre": "Roanmary Sutil",
