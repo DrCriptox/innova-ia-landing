@@ -829,10 +829,16 @@ var _refMap={'nemecisinn26':'nemecisinn96','billonarios':'bellyvane','nayi2026':
 async function loadAdvisor(){
   if(!_skyRef)return null;
   try{
-    var r=await fetch('/api/asesores');
+    var ctrl=new AbortController();var t=setTimeout(function(){ctrl.abort();},5000);
+    var r=await fetch('/api/asesores',{signal:ctrl.signal});
+    clearTimeout(t);
     var data=await r.json();
     return data[_skyRef]||data['default']||null;
-  }catch(e){return null;}
+  }catch(e){
+    // Fallback: try Google Sheets directly
+    try{var s=await cargarSocios();var wa=s[_skyRef];if(wa)return{whatsapp:wa,nombre:'',rol:'',foto:'',mensaje:''};}catch(e2){}
+    return null;
+  }
 }
 
 function renderAdvisor(a){
