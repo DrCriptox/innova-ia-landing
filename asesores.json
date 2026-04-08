@@ -916,11 +916,10 @@
   "hildam7": {
     "nombre": "Hilda Melo",
     "rol": "Embajadora de innova",
-    "telefono": "573046435462",
-    "frase": "Hola! Cómo estás ? 🥰 cómo es tu nombre y de qué ciudad eres ?",
+    "whatsapp": "+573046435462",
     "foto": "fotos/hildam7.jpg",
-    "password": "Mpslljcmb1971*",
-    "registrado": "2026-04-01T02:05:21.534Z"
+    "verificado": true,
+    "mensaje": "Te ayudo activar tu franquicia digital, y a ganar tu primeros 800 USD en 30 dias"
   },
   "jenniinn": {
     "nombre": "Jennifer Rodríguez",
@@ -1751,13 +1750,5 @@
     "foto": "",
     "verificado": true,
     "mensaje": "Te ayudo a generar ingresos adicionales con criterio 🚀"
-  },
-  "nickolay2": {
-    "nombre": "Katherine Vera",
-    "rol": "Ingeniera en negocios inteligentes",
-    "whatsapp": "+573150714612",
-    "foto": "",
-    "verificado": true,
-    "mensaje": "Te ayudo a activar tu sistema automatizado de ventas con IA"
   }
 }
