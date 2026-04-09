@@ -978,13 +978,12 @@
     "registrado": "2026-04-01T03:36:30.977Z"
   },
   "danielaparra": {
-    "nombre": "Daniela parra",
-    "rol": "Empresaria  digital",
-    "telefono": "573117672835",
-    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "nombre": "Daniela Parra",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+573117672835",
     "foto": "fotos/danielaparra.jpg",
-    "password": "Daju0622",
-    "registrado": "2026-04-01T04:02:13.753Z"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "jbedoya": {
     "nombre": "JesÃºs AndrÃ©s Bedoya SÃ¡nchez",
@@ -1768,14 +1767,6 @@
     "nombre": "Dr Yonfer Rojas",
     "rol": "Asesor InnovaIA",
     "whatsapp": "+573242527900",
-    "foto": "",
-    "verificado": true,
-    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
-  },
-  "isasiera": {
-    "nombre": "Isabella Sierra",
-    "rol": "Asesor InnovaIA",
-    "whatsapp": "+573218804789",
     "foto": "",
     "verificado": true,
     "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
