@@ -155,12 +155,11 @@
     "mensaje": "♾️ Te ayudo a activar tu franquicia digital y generar ingresos reales desde tu casa 💻 o donde quieras que te encuentres 🚀"
   },
   "nayi24": {
-    "nombre": "Nayibe sanchez",
-    "rol": "Asesor InnovaIA",
-    "whatsapp": "+584144259317",
-    "foto": "",
-    "verificado": true,
-    "mensaje": "TE AYUDO  A ACTIVAR  TU FRANQUICIA DIGITAL Y GENERAR INGRESOS REALES DESDE EL PRIMER MES"
+    "nombre": "Aizbert Morales",
+    "rol": "Asesora Innova Venezuela",
+    "telefono": "5804147919183",
+    "frase": "Hola! Soy Aizbert Morales. Te doy la bienvenida a este espacio diseñado para dominar la nueva econom",
+    "foto": ""
   },
   "davidyjef25": {
     "nombre": "David Caballero Luna",
@@ -1764,5 +1763,13 @@
     "foto": "",
     "verificado": true,
     "mensaje": "Te ayudo a activar tu franquicia digital y a generar ingresos reales desde el primer mes"
+  },
+  "legend2": {
+    "nombre": "Dr Yonfer Rojas",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+573242527900",
+    "foto": "",
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   }
 }
