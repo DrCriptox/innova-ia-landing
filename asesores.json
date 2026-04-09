@@ -659,11 +659,10 @@
   "valecillos26": {
     "nombre": "Eduviges del Valle Montilla Valecillos",
     "rol": "Asesora Innova Venezuela",
-    "telefono": "584147408328",
-    "frase": "Hola! Soy tu asesora en qué te puedo ayudar",
+    "whatsapp": "+584147408328",
     "foto": "fotos/valecillos26.jpg",
-    "password": "Digital26.",
-    "registrado": "2026-03-31T22:36:43.056Z"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "miguelinnova": {
     "nombre": "Miguel Angel",
