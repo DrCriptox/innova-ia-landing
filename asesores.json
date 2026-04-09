@@ -1656,14 +1656,12 @@
     "registrado": "2026-04-08T02:40:17.995Z"
   },
   "jonathanpereira12": {
-    "nombre": "Jonathan pereira",
-    "rol": "Asesor innova",
-    "telefono": "573185327079",
-    "frase": "Hola!, soy tu asesor, en que te puedo servir",
-    "ciudad": "Cali, colombia",
+    "nombre": "Jonathan Pereira Cradona",
+    "rol": "Franquicia Digital-Asesor InnovaIA",
+    "whatsapp": "+573185327079",
     "foto": "fotos/jonathanpereira12.jpg",
-    "password": "Colombia#12",
-    "registrado": "2026-04-08T02:41:44.481Z"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "admin": {
     "nombre": "Yonfer Rojas",
