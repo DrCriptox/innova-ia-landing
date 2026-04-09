@@ -1316,12 +1316,11 @@
   },
   "endryinn": {
     "nombre": "Endry Corro",
-    "rol": "Domina la nueva economía digital con Endry Corro",
-    "telefono": "584224949326",
-    "frase": "¡Hola! Es hora de cambiar las excusas por resultados. 🏁​",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+584224949326",
     "foto": "fotos/endryinn.jpg",
-    "password": "Ani1503.",
-    "registrado": "2026-04-02T19:27:27.180Z"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "dato3478": {
     "nombre": "Daniel Torrealba",
