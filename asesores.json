@@ -386,10 +386,11 @@
   },
   "miguelgoal": {
     "nombre": "Miguel Bustos",
-    "rol": "Embajador de Innova",
-    "telefono": "573045683891",
-    "frase": "Hola! Soy Miguel Bustos, tu asesor InnovaIA",
-    "foto": "fotos/miguelgoal.jpg"
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+573045683891",
+    "foto": "fotos/miguelgoal.jpg",
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "thegoodlife": {
     "nombre": "Thomas G.",
