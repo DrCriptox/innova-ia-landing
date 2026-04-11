@@ -198,11 +198,12 @@
     "foto": "fotos/david2026.jpg"
   },
   "rony504": {
-    "nombre": "Rony Luis jimenez",
-    "rol": "Asesor innova Honduras",
-    "telefono": "50499395428",
-    "frase": "¡Hola! Soy Rony Luis jimenez, tu asesor InnovaIA 🚀",
-    "foto": "fotos/rony504.jpg"
+    "nombre": "Rony jimenez",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+50499395428",
+    "foto": "fotos/rony504.jpg",
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "wilson": {
     "nombre": "Wilson Villarejo Mayor",
