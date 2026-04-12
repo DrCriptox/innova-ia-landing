@@ -590,13 +590,12 @@
     "whatsapp": "50499437441"
   },
   "sunithpu": {
-    "nombre": "Sunith Piña Urbina",
-    "rol": "Asesora Innova Venezuela",
-    "telefono": "584226368923",
-    "frase": "Hola, te ayudo a activar tu franquicia digital",
+    "nombre": "Sunith Piña",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+584226368923",
     "foto": "fotos/sunithpu.jpg",
-    "password": "Innova5k$",
-    "registrado": "2026-03-31T22:08:42.574Z"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes"
   },
   "irianetf": {
     "nombre": "Irianet flores",
