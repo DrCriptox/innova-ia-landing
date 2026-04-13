@@ -1534,13 +1534,11 @@
   },
   "jennyalexandra73": {
     "nombre": "Jenny Alexandra Anrrango López",
-    "rol": "Empresaria digital INNOVA",
-    "telefono": "573217593486",
-    "frase": "Hola soy tu asesora hacia tu cambio de estilo de vida",
-    "ciudad": "Cali colombia",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+573217593486",
     "foto": "fotos/jennyalexandra73.jpg",
-    "password": "Jenny1285",
-    "registrado": "2026-04-06T15:18:58.502Z"
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "jennyalexandra": {
     "nombre": "José Renan Gimbuel Capote",
