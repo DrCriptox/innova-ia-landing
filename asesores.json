@@ -1168,13 +1168,12 @@
     "registrado": "2026-04-01T18:57:28.222Z"
   },
   "madamy0508": {
-    "nombre": "Maria Eugenia bustos",
-    "rol": "Asesora innnova",
-    "telefono": "573113441544",
-    "frase": "Hola soy tu asesora bienvenida a los negocios digitales. en qué puedo ayudarte ?",
+    "nombre": "Maria Eugenia Bustos Moreno",
+    "rol": "Asesora de Negocios Digitales",
+    "whatsapp": "+573113441544",
     "foto": "fotos/madamy0508.jpg",
-    "password": "Maria0508",
-    "registrado": "2026-04-01T19:16:35.956Z"
+    "verificado": true,
+    "mensaje": "No necesitas experiencia,solo ganas de cambiar tu vida, te enseñamos paso a paso como generar ingresos con herramientas digitales desde cero"
   },
   "nelsonchile2026": {
     "nombre": "Nelson Jesús",
