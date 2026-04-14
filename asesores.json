@@ -126,11 +126,12 @@
     "foto": "fotos/alexanderorjuela25.jpg"
   },
   "billonario7": {
-    "nombre": "Merlin yulisa padilla Antúnez",
+    "nombre": "Fabian Ramos",
     "rol": "Asesor InnovaIA",
-    "telefono": "50495562904",
-    "frase": "¡Hola! Soy tu asesora y te ayudo a  activar tu franquicia",
-    "foto": "fotos/billonario7.jpg"
+    "whatsapp": "+50499437441",
+    "foto": "fotos/billonario7.jpg",
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "yerlinc2025": {
     "nombre": "Yerlin yamir caicedo",
