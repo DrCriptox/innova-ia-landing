@@ -518,12 +518,11 @@
   },
   "yandri84": {
     "nombre": "Nancy Camacho",
-    "rol": "Asesora Innova IA. Colombia",
-    "telefono": "573113293706",
-    "frase": "Hola, como te puedo ayudar?",
+    "rol": "Asesor InnovaIA",
+    "whatsapp": "+573113293706",
     "foto": "fotos/yandri84.jpg",
-    "password": "nancy8licia",
-    "whatsapp": "573113293706"
+    "verificado": true,
+    "mensaje": "Si pudieras generar ingresos extras sin dejar de hacer lo que haces...TE INTERESA SABER COMO?"
   },
   "jhonpuliinn": {
     "nombre": "Jhon Jairo Pulido",
