@@ -290,11 +290,12 @@
     "foto": "fotos/maria0303.jpg"
   },
   "ricardocastellanos25": {
-    "nombre": "SANTIAGO GONZALEZ MURILLO",
+    "nombre": "Santiago Murillo",
     "rol": "Asesor InnovaIA",
-    "telefono": "573225895675",
-    "frase": "Hola, soy Santiago Murillo💎 Bienvenido. Prepárate para subir de nivel 🔥",
-    "foto": ""
+    "whatsapp": "+573225895675",
+    "foto": "",
+    "verificado": true,
+    "mensaje": "Te ayudo a activar tu franquicia digital y generar ingresos reales desde el primer mes 🚀"
   },
   "mariapcastro77": {
     "nombre": "Maria Paula Castro",
