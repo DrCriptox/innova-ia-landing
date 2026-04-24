@@ -131,7 +131,7 @@
 .vsl-rewind-btn:hover{background:rgba(0,0,0,0.75);}
 .vsl-rewind-btn.visible{display:flex;}
 .vsl-note{background:rgba(0,0,0,.45);padding:9px 16px;text-align:center;font-size:.73rem;color:var(--text-muted);border-top:1px solid var(--border);}
-    .yt-shield{position:absolute;inset:0;z-index:10;}
+    .yt-shield{position:absolute;inset:0;z-index:10;cursor:pointer;}
     .muted-overlay{position:absolute;inset:0;background:rgba(6,8,16,.85);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:25;cursor:pointer;transition:opacity .3s;}
     .muted-overlay.hidden{opacity:0;pointer-events:none;}
     .muted-icon{width:70px;height:70px;border-radius:50%;background:rgba(212,168,83,.12);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;animation:pulseGold 2s infinite;}
@@ -861,6 +861,27 @@
     // Fallback for ancient browsers
     window.addEventListener('scroll', injectIframe, {once: true, passive: true});
     setTimeout(injectIframe, 3000);
+  }
+
+  // Tap-to-pause: clicking on the yt-shield toggles play/pause. When paused, the
+  // existing pauseOverlay auto-shows (via onPlayerStateChange) with persuasion copy.
+  // z-index stack: iframe < yt-shield(10) < mutedOverlay(20) < pauseOverlay(20).
+  // mutedOverlay covers shield until user unmutes; pauseOverlay covers shield when
+  // paused. So shield only receives clicks when video is actively playing with sound.
+  var shield = document.querySelector('.yt-shield');
+  if(shield){
+    shield.addEventListener('click', function(){
+      if(!window.ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
+      try {
+        var state = ytPlayer.getPlayerState();
+        // PLAYING (1) or BUFFERING (3) → pause; anything else (PAUSED/CUED/ENDED/UNSTARTED) → play
+        if(state === 1 || state === 3){
+          ytPlayer.pauseVideo();
+        } else {
+          ytPlayer.playVideo();
+        }
+      } catch(err) {}
+    });
   }
 })();
 
