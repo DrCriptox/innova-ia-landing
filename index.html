@@ -346,6 +346,22 @@
   <link rel="dns-prefetch" href="https://www.youtube.com">
   </head>
 <body>
+<script>
+// Path → Query bridge: normalize /landing/<ref> to /landing?ref=<ref> so legacy
+// scripts that read URLSearchParams(window.location.search) find the ref.
+// Uses history.replaceState (not pushState) → no new history entry, no UX change.
+(function(){
+  try {
+    var m = window.location.pathname.match(/\/landing\/([^\/\?#]+)/);
+    if(m && m[1] && !new URLSearchParams(window.location.search).get('ref')){
+      var newUrl = '/landing?ref=' + encodeURIComponent(m[1]) + window.location.search.replace(/^\?/,'&').replace(/^&$/,'') + window.location.hash;
+      // Clean up accidental trailing '&' if no existing search
+      newUrl = newUrl.replace(/&$/, '');
+      history.replaceState(null, '', newUrl);
+    }
+  } catch(e) {}
+})();
+</script>
 
 <!-- HEADER -->
 <header>
@@ -857,7 +873,10 @@ document.addEventListener('keydown', function(e){
 // ── YouTube Player ─────────────────────────────────────
 var ytPlayer,vslDuration=0,progressInterval=null,lastTime=0,seekBlocked=false,videoStarted=false,barProgress=0,vslMilestonesHit={};
 function onYouTubeIframeAPIReady(){
-  ytPlayer=new YT.Player('ytPlayer',{videoId:'iqvEqCgNOMk',playerVars:{controls:0,disablekb:1,rel:0,modestbranding:1,iv_load_policy:3,fs:1},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
+  // autoplay:1 + mute:1 in playerVars makes autoplay reliable even when script loads
+  // async AFTER user click (browser otherwise treats gesture as stale and blocks).
+  // playsinline:1 prevents iOS from opening fullscreen on start.
+  ytPlayer=new YT.Player('ytPlayer',{videoId:'iqvEqCgNOMk',playerVars:{controls:0,disablekb:1,rel:0,modestbranding:1,iv_load_policy:3,fs:1,autoplay:1,mute:1,playsinline:1},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
 }
 function onPlayerReady(e){var loading=document.getElementById('vslFacadeLoading');if(loading)loading.classList.remove('active');vslDuration=ytPlayer.getDuration()||795;ytPlayer.mute();ytPlayer.playVideo();try{var _sv=parseInt(localStorage.getItem('vslPos_'+(_skyRef||'x'))||'0');if(_sv>15){setTimeout(function(){ytPlayer.seekTo(_sv,true);lastTime=_sv;},800);}}catch(e){}}
 function onPlayerStateChange(e){
