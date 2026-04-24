@@ -830,9 +830,13 @@
 <!-- SCRIPTS -->
 <script>
 // ── YouTube Lite Embed ─────────────────────────────────
-// Facade pattern: thumbnail + play button instead of loading iframe immediately.
-// User click → loadVSL() → loads YT API → creates player → autoplay muted.
-// Saves ~2MB of JS on initial page load, critical for WhatsApp/Instagram browsers.
+// Facade pattern: thumbnail + play button until user clicks.
+// CRITICAL: the iframe is injected DIRECTLY in the click handler (not via
+// YT.Player API's lazy iframe creation). This keeps the user-gesture "fresh"
+// for autoplay — browsers require the iframe to be created in direct response
+// to the click, otherwise muted autoplay is blocked after a few ms of delay.
+// We then wrap the existing iframe with YT.Player (enablejsapi=1) to retain
+// the custom progress bar, overlays, and seek-prevention.
 var _vslLoaded = false;
 function loadVSL(){
   if(_vslLoaded) return;
@@ -841,19 +845,32 @@ function loadVSL(){
   var loading = document.getElementById('vslFacadeLoading');
   if(facade) facade.style.display = 'none';
   if(loading) loading.classList.add('active');
-  // Detect in-app browsers (Instagram/FB/TikTok/etc.) — YT Player API lags heavily there.
-  // Use a simpler static iframe in those cases — lighter and more reliable.
+  var videoId = 'iqvEqCgNOMk';
+  // Detect in-app browsers (Instagram/FB/TikTok/etc.) — static iframe is lighter
+  // and more reliable there than the full YT Player API.
   var ua = navigator.userAgent || '';
   var isInApp = /Instagram|FBAN|FBAV|FB_IAB|TikTok|Musical|BytedanceWebview|Line\/|Snapchat/i.test(ua);
   if(isInApp){
     window.onYouTubeIframeAPIReady = function(){};
     var container = document.getElementById('vslContainer');
     if(container){
-      container.innerHTML = '<iframe src="https://www.youtube.com/embed/iqvEqCgNOMk?rel=0&modestbranding=1&playsinline=1&autoplay=1&mute=1&controls=1" style="width:100%;height:100%;position:absolute;top:0;left:0;border:0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share"></iframe>';
+      container.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '?rel=0&modestbranding=1&playsinline=1&autoplay=1&mute=1&controls=1" style="width:100%;height:100%;position:absolute;top:0;left:0;border:0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share"></iframe>';
     }
     return;
   }
-  // Normal browser: load YT Player API (auto-calls onYouTubeIframeAPIReady when ready)
+  // Normal browser path: inject iframe DIRECTLY (so autoplay gesture is fresh),
+  // then attach YT.Player to wrap it for API access.
+  var playerDiv = document.getElementById('ytPlayer');
+  if(playerDiv && playerDiv.tagName === 'DIV'){
+    var iframe = document.createElement('iframe');
+    iframe.id = 'ytPlayer';
+    iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&playsinline=1&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&fs=1&enablejsapi=1&origin=' + encodeURIComponent(window.location.origin);
+    iframe.setAttribute('allow', 'accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share');
+    iframe.setAttribute('allowfullscreen', 'true');
+    iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
+    playerDiv.parentNode.replaceChild(iframe, playerDiv);
+  }
+  // Now load YT API so we can wrap the existing iframe (for events + progress bar)
   if(window.YT && YT.Player){
     onYouTubeIframeAPIReady();
   } else {
@@ -873,10 +890,10 @@ document.addEventListener('keydown', function(e){
 // ── YouTube Player ─────────────────────────────────────
 var ytPlayer,vslDuration=0,progressInterval=null,lastTime=0,seekBlocked=false,videoStarted=false,barProgress=0,vslMilestonesHit={};
 function onYouTubeIframeAPIReady(){
-  // autoplay:1 + mute:1 in playerVars makes autoplay reliable even when script loads
-  // async AFTER user click (browser otherwise treats gesture as stale and blocks).
-  // playsinline:1 prevents iOS from opening fullscreen on start.
-  ytPlayer=new YT.Player('ytPlayer',{videoId:'iqvEqCgNOMk',playerVars:{controls:0,disablekb:1,rel:0,modestbranding:1,iv_load_policy:3,fs:1,autoplay:1,mute:1,playsinline:1},events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
+  // Wrap the existing iframe (created directly in loadVSL with autoplay=1 &
+  // enablejsapi=1). No videoId/playerVars needed — YT.Player detects those from
+  // the existing iframe's src. This preserves the fresh click gesture for autoplay.
+  ytPlayer=new YT.Player('ytPlayer',{events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
 }
 function onPlayerReady(e){var loading=document.getElementById('vslFacadeLoading');if(loading)loading.classList.remove('active');vslDuration=ytPlayer.getDuration()||795;ytPlayer.mute();ytPlayer.playVideo();try{var _sv=parseInt(localStorage.getItem('vslPos_'+(_skyRef||'x'))||'0');if(_sv>15){setTimeout(function(){ytPlayer.seekTo(_sv,true);lastTime=_sv;},800);}}catch(e){}}
 function onPlayerStateChange(e){
