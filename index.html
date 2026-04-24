@@ -407,20 +407,6 @@
     <div class="vsl-outer">
       <span class="vsl-label">📽 Mira esto primero — 19 minutos que cambian todo</span>
       <div class="vsl-frame" id="vslContainer">
-        <!-- Lite YouTube Embed facade: static thumbnail + play button. -->
-        <!-- Clicking triggers loadVSL() which loads the real YT Player API. -->
-        <!-- Saves ~2MB JS on initial load, critical for WhatsApp/Instagram browsers. -->
-        <div class="vsl-facade" id="vslFacade" onclick="loadVSL()" role="button" tabindex="0" aria-label="Reproducir video">
-          <img class="vsl-facade-thumb" src="https://i.ytimg.com/vi/iqvEqCgNOMk/maxresdefault.jpg" alt="Ver video Innova IA" loading="eager"/>
-          <button class="vsl-facade-play" type="button" aria-label="Reproducir">
-            <svg viewBox="0 0 68 48"><path fill="#f00" d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.4 0 34 0 34 0S12.6 0 7.4 1.7C4.5 2.5 2.3 4.8 1.5 7.7 0 12.9 0 24 0 24s0 11.1 1.5 16.3c.8 2.9 3 5.1 5.9 5.9C12.6 48 34 48 34 48s21.4 0 26.6-1.7c2.9-.8 5.1-3 5.9-5.9C68 35.1 68 24 68 24s0-11.1-1.5-16.3z"/><path fill="#fff" d="M45 24L27 14v20z"/></svg>
-          </button>
-          <div class="vsl-facade-badge">▶ Mira esto primero</div>
-        </div>
-        <div class="vsl-facade-loading" id="vslFacadeLoading">
-          <div class="vsl-spinner"></div>
-          <p>Cargando video…</p>
-        </div>
         <div id="ytPlayer"></div>
         <div class="yt-shield"></div>
         <button class="vsl-rewind-btn" id="vslRewindBtn" onclick="rewindVideo()">⏪ −10s</button>
@@ -829,39 +815,23 @@
 
 <!-- SCRIPTS -->
 <script>
-// ── YouTube Lite Embed ─────────────────────────────────
-// Facade pattern: thumbnail + play button until user clicks.
-// CRITICAL: the iframe is injected DIRECTLY in the click handler (not via
-// YT.Player API's lazy iframe creation). This keeps the user-gesture "fresh"
-// for autoplay — browsers require the iframe to be created in direct response
-// to the click, otherwise muted autoplay is blocked after a few ms of delay.
-// We then wrap the existing iframe with YT.Player (enablejsapi=1) to retain
-// the custom progress bar, overlays, and seek-prevention.
-var _vslLoaded = false;
-function loadVSL(){
-  if(_vslLoaded) return;
-  _vslLoaded = true;
-  var facade = document.getElementById('vslFacade');
-  var loading = document.getElementById('vslFacadeLoading');
-  if(facade) facade.style.display = 'none';
-  if(loading) loading.classList.add('active');
+// ── Video autoplay pipeline ────────────────────────────
+// Strategy: when the video container enters the viewport, we:
+//   1. Inject a direct <iframe> with autoplay=1&mute=1&enablejsapi=1
+//      (faster than waiting for YT API to create the iframe itself)
+//   2. In parallel, load the YT Player API
+//   3. When YT API is ready, it wraps the existing iframe (possible because
+//      enablejsapi=1 is in its src) to give us access to events + custom bar
+// This preserves autoplay on page load (what users expect) while avoiding the
+// ~2MB hit of forcing YT Player API before the user scrolls to the video.
+(function(){
   var videoId = 'iqvEqCgNOMk';
-  // Detect in-app browsers (Instagram/FB/TikTok/etc.) — static iframe is lighter
-  // and more reliable there than the full YT Player API.
-  var ua = navigator.userAgent || '';
-  var isInApp = /Instagram|FBAN|FBAV|FB_IAB|TikTok|Musical|BytedanceWebview|Line\/|Snapchat/i.test(ua);
-  if(isInApp){
-    window.onYouTubeIframeAPIReady = function(){};
-    var container = document.getElementById('vslContainer');
-    if(container){
-      container.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '?rel=0&modestbranding=1&playsinline=1&autoplay=1&mute=1&controls=1" style="width:100%;height:100%;position:absolute;top:0;left:0;border:0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share"></iframe>';
-    }
-    return;
-  }
-  // Normal browser path: inject iframe DIRECTLY (so autoplay gesture is fresh),
-  // then attach YT.Player to wrap it for API access.
-  var playerDiv = document.getElementById('ytPlayer');
-  if(playerDiv && playerDiv.tagName === 'DIV'){
+  var bootstrapped = false;
+  function injectIframe(){
+    if(bootstrapped) return;
+    bootstrapped = true;
+    var playerDiv = document.getElementById('ytPlayer');
+    if(!playerDiv || playerDiv.tagName !== 'DIV') return;
     var iframe = document.createElement('iframe');
     iframe.id = 'ytPlayer';
     iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&playsinline=1&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&fs=1&enablejsapi=1&origin=' + encodeURIComponent(window.location.origin);
@@ -869,23 +839,30 @@ function loadVSL(){
     iframe.setAttribute('allowfullscreen', 'true');
     iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
     playerDiv.parentNode.replaceChild(iframe, playerDiv);
+    // Load YT API in parallel so it can wrap the iframe (events + progress bar)
+    if(window.YT && window.YT.Player){
+      onYouTubeIframeAPIReady();
+    } else if(!document.querySelector('script[src*="iframe_api"]')){
+      var s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+    }
   }
-  // Now load YT API so we can wrap the existing iframe (for events + progress bar)
-  if(window.YT && YT.Player){
-    onYouTubeIframeAPIReady();
+  var el = document.getElementById('vslContainer');
+  if(el && 'IntersectionObserver' in window){
+    var o = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){
+        injectIframe();
+        o.disconnect();
+      }
+    }, {rootMargin: '200px'});
+    o.observe(el);
   } else {
-    var t = document.createElement('script');
-    t.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(t);
+    // Fallback for ancient browsers
+    window.addEventListener('scroll', injectIframe, {once: true, passive: true});
+    setTimeout(injectIframe, 3000);
   }
-}
-// Keyboard a11y: Enter/Space on the facade also triggers load
-document.addEventListener('keydown', function(e){
-  if((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.id === 'vslFacade'){
-    e.preventDefault();
-    loadVSL();
-  }
-});
+})();
 
 // ── YouTube Player ─────────────────────────────────────
 var ytPlayer,vslDuration=0,progressInterval=null,lastTime=0,seekBlocked=false,videoStarted=false,barProgress=0,vslMilestonesHit={};
@@ -895,7 +872,23 @@ function onYouTubeIframeAPIReady(){
   // the existing iframe's src. This preserves the fresh click gesture for autoplay.
   ytPlayer=new YT.Player('ytPlayer',{events:{onReady:onPlayerReady,onStateChange:onPlayerStateChange}});
 }
-function onPlayerReady(e){var loading=document.getElementById('vslFacadeLoading');if(loading)loading.classList.remove('active');vslDuration=ytPlayer.getDuration()||795;ytPlayer.mute();ytPlayer.playVideo();try{var _sv=parseInt(localStorage.getItem('vslPos_'+(_skyRef||'x'))||'0');if(_sv>15){setTimeout(function(){ytPlayer.seekTo(_sv,true);lastTime=_sv;},800);}}catch(e){}}
+function onPlayerReady(e){
+  vslDuration = ytPlayer.getDuration() || 795;
+  // Iframe was injected with autoplay=1&mute=1, so video should already be playing.
+  // Call mute+play anyway as safety net in case autoplay was blocked by browser policy.
+  try { ytPlayer.mute(); ytPlayer.playVideo(); } catch(err) {}
+  // If iframe was already PLAYING before YT.Player wrapped it, onStateChange won't
+  // fire automatically — manually kickstart the progress interval to animate the bar.
+  try {
+    var curState = ytPlayer.getPlayerState && ytPlayer.getPlayerState();
+    if(curState === 1) { onPlayerStateChange({data: 1}); }
+  } catch(err) {}
+  // Resume from last position (localStorage)
+  try {
+    var _sv = parseInt(localStorage.getItem('vslPos_'+(_skyRef||'x'))||'0');
+    if(_sv > 15) setTimeout(function(){ ytPlayer.seekTo(_sv, true); lastTime = _sv; }, 800);
+  } catch(err) {}
+}
 function onPlayerStateChange(e){
   var s=e.data;
   if(s===YT.PlayerState.PLAYING){
