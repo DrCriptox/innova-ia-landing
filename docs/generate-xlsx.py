@@ -60,7 +60,7 @@ ws.row_dimensions[3].height = 8
 # ─────────────────────────────────────────────
 # Headers
 # ─────────────────────────────────────────────
-headers = ["#", "Rango", "Facturación estructura/mes", "PV mínimo", "Patrocinados activos", "Piernas calificadas", "Cobro estimado"]
+headers = ["#", "Rango", "PV/mes", "PV mínimo", "Patrocinados activos", "Piernas calificadas", "Cobro estimado"]
 for col_idx, h in enumerate(headers, 1):
     cell = ws.cell(row=4, column=col_idx, value=h)
     cell.font = header_font
@@ -72,19 +72,21 @@ ws.row_dimensions[4].height = 36
 # ─────────────────────────────────────────────
 # Datos
 # ─────────────────────────────────────────────
+# PV/mes = facturación de estructura en puntos de volumen (1 PV = $2 USD)
+# Por eso los valores son la MITAD de los que estaban en USD.
 data = [
-    (1,  "Consultor",            2000,    200,   1, "—",              "$220 – $439"),
-    (2,  "Ejecutivo",            4000,    200,   2, "—",              "$440 – $879"),
-    (3,  "Director 1500",        8000,    300,   3, "1 (Ejecutivo+)", "$880 – $1,649"),
-    (4,  "Director 2500",       15000,    300,   4, "2 (Ejecutivo+)", "$1,650 – $2,749"),
-    (5,  "Director 4K",         25000,    400,   4, "2 (D1500+)",     "$2,750 – $4,399"),
-    (6,  "Presidente 7K",       40000,    500,   5, "3 (D1500+)",     "$4,400 – $8,799"),
-    (7,  "Presidente 15K",      80000,    500,   5, "3 (D2500+)",     "$8,800 – $16,499"),
-    (8,  "Presidente 25K",     150000,    500,   5, "3 (D4K+)",       "$16,500 – $27,499"),
-    (9,  "Embajador Elite 30K",250000,   1000,   6, "3 (P7K+)",       "$27,500 – $54,999"),
-    (10, "Embajador Corona 60K",500000,  1000,   6, "3 (P15K+)",      "$55,000 – $109,999"),
-    (11, "Icon 120K",          1000000,  1000,   6, "3 (P25K+)",      "$110,000 – $274,999"),
-    (12, "Leyenda 300K",       2500000,  1000,   6, "3 (Embajador+)", "$275,000+"),
+    (1,  "Consultor",            1000,    200,   1, "—",              "$220 – $439"),
+    (2,  "Ejecutivo",            2000,    200,   2, "—",              "$440 – $879"),
+    (3,  "Director 1500",        4000,    300,   3, "1 (Ejecutivo+)", "$880 – $1,649"),
+    (4,  "Director 2500",        7500,    300,   4, "2 (Ejecutivo+)", "$1,650 – $2,749"),
+    (5,  "Director 4K",         12500,    400,   4, "2 (D1500+)",     "$2,750 – $4,399"),
+    (6,  "Presidente 7K",       20000,    500,   5, "3 (D1500+)",     "$4,400 – $8,799"),
+    (7,  "Presidente 15K",      40000,    500,   5, "3 (D2500+)",     "$8,800 – $16,499"),
+    (8,  "Presidente 25K",      75000,    500,   5, "3 (D4K+)",       "$16,500 – $27,499"),
+    (9,  "Embajador Elite 30K",125000,   1000,   6, "3 (P7K+)",       "$27,500 – $54,999"),
+    (10, "Embajador Corona 60K",250000,  1000,   6, "3 (P15K+)",      "$55,000 – $109,999"),
+    (11, "Icon 120K",           500000,  1000,   6, "3 (P25K+)",      "$110,000 – $274,999"),
+    (12, "Leyenda 300K",       1250000,  1000,   6, "3 (Embajador+)", "$275,000+"),
 ]
 
 start_row = 5
@@ -102,11 +104,11 @@ for i, row in enumerate(data):
     c.font = rank_font
     c.alignment = cell_align_left
 
-    # Facturacion (numero)
+    # PV/mes (puntos de volumen, 1 PV = $2 USD)
     c = ws.cell(row=r, column=3, value=factura)
     c.font = gold_font
     c.alignment = Alignment(horizontal="right", vertical="center", indent=1)
-    c.number_format = '"$"#,##0'
+    c.number_format = '#,##0" PV"'
 
     # PV (numero)
     c = ws.cell(row=r, column=4, value=pv)
@@ -152,7 +154,9 @@ ws.cell(row=defs_row, column=1, value="DEFINICIONES").font = Font(bold=True, siz
 defs_row += 1
 
 definitions = [
-    ("PV (Volumen Personal)",     "Ventas que TÚ cierras directamente con clientes/socios."),
+    ("PV (Punto de Volumen)",     "Unidad de medida del plan. Equivalencia oficial: 1 PV = $2 USD."),
+    ("PV/mes",                    "Volumen total facturado por toda tu estructura en el mes (en puntos)."),
+    ("PV mínimo",                 "Volumen Personal mínimo que TÚ debes producir directamente cada mes (pendiente: convertir a puntos en próxima iteración)."),
     ("Patrocinados activos",      "Socios que TÚ trajiste personalmente y que cumplen su PV mínimo ese mes."),
     ("Piernas calificadas",       "Ramas independientes (downlines de patrocinados directos distintos) donde alguien dentro alcanza el rango indicado entre paréntesis."),
     ("Cobro estimado",            "Ingreso aproximado mensual proyectado por la combinación FSB + Uninivel + Pool."),
@@ -195,7 +199,7 @@ for p in pending:
 # ─────────────────────────────────────────────
 # Anchos de columna
 # ─────────────────────────────────────────────
-widths = [5, 22, 22, 12, 14, 18, 22]
+widths = [5, 22, 16, 12, 14, 18, 22]
 for i, w in enumerate(widths, 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 
