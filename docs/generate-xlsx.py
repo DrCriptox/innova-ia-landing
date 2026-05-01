@@ -42,13 +42,13 @@ leyenda_fill = PatternFill("solid", fgColor="FCE4A6")
 # ─────────────────────────────────────────────
 # Título y subtítulo
 # ─────────────────────────────────────────────
-ws.merge_cells("A1:G1")
+ws.merge_cells("A1:H1")
 ws["A1"] = "§7 REQUISITOS DE CALIFICACIÓN — Plan de Carrera Sky"
 ws["A1"].font = Font(name="Calibri", size=16, bold=True, color=DARK)
 ws["A1"].alignment = Alignment(horizontal="left", vertical="center")
 ws.row_dimensions[1].height = 28
 
-ws.merge_cells("A2:G2")
+ws.merge_cells("A2:H2")
 ws["A2"] = "Cada rango exige cumplir TODOS los criterios en el mismo mes calendario · PROPUESTA — REVISAR"
 ws["A2"].font = Font(name="Calibri", size=10, italic=True, color="666666")
 ws["A2"].alignment = Alignment(horizontal="left", vertical="center")
@@ -60,7 +60,7 @@ ws.row_dimensions[3].height = 8
 # ─────────────────────────────────────────────
 # Headers
 # ─────────────────────────────────────────────
-headers = ["#", "Rango", "PV/mes", "PV mínimo", "Patrocinados activos", "Piernas calificadas", "Cobro estimado"]
+headers = ["#", "Rango", "PV/mes", "PV mínimo", "Patrocinados activos", "Piernas calificadas", "Bono Gift", "Cobro estimado"]
 for col_idx, h in enumerate(headers, 1):
     cell = ws.cell(row=4, column=col_idx, value=h)
     cell.font = header_font
@@ -74,25 +74,37 @@ ws.row_dimensions[4].height = 36
 # ─────────────────────────────────────────────
 # PV/mes = facturación de estructura en puntos de volumen (1 PV = $2 USD)
 # Por eso los valores son la MITAD de los que estaban en USD.
+# Cobro estimado se calcula con FÓRMULA en Excel:
+#   - Min = 22% × PV (current rank)        + Bono Gift
+#   - Max = 22% × PV (next rank)           + Bono Gift
+#   - Leyenda (último): solo "$X+" sin tope
+# Bono Gift es editable por el usuario (default 0).
 data = [
-    (1,  "Consultor",            1000,    200,   1, "—",              "$220 – $439"),
-    (2,  "Ejecutivo",            2000,    200,   2, "—",              "$440 – $879"),
-    (3,  "Director 1500",        4000,    300,   3, "1 (Ejecutivo+)", "$880 – $1,649"),
-    (4,  "Director 2500",        7500,    300,   4, "2 (Ejecutivo+)", "$1,650 – $2,749"),
-    (5,  "Director 4K",         12500,    400,   4, "2 (D1500+)",     "$2,750 – $4,399"),
-    (6,  "Presidente 7K",       20000,    500,   5, "3 (D1500+)",     "$4,400 – $8,799"),
-    (7,  "Presidente 15K",      40000,    500,   5, "3 (D2500+)",     "$8,800 – $16,499"),
-    (8,  "Presidente 25K",      75000,    500,   5, "3 (D4K+)",       "$16,500 – $27,499"),
-    (9,  "Embajador Elite 30K",125000,   1000,   6, "3 (P7K+)",       "$27,500 – $54,999"),
-    (10, "Embajador Corona 60K",250000,  1000,   6, "3 (P15K+)",      "$55,000 – $109,999"),
-    (11, "Icon 120K",           500000,  1000,   6, "3 (P25K+)",      "$110,000 – $274,999"),
-    (12, "Leyenda 300K",       1250000,  1000,   6, "3 (Embajador+)", "$275,000+"),
+    (1,  "Consultor",             1000,    200,   1, "—"),
+    (2,  "Ejecutivo",             2000,    200,   2, "—"),
+    (3,  "Director 1500",         4000,    300,   3, "1 (Ejecutivo+)"),
+    (4,  "Director 2500",         7500,    300,   4, "2 (Ejecutivo+)"),
+    (5,  "Director 4K",          12500,    400,   4, "2 (D1500+)"),
+    (6,  "Presidente 7K",        20000,    500,   5, "3 (D1500+)"),
+    (7,  "Presidente 15K",       40000,    500,   5, "3 (D2500+)"),
+    (8,  "Presidente 25K",       75000,    500,   5, "3 (D4K+)"),
+    (9,  "Embajador Elite 30K", 125000,   1000,   6, "3 (P7K+)"),
+    (10, "Embajador Corona 60K",250000,   1000,   6, "3 (P15K+)"),
+    (11, "Icon 120K",           500000,   1000,   6, "3 (P25K+)"),
+    (12, "Leyenda 300K",       1250000,   1000,   6, "3 (Embajador+)"),
 ]
 
 start_row = 5
+last_idx = len(data) - 1  # 11 (Leyenda)
+
+# Editable input fill: very subtle blue tint to show user this is editable
+input_fill = PatternFill("solid", fgColor="EAF4FF")
+input_fill_elite = PatternFill("solid", fgColor="FFF3D6")
+input_fill_leyenda = PatternFill("solid", fgColor="FCDD8E")
+
 for i, row in enumerate(data):
     r = start_row + i
-    num, rango, factura, pv, patroc, piernas, cobro = row
+    num, rango, factura, pv, patroc, piernas = row
 
     # Numero
     c = ws.cell(row=r, column=1, value=num)
@@ -110,7 +122,7 @@ for i, row in enumerate(data):
     c.alignment = Alignment(horizontal="right", vertical="center", indent=1)
     c.number_format = '#,##0" PV"'
 
-    # PV (numero)
+    # PV mínimo (en USD por ahora)
     c = ws.cell(row=r, column=4, value=pv)
     c.font = cell_font
     c.alignment = Alignment(horizontal="right", vertical="center", indent=1)
@@ -126,22 +138,43 @@ for i, row in enumerate(data):
     c.font = cell_font
     c.alignment = cell_align_center
 
-    # Cobro estimado
-    c = ws.cell(row=r, column=7, value=cobro)
+    # Bono Gift (editable, default 0)
+    c = ws.cell(row=r, column=7, value=0)
+    c.font = Font(name="Calibri", size=11, color="0066CC", bold=True)
+    c.alignment = Alignment(horizontal="right", vertical="center", indent=1)
+    c.number_format = '"$"#,##0'
+
+    # Cobro estimado (FÓRMULA: 22% × PV/mes + Bono Gift)
+    if i < last_idx:
+        # Min = 22% × PV current + Bono;  Max = 22% × PV next + Bono
+        formula = (
+            f'=TEXT(INT(0.22*C{r})+G{r},"$#,##0")&" – "&'
+            f'TEXT(INT(0.22*C{r+1})+G{r},"$#,##0")'
+        )
+    else:
+        # Leyenda: solo "$X+" (sin tope)
+        formula = f'=TEXT(INT(0.22*C{r})+G{r},"$#,##0")&"+"'
+    c = ws.cell(row=r, column=8, value=formula)
     c.font = green_font
     c.alignment = Alignment(horizontal="right", vertical="center", indent=1)
 
     # Bordes en todas las celdas
-    for col in range(1, 8):
+    for col in range(1, 9):
         ws.cell(row=r, column=col).border = border
 
-    # Fills por tier (Embajador Elite/Corona/Icon = elite, Leyenda = leyenda)
+    # Fills por tier
     if num in (9, 10, 11):
-        for col in range(1, 8):
-            ws.cell(row=r, column=col).fill = elite_fill
+        for col in range(1, 9):
+            if col != 7:  # mantener Bono Gift visible como editable
+                ws.cell(row=r, column=col).fill = elite_fill
+        ws.cell(row=r, column=7).fill = input_fill_elite
     elif num == 12:
-        for col in range(1, 8):
-            ws.cell(row=r, column=col).fill = leyenda_fill
+        for col in range(1, 9):
+            if col != 7:
+                ws.cell(row=r, column=col).fill = leyenda_fill
+        ws.cell(row=r, column=7).fill = input_fill_leyenda
+    else:
+        ws.cell(row=r, column=7).fill = input_fill
 
     ws.row_dimensions[r].height = 26
 
@@ -156,10 +189,11 @@ defs_row += 1
 definitions = [
     ("PV (Punto de Volumen)",     "Unidad de medida del plan. Equivalencia oficial: 1 PV = $2 USD."),
     ("PV/mes",                    "Volumen total facturado por toda tu estructura en el mes (en puntos)."),
-    ("PV mínimo",                 "Volumen Personal mínimo que TÚ debes producir directamente cada mes (pendiente: convertir a puntos en próxima iteración)."),
+    ("PV mínimo",                 "Volumen Personal mínimo que TÚ debes producir directamente cada mes (pendiente convertir a puntos)."),
     ("Patrocinados activos",      "Socios que TÚ trajiste personalmente y que cumplen su PV mínimo ese mes."),
     ("Piernas calificadas",       "Ramas independientes (downlines de patrocinados directos distintos) donde alguien dentro alcanza el rango indicado entre paréntesis."),
-    ("Cobro estimado",            "Ingreso aproximado mensual proyectado por la combinación FSB + Uninivel + Pool."),
+    ("Bono Gift (editable)",      "Bono adicional discrecional. Edita el valor en USD (celda azul) y el Cobro estimado se recalcula automáticamente sumando el bono al min y al max."),
+    ("Cobro estimado (fórmula)",  "Min = 22% × PV/mes del rango actual + Bono Gift. Max = 22% × PV/mes del siguiente rango + Bono Gift. Leyenda solo muestra el mínimo con '+' (sin tope)."),
     ("Regla 50/50 (sugerida)",    "Ninguna pierna puede aportar más del 50% del volumen requerido para el rango."),
 ]
 
@@ -167,7 +201,7 @@ for term, desc in definitions:
     c = ws.cell(row=defs_row, column=1, value=term)
     c.font = Font(bold=True, size=10)
     c.alignment = Alignment(vertical="top")
-    ws.merge_cells(start_row=defs_row, start_column=2, end_row=defs_row, end_column=7)
+    ws.merge_cells(start_row=defs_row, start_column=2, end_row=defs_row, end_column=8)
     c = ws.cell(row=defs_row, column=2, value=desc)
     c.font = Font(size=10, color="444444")
     c.alignment = Alignment(vertical="top", wrap_text=True)
@@ -189,7 +223,7 @@ pending = [
 ]
 
 for p in pending:
-    ws.merge_cells(start_row=defs_row, start_column=1, end_row=defs_row, end_column=7)
+    ws.merge_cells(start_row=defs_row, start_column=1, end_row=defs_row, end_column=8)
     c = ws.cell(row=defs_row, column=1, value="☐  " + p)
     c.font = Font(size=10)
     c.alignment = Alignment(vertical="center", indent=1)
@@ -199,7 +233,7 @@ for p in pending:
 # ─────────────────────────────────────────────
 # Anchos de columna
 # ─────────────────────────────────────────────
-widths = [5, 22, 16, 12, 14, 18, 22]
+widths = [5, 22, 16, 12, 14, 18, 14, 22]
 for i, w in enumerate(widths, 1):
     ws.column_dimensions[get_column_letter(i)].width = w
 
