@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Innova IA — Bonos &amp; Cupones</title>
+<style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+  font-size: 10pt;
+  line-height: 1.45;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page { page-break-after: always; min-height: calc(297mm - 36mm); position: relative; padding-bottom: 12mm; }
+.page:last-child { page-break-after: avoid; }
+
+.header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  border-bottom: 2px solid #D4A853; padding-bottom: 4mm; margin-bottom: 5mm;
+}
+.logo { font-size: 17pt; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.logo span { color: #B8841F; }
+.logo-sub { font-size: 6.5pt; color: #666; letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; }
+.doc-meta { text-align: right; font-size: 8pt; color: #666; line-height: 1.4; }
+
+h1 { font-size: 21pt; font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 3mm; }
+h1 span { color: #B8841F; }
+h2 { font-size: 12.5pt; font-weight: 800; margin-top: 4mm; margin-bottom: 3mm; color: #1a1a1a; }
+h3 { font-size: 10pt; font-weight: 700; margin-bottom: 1.5mm; color: #B8841F; }
+.lead { font-size: 9.5pt; color: #444; margin-bottom: 4mm; line-height: 1.5; }
+
+.conv-banner {
+  background: #FFF8E8; border: 1px solid #F0C97A; border-radius: 3mm;
+  padding: 4mm 5mm; margin-bottom: 6mm; display: flex; align-items: center; gap: 5mm;
+}
+.conv-banner-icon {
+  font-family: 'Helvetica Neue', sans-serif; font-weight: 800; font-size: 16pt;
+  color: #B8841F; line-height: 1;
+}
+.conv-banner-text { font-size: 9.5pt; line-height: 1.45; }
+.conv-banner-text strong { color: #B8841F; }
+
+.bonos-table { width: 100%; border-collapse: collapse; margin-bottom: 4mm; }
+.bonos-table th {
+  background: #1a1a1a; color: #fff; text-align: left;
+  padding: 2.5mm 4mm; font-size: 7.5pt; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.bonos-table th.text-right { text-align: right; }
+.bonos-table td { padding: 2.8mm 4mm; font-size: 9.3pt; border-bottom: 1px solid #E5E5E5; }
+.bonos-table td.bono-name { font-weight: 700; }
+.bonos-table td.bono-usd { color: #B8841F; font-weight: 700; text-align: right; white-space: nowrap; }
+.bonos-table td.bono-pts { color: #555; text-align: right; white-space: nowrap; }
+.bonos-table tr:nth-child(even) td { background: #FAFAFA; }
+.bonos-table .total-row td { background: #FFF8E8; font-weight: 700; border-top: 2px solid #D4A853; border-bottom: none; }
+
+.bono-card {
+  border: 1px solid #E5E5E5; border-left: 3px solid #D4A853;
+  border-radius: 1.5mm; padding: 2.5mm 4mm; margin-bottom: 2mm;
+  page-break-inside: avoid;
+}
+.bono-card-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 1mm;
+}
+.bono-card-name { font-size: 10pt; font-weight: 800; }
+.bono-card-value { font-size: 9pt; color: #B8841F; font-weight: 700; white-space: nowrap; }
+.bono-card-meta { font-size: 8.7pt; color: #444; line-height: 1.4; }
+.bono-card-detail { font-size: 8pt; color: #777; margin-top: 1mm; font-style: italic; line-height: 1.35; }
+
+.page-footer {
+  position: absolute; bottom: 4mm; left: 0; right: 0;
+  font-size: 7pt; color: #888; text-align: center;
+  border-top: 1px solid #E5E5E5; padding-top: 3mm;
+}
+
+.rule-block { margin-bottom: 3.5mm; }
+.rule-list { list-style: none; padding: 0; }
+.rule-list li {
+  padding: 1mm 0 1mm 6mm; font-size: 9pt;
+  position: relative; line-height: 1.4;
+}
+.rule-list li::before {
+  content: '•'; color: #B8841F; font-size: 12pt;
+  position: absolute; left: 2mm; top: -0.5mm; line-height: 1;
+}
+
+.canje-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; margin-top: 2mm; }
+.canje-item {
+  background: #FAFAFA; border-left: 2px solid #D4A853;
+  padding: 2mm 3mm; font-size: 8.5pt; line-height: 1.4;
+}
+.canje-item strong { color: #B8841F; display: block; margin-bottom: 0.5mm; }
+
+.disclaimer { font-size: 7.3pt; color: #888; margin-top: 4mm; line-height: 1.45; padding-top: 2.5mm; border-top: 1px dashed #E5E5E5; }
+</style>
+</head>
+<body>
+
+<!-- PÁGINA 1: Portada + Tabla maestra -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">
+      Bonos &amp; Cupones · v1.0<br>
+      Mayo 2026
+    </div>
+  </header>
+
+  <h1>Sistema de Bonos<br><span>&amp; Cupones de Liderazgo</span></h1>
+  <p class="lead">Premios al líder por meta cumplida. <strong>Sin volumen, sin comisión.</strong> Pagados del margen empresa, no afectan los cálculos del plan de carrera. Canjeables por mentorías, herramientas, eventos y viajes en el back-office.</p>
+
+  <div class="conv-banner">
+    <div class="conv-banner-icon">★</div>
+    <div class="conv-banner-text">
+      <strong>Equivalencia oficial: 1 punto = $2 USD</strong><br>
+      Todos los cupones se acreditan en puntos canjeables en el back-office del socio.
+    </div>
+  </div>
+
+  <h2>Tabla maestra · 8 cupones</h2>
+  <table class="bonos-table">
+    <thead>
+      <tr>
+        <th>Cupón</th>
+        <th class="text-right">USD</th>
+        <th class="text-right">Puntos</th>
+        <th>Meta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="bono-name">Arranque</td><td class="bono-usd">$50</td><td class="bono-pts">25 pts</td><td>Primer socio reclutado del mes</td></tr>
+      <tr><td class="bono-name">Velocidad</td><td class="bono-usd">$150</td><td class="bono-pts">75 pts</td><td>5 socios nuevos en 30 días</td></tr>
+      <tr><td class="bono-name">Ascenso</td><td class="bono-usd">$500</td><td class="bono-pts">250 pts</td><td>Sube 1 rango en el mes</td></tr>
+      <tr><td class="bono-name">Doble Salto</td><td class="bono-usd">$1,500</td><td class="bono-pts">750 pts</td><td>Sube 2 rangos en un mes</td></tr>
+      <tr><td class="bono-name">Mentor</td><td class="bono-usd">$2,000</td><td class="bono-pts">1,000 pts</td><td>2 líderes Director+ en 1ra línea</td></tr>
+      <tr><td class="bono-name">Élite</td><td class="bono-usd">$5,000</td><td class="bono-pts">2,500 pts</td><td>Mantén Presidente 25K por 3 meses</td></tr>
+      <tr><td class="bono-name">Embajador Maker</td><td class="bono-usd">$15,000</td><td class="bono-pts">7,500 pts</td><td>Primer Embajador Elite en tu equipo</td></tr>
+      <tr><td class="bono-name">Icon Maker</td><td class="bono-usd">$50,000</td><td class="bono-pts">25,000 pts</td><td>Primer Icon en tu organización</td></tr>
+      <tr class="total-row"><td>Total potencial</td><td class="bono-usd">$74,200</td><td class="bono-pts">37,100 pts</td><td>Suma máxima posible en un líder</td></tr>
+    </tbody>
+  </table>
+
+  <p class="lead" style="margin-top: 4mm; font-size: 9pt;">El sistema de cupones premia comportamientos clave: <strong>velocidad de reclutamiento, consistencia en rango y desarrollo de líderes</strong>. Los cupones más altos (Embajador Maker e Icon Maker) son hitos únicos por organización, entregados en eventos.</p>
+
+  <div class="page-footer">Innova IA · Sky System — Sistema de Bonos · Confidencial · Página 1 / 3</div>
+</section>
+
+<!-- PÁGINA 2: Detalle de cada cupón -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">Detalle de cupones · 2/3</div>
+  </header>
+
+  <h2>Detalle de cada cupón</h2>
+
+  <div class="bono-card">
+    <div class="bono-card-head">
+      <div class="bono-card-name">Arranque</div>
+      <div class="bono-card-value">$50 · 25 puntos</div>
+    </div>
+    <div class="bono-card-meta">Reclutar tu <strong>primer socio del mes</strong>. Se otorga la primera vez que un patrocinado activo aparece en el reporte mensual del socio.</div>
+    <div class="bono-card-detail">Evaluación: cierre del mes calendario. Acreditación: primeros 5 días del mes siguiente.</div>
+  </div>
+
+  <div class="bono-card">
+    <div class="bono-card-head">
+      <div class="bono-card-name">Velocidad</div>
+      <div class="bono-card-value">$150 · 75 puntos</div>
+    </div>
+    <div class="bono-card-meta"><strong>5 socios nuevos en 30 días corridos.</strong> Premia el ritmo de reclutamiento sostenido.</div>
+    <div class="bono-card-detail">Evaluación: ventana móvil de 30 días. No acumulable en el mismo periodo. Aplicable múltiples veces al año.</div>
+  </div>
+
+  <div class="bono-card">
+    <div class="bono-card-head">
+      <div class="bono-card-name">Ascenso</div>
+      <div class="bono-card-value">$500 · 250 puntos</div>
+    </div>
+    <div class="bono-card-meta"><strong>Sube 1 rango</strong> dentro del mismo mes calendario.</div>
+    <div class="bono-card-detail">Evaluación: cierre mensual. Pagado solo en el mes del ascenso, no por mantenimiento del rango.</div>
+  </div>
+
+  <div class="bono-card">
+    <div class="bono-card-head">
+      <div class="bono-card-name">Doble Salto</div>
+      <div class="bono-card-value">$1,500 · 750 puntos</div>
+    </div>
+    <div class="bono-card-meta"><strong>Sube 2 rangos</strong> en el mismo mes calendario. Reemplaza al cupón Ascenso (no se acumula con él).</div>
+    <div class="bono-card-detail">Evaluación: cierre mensual. Pagado solo en el mes del doble salto.</div>
+  </div>
+
+  <div class="bono-card">
+    <div class="bono-card-head">
+      <div class="bono-card-name">Mentor</div>
+      <div class="bono-card-value">$2,000 · 1,000 puntos</div>
+    </div>
+    <div class="bono-card-meta">Desarrolla <strong>2 líderes con rango Director 1500 o superior</strong> en tu primera línea (patrocinados directos).</div>
+    <div class="bono-card-detail">Evaluación: cierre mensual. Pagado una sola vez por par de líderes desarrollados.</div>
+  </div>
+
+  <div class="bono-card">
+    <div class="bono-card-head">
+      <div class="bono-card-name">Élite</div>
+      <div class="bono-card-value">$5,000 · 2,500 puntos</div>
+    </div>
+    <div class="bono-card-meta"><strong>Mantén Presidente 25K por 3 meses consecutivos.</strong> Reconoce consistencia en el rango ejecutivo top.</div>
+    <div class="bono-card-detail">Evaluación: trimestral. Si baja de rango, el contador de meses consecutivos se reinicia.</div>
+  </div>
+
+  <div class="bono-card">
+    <div class="bono-card-head">
+      <div class="bono-card-name">Embajador Maker</div>
+      <div class="bono-card-value">$15,000 · 7,500 puntos</div>
+    </div>
+    <div class="bono-card-meta">Primer <strong>Embajador Elite 30K</strong> alcanzado en tu organización. Reconoce el desarrollo del primer líder élite del equipo.</div>
+    <div class="bono-card-detail">Evaluación: una sola vez por organización. Pagado en el mes en que el líder califica por primera vez.</div>
+  </div>
+
+  <div class="bono-card">
+    <div class="bono-card-head">
+      <div class="bono-card-name">Icon Maker</div>
+      <div class="bono-card-value">$50,000 · 25,000 puntos</div>
+    </div>
+    <div class="bono-card-meta">Primer <strong>Icon 120K</strong> en tu organización. El cupón insignia del programa.</div>
+    <div class="bono-card-detail">Evaluación: una sola vez por organización. Entregado en evento o gala de fin de año con cheque ceremonial.</div>
+  </div>
+
+  <div class="page-footer">Innova IA · Sky System — Sistema de Bonos · Confidencial · Página 2 / 3</div>
+</section>
+
+<!-- PÁGINA 3: Reglas y canje -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">Reglas de canje · 3/3</div>
+  </header>
+
+  <h2>Política de canje y reglas operativas</h2>
+
+  <div class="rule-block">
+    <h3>1. Equivalencia y acumulación</h3>
+    <ul class="rule-list">
+      <li><strong>1 punto = $2 USD.</strong> La conversión aplica para todo el sistema de cupones del plan.</li>
+      <li>Los puntos se acumulan en el wallet de cupones del back-office del socio.</li>
+      <li>No tienen valor monetario directo: solo se canjean por los productos/servicios autorizados.</li>
+    </ul>
+  </div>
+
+  <div class="rule-block">
+    <h3>2. Caducidad</h3>
+    <ul class="rule-list">
+      <li>Los puntos vencen <strong>12 meses</strong> después de su acreditación si no se han canjeado.</li>
+      <li>Los puntos más antiguos se canjean primero (FIFO).</li>
+      <li>Si el socio se desactiva del plan, los puntos no canjeados se pierden tras 90 días.</li>
+    </ul>
+  </div>
+
+  <div class="rule-block">
+    <h3>3. Transferibilidad</h3>
+    <ul class="rule-list">
+      <li>Los puntos son <strong>personales e intransferibles</strong>.</li>
+      <li>No pueden cederse, venderse, ni convertirse en dinero efectivo.</li>
+      <li>En caso de fallecimiento o incapacidad permanente, el beneficiario designado puede canjearlos dentro de 90 días.</li>
+    </ul>
+  </div>
+
+  <div class="rule-block">
+    <h3>4. Categorías canjeables</h3>
+    <div class="canje-grid">
+      <div class="canje-item"><strong>Mentorías 1:1</strong>30 min con líder Embajador+. Desde 50 pts.</div>
+      <div class="canje-item"><strong>Masterclass exclusivas</strong>Sesiones cerradas con expertos. Desde 100 pts.</div>
+      <div class="canje-item"><strong>Herramientas digitales</strong>Software, suscripciones, plantillas. Desde 75 pts.</div>
+      <div class="canje-item"><strong>Eventos presenciales</strong>Convenciones y galas Sky. Desde 250 pts.</div>
+      <div class="canje-item"><strong>Viajes &amp; bootcamps</strong>Cruceros, retiros internacionales. Desde 1,000 pts.</div>
+      <div class="canje-item"><strong>Merchandising premium</strong>Pins, anillos, placas conmemorativas. Desde 100 pts.</div>
+    </div>
+  </div>
+
+  <div class="rule-block">
+    <h3>5. Reclamación y disputas</h3>
+    <ul class="rule-list">
+      <li>El socio tiene <strong>30 días</strong> tras el cierre mensual para reclamar un cupón no acreditado.</li>
+      <li>Las disputas se resuelven con base en los reportes oficiales del back-office.</li>
+      <li>La empresa se reserva el derecho de modificar valores y reglas con preaviso de 30 días.</li>
+    </ul>
+  </div>
+
+  <div class="disclaimer">
+    Documento confidencial · Para uso interno y de socios autorizados · No constituye asesoría financiera ni promesa de resultados específicos · Innova IA — Sky System © 2026
+  </div>
+
+  <div class="page-footer">Innova IA · Sky System — Sistema de Bonos · Confidencial · Página 3 / 3</div>
+</section>
+
+</body>
+</html>
