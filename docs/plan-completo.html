@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Innova IA — Plan de Compensación Sky System</title>
+<style>
+@page { size: A4; margin: 16mm 14mm; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #1a1a1a; font-size: 9.5pt; line-height: 1.45;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page { page-break-after: always; min-height: calc(297mm - 32mm); position: relative; padding-bottom: 12mm; }
+.page:last-child { page-break-after: avoid; }
+
+/* Header común */
+.header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  border-bottom: 2px solid #D4A853; padding-bottom: 4mm; margin-bottom: 5mm;
+}
+.logo { font-size: 17pt; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.logo span { color: #B8841F; }
+.logo-sub { font-size: 6.5pt; color: #666; letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; }
+.doc-meta { text-align: right; font-size: 8pt; color: #666; line-height: 1.4; }
+
+h1 { font-size: 22pt; font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 3mm; }
+h1 span { color: #B8841F; }
+h2 { font-size: 14pt; font-weight: 800; margin-top: 5mm; margin-bottom: 3mm; color: #1a1a1a; }
+h3 { font-size: 11pt; font-weight: 700; margin-bottom: 2mm; color: #B8841F; margin-top: 4mm; }
+.lead { font-size: 10pt; color: #444; margin-bottom: 4mm; line-height: 1.5; }
+
+/* Componentes grid (página 1) */
+.components-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; margin: 5mm 0;
+}
+.comp-card {
+  border: 1px solid #E5E5E5; border-radius: 2mm; padding: 4mm 4mm;
+  background: #FAFAFA; text-align: center;
+}
+.comp-card.highlight { background: #FFF8E8; border-color: #F0C97A; }
+.comp-pct {
+  font-size: 18pt; font-weight: 800; color: #B8841F; line-height: 1;
+}
+.comp-name {
+  font-size: 9.5pt; font-weight: 700; margin: 2mm 0 1mm; color: #1a1a1a;
+}
+.comp-desc { font-size: 8pt; color: #555; line-height: 1.35; }
+
+/* Tablas */
+.tbl { width: 100%; border-collapse: collapse; margin: 3mm 0; }
+.tbl th {
+  background: #1a1a1a; color: #fff; text-align: left;
+  padding: 2.5mm 3mm; font-size: 7.5pt; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.tbl th.r { text-align: right; }
+.tbl th.c { text-align: center; }
+.tbl td {
+  padding: 2.5mm 3mm; font-size: 8.8pt;
+  border-bottom: 1px solid #E5E5E5; vertical-align: middle;
+}
+.tbl td.r { text-align: right; }
+.tbl td.c { text-align: center; }
+.tbl td.gold { color: #B8841F; font-weight: 700; }
+.tbl td.green { color: #2E7D32; font-weight: 600; }
+.tbl tr:nth-child(even) td { background: #FAFAFA; }
+.tbl tr.elite td { background: #FFF8E8; }
+.tbl tr.leyenda td { background: #FCE4A6; font-weight: 700; }
+.tbl tr.total-row td { background: #1a1a1a; color: #fff; font-weight: 700; border-bottom: none; }
+
+/* Boxes */
+.box {
+  background: #FFF8E8; border: 1px solid #F0C97A; border-radius: 2mm;
+  padding: 4mm 5mm; margin: 3mm 0;
+}
+.box.warn {
+  background: #FFF4E5; border-color: #F0B27A;
+}
+.box.info { background: #EAF4FF; border-color: #B0D4F0; }
+.box-title { font-weight: 800; font-size: 10pt; color: #B8841F; margin-bottom: 2mm; }
+.box.warn .box-title { color: #C04000; }
+.box.info .box-title { color: #1565C0; }
+.box-text { font-size: 9pt; line-height: 1.5; }
+
+/* Listas */
+.rule-list { list-style: none; padding: 0; margin: 2mm 0; }
+.rule-list li {
+  padding: 1.2mm 0 1.2mm 6mm; font-size: 9pt;
+  position: relative; line-height: 1.45;
+}
+.rule-list li::before {
+  content: '●'; color: #B8841F; font-size: 9pt;
+  position: absolute; left: 2mm; top: 1.4mm;
+}
+
+/* Footer */
+.page-footer {
+  position: absolute; bottom: 4mm; left: 0; right: 0;
+  font-size: 7pt; color: #888; text-align: center;
+  border-top: 1px solid #E5E5E5; padding-top: 2.5mm;
+}
+
+/* Recognition list */
+.recog-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; margin: 3mm 0;
+}
+.recog-item {
+  background: #FAFAFA; border-left: 2px solid #D4A853;
+  padding: 2mm 3mm; font-size: 8.5pt; line-height: 1.4;
+}
+.recog-item strong { color: #B8841F; display: block; margin-bottom: 0.5mm; }
+
+.disclaimer {
+  font-size: 7.2pt; color: #888; margin-top: 4mm; line-height: 1.45;
+  padding-top: 2.5mm; border-top: 1px dashed #E5E5E5;
+}
+</style>
+</head>
+<body>
+
+<!-- ───────────────── PÁGINA 1: PORTADA + COMPONENTES ───────────────── -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">Plan de Compensación · v1.0<br>Mayo 2026</div>
+  </header>
+
+  <h1>Plan de Compensación<br><span>Sky System</span></h1>
+  <p class="lead">Sistema integral de pagos para socios Innova IA. <strong>Estructura de 6 generaciones uninivel + pool de rangos + reconocimientos.</strong> Toda comisión se calcula sobre PV (Punto de Volumen) donde <strong>1 PV = $2 USD</strong>.</p>
+
+  <h2>Componentes del plan</h2>
+  <div class="components-grid">
+    <div class="comp-card">
+      <div class="comp-pct">40%</div>
+      <div class="comp-name">FSB · Fast Start Bonus</div>
+      <div class="comp-desc">Comisión inmediata al patrocinador directo sobre cada paquete vendido.</div>
+    </div>
+    <div class="comp-card highlight">
+      <div class="comp-pct">90%</div>
+      <div class="comp-name">Uninivel 6 niveles</div>
+      <div class="comp-desc">Distribución por profundidad: 24%, 22%, 20%, 14%, 6%, 4%.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-pct">5%</div>
+      <div class="comp-name">Pool de Rangos</div>
+      <div class="comp-desc">Bolsa global repartida por shares según rango (Director→Leyenda).</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-pct">2%</div>
+      <div class="comp-name">Pool Anual</div>
+      <div class="comp-desc">Top 10 socios por ingresos anuales del programa.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-pct">+</div>
+      <div class="comp-name">Bono Gift</div>
+      <div class="comp-desc">Bono adicional discrecional configurado por rango.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-pct">★</div>
+      <div class="comp-name">Reconocimientos</div>
+      <div class="comp-desc">Pins, anillos, autos, viajes y propiedades por rango sostenido.</div>
+    </div>
+  </div>
+
+  <div class="box info">
+    <div class="box-title">★ Equivalencia oficial</div>
+    <div class="box-text"><strong>1 PV = $2 USD.</strong> Toda referencia a volumen, comisión y bono se expresa en PV. Las equivalencias en USD son aproximadas y dependen de la facturación global mensual.</div>
+  </div>
+
+  <h2>Cómo se construye el cobro de un líder</h2>
+  <ol style="padding-left: 5mm; font-size: 9.5pt; line-height: 1.7;">
+    <li><strong>FSB 40%</strong> sobre cada nuevo paquete vendido en su frontline.</li>
+    <li><strong>Uninivel 90%</strong> distribuido en 6 niveles según profundidad de la red.</li>
+    <li><strong>Pool de Rangos 5%</strong> según shares del rango calificado ese mes.</li>
+    <li><strong>Bono Gift</strong> según rango (configurable por la empresa).</li>
+    <li><strong>Pool Anual 2%</strong> si está entre los top 10 anuales del programa.</li>
+    <li><strong>Reconocimientos físicos</strong> al sostener rango por 2 ciclos consecutivos.</li>
+  </ol>
+
+  <p class="lead" style="margin-top: 5mm;"><em>El detalle completo de los 12 rangos del plan de carrera, con sus PV, bonos, shares y cobros estimados, se encuentra en la <strong>página 4</strong> de este documento.</em></p>
+
+  <div class="page-footer">Innova IA · Sky System · Plan de Compensación · Confidencial · Página 1 / 6</div>
+</section>
+
+<!-- ───────────────── PÁGINA 2: MEMBRESÍAS + FSB ───────────────── -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">Membresías &amp; FSB · 2/6</div>
+  </header>
+
+  <h2>Paquetes de membresía y Bono FSB 40%</h2>
+  <p class="lead">El FSB se paga al <strong>patrocinador directo</strong> al cierre del periodo en que se concretó la venta. Es el 40% del paquete adquirido.</p>
+
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>Paquete</th>
+        <th class="r">PV asignados</th>
+        <th class="r">FSB 40% (patrocinador directo)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="gold"><strong>$199</strong></td><td class="r">100 PV</td><td class="r green">$40</td></tr>
+      <tr><td class="gold"><strong>$499</strong></td><td class="r">250 PV</td><td class="r green">$100</td></tr>
+      <tr><td class="gold"><strong>$999</strong></td><td class="r">500 PV</td><td class="r green">$200</td></tr>
+      <tr class="elite"><td class="gold"><strong>$1,999</strong> (Fundador)</td><td class="r">1,000 PV</td><td class="r green">$400</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Mensualidad e IB (Inscripción Básica)</h2>
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th class="r">Costo</th>
+        <th class="r">PV</th>
+        <th>Notas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Mensualidad Sky System</strong></td>
+        <td class="r gold">$79 / mes</td>
+        <td class="r">40 PV</td>
+        <td>Activa todas las herramientas y compensación uninivel.</td>
+      </tr>
+      <tr>
+        <td><strong>IB · Inscripción Básica</strong></td>
+        <td class="r gold">$19.99 / mes</td>
+        <td class="r">0 PV</td>
+        <td>Acceso al sistema sin uninivel. Para clientes consumidores.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box">
+    <div class="box-title">🎁 Promo Clientes sin IB</div>
+    <div class="box-text"><strong>2 clientes activos = mensualidad gratis.</strong> Si traes 2 clientes consumidores activos en el mes, no pagas tu mensualidad de $79.</div>
+  </div>
+
+  <h2>Cómo se acreditan los PV en la red</h2>
+  <ul class="rule-list">
+    <li>Al venderse un paquete, los PV asignados se acreditan al volumen mensual de la estructura uninivel del comprador.</li>
+    <li>El FSB 40% se paga al patrocinador directo del comprador.</li>
+    <li>El uninivel 90% (6 niveles) se distribuye según profundidad arriba en el árbol genealógico.</li>
+    <li>Los PV alimentan el cálculo de PV/mes del rango y el Pool Aprox $ del Pool de Rangos 5%.</li>
+    <li>Mensualidades activas siguen acreditando 40 PV cada mes a la red upline.</li>
+  </ul>
+
+  <div class="page-footer">Innova IA · Sky System · Plan de Compensación · Confidencial · Página 2 / 6</div>
+</section>
+
+<!-- ───────────────── PÁGINA 3: UNINIVEL 6 GENERACIONES + BALANCE ───────────────── -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">Uninivel 6 niveles · 3/6</div>
+  </header>
+
+  <h2>Bono Uninivel · 6 generaciones (90% total)</h2>
+  <p class="lead">Pago por profundidad sobre el PV mensual de cada nivel del árbol uninivel. Los niveles superiores se desbloquean según rango del cobrador.</p>
+
+  <table class="tbl">
+    <thead>
+      <tr>
+        <th class="c">Nivel</th>
+        <th class="r">% pago × PV</th>
+        <th class="c">Clientes activos</th>
+        <th class="c">Rangos directos</th>
+        <th>Requisito de rango</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="c"><strong>N1</strong></td><td class="r gold">24%</td><td class="c">1</td><td class="c">0</td><td>Ninguno</td></tr>
+      <tr><td class="c"><strong>N2</strong></td><td class="r gold">22%</td><td class="c">2</td><td class="c">0</td><td>Ninguno</td></tr>
+      <tr><td class="c"><strong>N3</strong></td><td class="r gold">20%</td><td class="c">3</td><td class="c">1</td><td>Ninguno</td></tr>
+      <tr class="elite"><td class="c"><strong>N4</strong></td><td class="r gold">14%</td><td class="c">3</td><td class="c">2</td><td><strong>Director</strong></td></tr>
+      <tr class="elite"><td class="c"><strong>N5</strong></td><td class="r gold">6%</td><td class="c">4</td><td class="c">3</td><td><strong>Presidente</strong></td></tr>
+      <tr class="elite"><td class="c"><strong>N6</strong></td><td class="r gold">4%</td><td class="c">4</td><td class="c">4</td><td><strong>Presidente Global</strong></td></tr>
+      <tr class="total-row"><td class="c"><strong>TOTAL</strong></td><td class="r"><strong>90%</strong></td><td class="c">—</td><td class="c">—</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box info">
+    <div class="box-title">📋 Cómo funciona</div>
+    <div class="box-text">
+      Cada socio activo cobra el % indicado del nivel correspondiente sobre el PV mensual generado en ese nivel de su estructura. Los niveles 4, 5 y 6 se <strong>desbloquean</strong> al alcanzar los rangos Director, Presidente y Presidente Global respectivamente. Para mantener activo el cobro de cada nivel desbloqueado, el líder debe cumplir el <strong>Requisito de Balance</strong> (ver abajo).
+    </div>
+  </div>
+
+  <h2>Requisito de Balance Estructural · 75% / 25%</h2>
+  <div class="box warn">
+    <div class="box-title">⚖️ Requisito de calificación uninivel · Director y superior</div>
+    <div class="box-text">
+      Para mantener activo el cobro del <strong>uninivel extendido (N4, N5 y N6)</strong>, tu pierna mayor (la rama más fuerte) <strong>no puede aportar más del 75% del PV/mes total</strong>. Al menos el 25% restante debe provenir de otras piernas.
+      <br><br>
+      <strong>Si superas el 75% en un mes:</strong> ese mes solo cobras los <strong>3 primeros niveles uninivel</strong> (N1-N3). Los niveles N4-N6 quedan inactivos hasta que recuperes el balance.
+      <br><br>
+      <strong>Aplica desde:</strong> Director en adelante. Consultor y Ejecutivo no requieren balance porque no cobran N4-N6.
+    </div>
+  </div>
+
+  <p style="font-size: 9pt; margin-top: 3mm; line-height: 1.5;"><strong>No es una multa</strong> — premia la duplicación real (no depender de una sola pierna), protege el ingreso del líder y es auto-corregible al mes siguiente. <strong>Ejemplo:</strong> María Director con 4,000 PV, pierna A 3,500 (87.5%) / pierna B 500 (12.5%) → ese mes solo cobra N1-N3 hasta equilibrar.</p>
+
+  <div class="page-footer">Innova IA · Sky System · Plan de Compensación · Confidencial · Página 3 / 6</div>
+</section>
+
+<!-- ───────────────── PÁGINA 4: PLAN DE CARRERA COMPLETO ───────────────── -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">Plan de Carrera · 4/6</div>
+  </header>
+
+  <h2>§7 Requisitos de calificación por rango</h2>
+  <p class="lead">Cada rango exige cumplir <strong>TODOS</strong> los criterios en el mismo mes calendario. Cobro estimado = 22% × PV/mes + Bono Gift + Pool Aprox $.</p>
+
+  <style>
+    .compact td, .compact th { padding: 1.8mm 2mm !important; font-size: 7.8pt !important; }
+    .compact th { font-size: 6.8pt !important; }
+  </style>
+  <table class="tbl compact">
+    <thead>
+      <tr>
+        <th class="c">#</th>
+        <th>Rango</th>
+        <th class="r">PV/mes</th>
+        <th class="c">Clientes</th>
+        <th class="c">Rangos dir.</th>
+        <th class="r">Bono Gift</th>
+        <th class="c">Pool 5%</th>
+        <th class="r">Pool $</th>
+        <th class="r">Cobro estimado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="c">1</td><td><strong>Consultor</strong></td><td class="r">750</td><td class="c">1</td><td class="c">0</td><td class="r">$0</td><td class="c">0.2ac</td><td class="r">$0</td><td class="r green">$165 – $330</td></tr>
+      <tr><td class="c">2</td><td><strong>Ejecutivo</strong></td><td class="r">1,500</td><td class="c">2</td><td class="c">0</td><td class="r">$150</td><td class="c">0.5ac</td><td class="r">$24</td><td class="r green">$504 – $1,054</td></tr>
+      <tr><td class="c">3</td><td><strong>Director</strong></td><td class="r">4,000</td><td class="c">2</td><td class="c">1</td><td class="r">$400</td><td class="c">2ac</td><td class="r">$96</td><td class="r green">$1,376 – $2,256</td></tr>
+      <tr><td class="c">4</td><td><strong>Director Ejecutivo</strong></td><td class="r">8,000</td><td class="c">3</td><td class="c">2</td><td class="r">$550</td><td class="c">4ac</td><td class="r">$192</td><td class="r green">$2,502 – $4,042</td></tr>
+      <tr><td class="c">5</td><td><strong>Director Global</strong></td><td class="r">15,000</td><td class="c">3</td><td class="c">3</td><td class="r">$800</td><td class="c">8ac</td><td class="r">$384</td><td class="r green">$4,484 – $8,884</td></tr>
+      <tr><td class="c">6</td><td><strong>Presidente</strong></td><td class="r">35,000</td><td class="c">4</td><td class="c">3</td><td class="r">$1,600</td><td class="c">15ac</td><td class="r">$720</td><td class="r green">$10,020 – $17,720</td></tr>
+      <tr><td class="c">7</td><td><strong>Presidente Ejecutivo</strong></td><td class="r">70,000</td><td class="c">4</td><td class="c">4</td><td class="r">$2,800</td><td class="c">25ac</td><td class="r">$1,200</td><td class="r green">$19,400 – $36,000</td></tr>
+      <tr class="elite"><td class="c">8</td><td><strong>Presidente Global</strong></td><td class="r">150,000</td><td class="c">5</td><td class="c">4</td><td class="r">$3,800</td><td class="c">50ac</td><td class="r">$2,400</td><td class="r green">$39,200 – $72,200</td></tr>
+      <tr class="elite"><td class="c">9</td><td><strong>Embajador</strong></td><td class="r">300,000</td><td class="c">5</td><td class="c">5</td><td class="r">$4,000</td><td class="c">100ac</td><td class="r">$4,800</td><td class="r green">$74,800 – $118,800</td></tr>
+      <tr class="elite"><td class="c">10</td><td><strong>Embajador Global</strong></td><td class="r">500,000</td><td class="c">6</td><td class="c">5</td><td class="r">$4,000</td><td class="c">150ac</td><td class="r">$7,200</td><td class="r green">$121,200 – $231,200</td></tr>
+      <tr class="elite"><td class="c">11</td><td><strong>Icon</strong></td><td class="r">1,000,000</td><td class="c">6</td><td class="c">6</td><td class="r">$4,000</td><td class="c">250ac</td><td class="r">$12,000</td><td class="r green">$236,000 – $456,000</td></tr>
+      <tr class="leyenda"><td class="c">12</td><td><strong>Leyenda</strong></td><td class="r">2,000,000</td><td class="c">7</td><td class="c">6</td><td class="r">$4,000</td><td class="c">400ac</td><td class="r">$19,200</td><td class="r green">$463,200+</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Definiciones rápidas</h3>
+  <ul class="rule-list" style="font-size: 8.5pt;">
+    <li><strong>PV/mes</strong>: volumen total de la estructura uninivel de 6 niveles · <strong>Clientes activos</strong>: patrocinados directos con PV mínimo cumplido</li>
+    <li><strong>Rangos directos</strong>: patrocinados directos que mantienen Director o superior · <strong>Bono Gift</strong>: bono adicional discrecional</li>
+    <li><strong>Pool 5%</strong>: shares del Pool de Rangos (más rango = más shares) · <strong>Cobro estimado</strong>: rango actual hasta justo antes de promover</li>
+  </ul>
+
+  <div class="page-footer">Innova IA · Sky System · Plan de Compensación · Confidencial · Página 4 / 6</div>
+</section>
+
+<!-- ───────────────── PÁGINA 5: POOLS + RECONOCIMIENTOS ───────────────── -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">Pools &amp; Reconocimientos · 5/6</div>
+  </header>
+
+  <h2>Pool de Rangos · 5%</h2>
+  <p class="lead">Bolsa global del 5% de facturación mensual. Distribuida por <strong>shares</strong> entre los rangos calificados.</p>
+
+  <div class="box">
+    <div class="box-text" style="font-family: monospace; font-size: 8.5pt;">
+      Pool del mes = 5% × facturación global · Valor por share = Pool ÷ Σ shares activos · Cobro = shares × valor por share
+    </div>
+  </div>
+
+  <p style="font-size: 8.8pt; margin: 2mm 0 4mm;">Shares por rango: <strong>Consultor 0.2 · Ejecutivo 0.5 · Director 2 · D. Ejecutivo 4 · D. Global 8 · Presidente 15 · P. Ejecutivo 25 · P. Global 50 · Embajador 100 · E. Global 150 · Icon 250 · Leyenda 400</strong>. La columna "Pool Aprox $" en la tabla §7 (página 4) muestra el cobro estimado del pool por rango.</p>
+
+  <h2>Pool Anual · 2% (Top 10 ingresos)</h2>
+  <div class="box info">
+    <div class="box-text">
+      Bolsa anual del <strong>2% del volumen comisionable acumulado del año</strong>, distribuida equitativamente entre los <strong>10 socios con mayor ingreso anual</strong>. Pago en gala anual de fin de año.
+    </div>
+  </div>
+
+  <h2>Reconocimientos físicos por rango</h2>
+  <p class="lead" style="margin-bottom: 3mm;">Entregados al sostener el rango por <strong>2 ciclos consecutivos</strong> (2 meses seguidos calificando).</p>
+
+  <table class="tbl compact">
+    <thead><tr><th>Rango</th><th>Reconocimiento</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Consultor</strong></td><td>Certificado de bienvenida</td></tr>
+      <tr><td><strong>Ejecutivo</strong></td><td>Certificado oficial</td></tr>
+      <tr><td><strong>Director</strong></td><td>Pin Sky</td></tr>
+      <tr><td><strong>Director Ejecutivo</strong></td><td>Pin Sky avanzado</td></tr>
+      <tr><td><strong>Director Global</strong></td><td>Pin + iPad</td></tr>
+      <tr><td><strong>Presidente</strong></td><td>Pin + Anillo Nivel 1</td></tr>
+      <tr><td><strong>Presidente Ejecutivo</strong></td><td>Pin + Anillo 1 + 1 diamante + iPhone</td></tr>
+      <tr><td><strong>Presidente Global</strong></td><td>Pin + Anillo 1 + 2 diamantes + Cadena</td></tr>
+      <tr class="elite"><td><strong>Embajador</strong></td><td>Pin + Anillo Nivel 2 + Rolex</td></tr>
+      <tr class="elite"><td><strong>Embajador Global</strong></td><td>Pin + Anillo 2 + 1 diamante + Tesla</td></tr>
+      <tr class="elite"><td><strong>Icon</strong></td><td>Pin + Anillo Nivel 3 + Camioneta BMW / Mercedes</td></tr>
+      <tr class="leyenda"><td><strong>Leyenda</strong></td><td>Pin + Anillo Nivel 4 + Apartamento</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">Innova IA · Sky System · Plan de Compensación · Confidencial · Página 5 / 6</div>
+</section>
+
+<!-- ───────────────── PÁGINA 6: REGLAS OPERATIVAS ───────────────── -->
+<section class="page">
+  <header class="header">
+    <div>
+      <div class="logo">Innova<span>IA</span></div>
+      <div class="logo-sub">Sky System</div>
+    </div>
+    <div class="doc-meta">Reglas operativas · 6/6</div>
+  </header>
+
+  <h2>Reglas operativas y políticas</h2>
+
+  <style>
+    .rules-tight h3 { margin-top: 3mm; margin-bottom: 1mm; font-size: 10pt; }
+    .rules-tight .rule-list li { padding: 0.7mm 0 0.7mm 6mm; font-size: 8.5pt; line-height: 1.35; }
+  </style>
+
+  <div class="rules-tight">
+    <h3>1. Calendario de cierre</h3>
+    <ul class="rule-list">
+      <li>Cierre mensual: día 30 (o último día del mes) a las 23:59 hora HQ. Cálculo de comisiones: 1ro al 5to. Pago a socios: 5to al 10mo del mes.</li>
+    </ul>
+
+    <h3>2. Compresión dinámica</h3>
+    <ul class="rule-list">
+      <li>Si un upline está <strong>inactivo</strong> (no cumple PV mínimo), su comisión uninivel se comprime al siguiente activo arriba. Evita huecos de pago.</li>
+    </ul>
+
+    <h3>3. Periodo de gracia de rango</h3>
+    <ul class="rule-list">
+      <li>Mantienes tu rango <strong>30 días</strong> si no calificas un mes. Al segundo mes sin calificar → bajas al rango más alto que sí califiques.</li>
+    </ul>
+
+    <h3>4. Requisito de Balance Estructural (75% / 25%) — Director en adelante</h3>
+    <ul class="rule-list">
+      <li>Pierna mayor no puede aportar más del 75% del PV/mes para mantener activos N4-N6.</li>
+      <li>Si supera 75%: ese mes solo cobra N1-N3. Auto-corregible al equilibrar el mes siguiente.</li>
+    </ul>
+
+    <h3>5. Activación inicial</h3>
+    <ul class="rule-list">
+      <li>Al activar paquete, entras como <strong>Consultor</strong>. Debes cumplir 1 cliente activo y mantener mensualidad ($79) o tener 2 clientes IB (mensualidad gratis).</li>
+    </ul>
+
+    <h3>6. Política anti-fraude y reembolsos</h3>
+    <ul class="rule-list">
+      <li>Reembolsos dentro de 120h de garantía → comisiones revertidas. Chargebacks → debitan al wallet del beneficiario. Fraude → desactivación y pérdida de comisiones acumuladas.</li>
+    </ul>
+
+    <h3>7. Volumen comisionable</h3>
+    <ul class="rule-list">
+      <li>El plan paga sobre <strong>PV</strong>. 1 PV = $2 USD. Mensualidad $79 = 40 PV upline. IB $19.99 no acredita PV.</li>
+    </ul>
+
+    <h3>8. Métodos de pago</h3>
+    <ul class="rule-list">
+      <li>Wallet del back-office, transferencia bancaria, USDT/cripto. Retiro mínimo $50 USD. Comisión según método (definir backoffice).</li>
+    </ul>
+
+    <h3>9. Mantenimiento de rango</h3>
+    <ul class="rule-list">
+      <li>Cumplir mensualmente: PV mínimo personal, clientes activos, rangos directos y Requisito de Balance 75/25 (Director+).</li>
+    </ul>
+
+    <h3>10. Modificación de reglas</h3>
+    <ul class="rule-list">
+      <li>La empresa se reserva el derecho de modificar valores y reglas con preaviso de 30 días a todos los socios activos.</li>
+    </ul>
+  </div>
+
+  <div class="disclaimer">
+    Documento confidencial · Para uso interno y de socios autorizados · No constituye asesoría financiera ni promesa de resultados específicos · Los resultados varían según el esfuerzo, dedicación y habilidades de cada persona · Innova IA — Sky System © 2026
+  </div>
+
+  <div class="page-footer">Innova IA · Sky System · Plan de Compensación · Confidencial · Página 6 / 6</div>
+</section>
+
+</body>
+</html>
