@@ -292,6 +292,54 @@
     footer{border-top:1px solid var(--border);padding:30px 24px;text-align:center;font-size:.78rem;color:var(--text-muted);}
     footer strong{color:var(--gold);}
 
+    /* PLAN DE COMPENSACIÓN */
+    .plan-blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:36px;}
+    .plan-block{background:var(--dark-card);border:1px solid var(--border);border-radius:14px;padding:22px 20px;text-align:center;transition:transform .2s,border-color .2s;position:relative;overflow:hidden;}
+    .plan-block:hover{transform:translateY(-3px);border-color:rgba(212,168,83,.3);}
+    .plan-block::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+    .plan-block:hover::after{opacity:1;}
+    .plan-pct{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:8px;}
+    .plan-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.92rem;color:var(--text);margin-bottom:6px;}
+    .plan-desc{font-size:.74rem;color:var(--text-muted);line-height:1.5;}
+    .plan-block-accent{background:linear-gradient(135deg,rgba(42,255,213,.05),var(--dark-card));border-color:rgba(42,255,213,.18);}
+    .plan-block-accent .plan-pct{background:linear-gradient(135deg,var(--accent),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .plan-total{text-align:center;margin:28px 0 36px;padding:18px;background:rgba(212,168,83,.04);border:1px dashed rgba(212,168,83,.25);border-radius:12px;}
+    .plan-total-pct{font-family:'Syne',sans-serif;font-weight:800;font-size:2.4rem;color:var(--gold);line-height:1;}
+    .plan-total-lbl{font-size:.78rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:5px;}
+    .ranks-table-wrap{background:var(--dark-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:48px;}
+    .ranks-header{display:grid;grid-template-columns:1.4fr 1fr 1.3fr;background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(42,255,213,.03));padding:14px 18px;font-family:'Syne',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border);}
+    .ranks-row{display:grid;grid-template-columns:1.4fr 1fr 1.3fr;padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.04);align-items:center;transition:background .2s;}
+    .ranks-row:last-child{border-bottom:none;}
+    .ranks-row:hover{background:rgba(212,168,83,.03);}
+    .ranks-rank{font-family:'Syne',sans-serif;font-weight:700;font-size:.86rem;color:var(--text);}
+    .ranks-vol{font-size:.84rem;color:var(--text-muted);}
+    .ranks-cobro{font-size:.84rem;color:#4ade80;font-weight:600;}
+    .ranks-elite{background:rgba(212,168,83,.04);}
+    .ranks-elite .ranks-rank{color:var(--gold);}
+    .ranks-leyenda{background:linear-gradient(90deg,rgba(212,168,83,.12),rgba(42,255,213,.05));}
+    .ranks-leyenda .ranks-rank{color:var(--gold-light);font-weight:800;}
+    .ranks-leyenda .ranks-cobro{color:var(--accent);}
+    .cupones-wrap{background:linear-gradient(135deg,rgba(212,168,83,.04),rgba(42,255,213,.02));border:1px solid var(--border);border-radius:14px;padding:30px 24px;margin-bottom:24px;}
+    .cupones-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-.3px;margin-bottom:6px;color:var(--text);}
+    .cupones-sub{font-size:.84rem;color:var(--text-muted);margin-bottom:20px;line-height:1.55;}
+    .cupones-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;}
+    .cupon-card{background:var(--dark-card);border:1px solid var(--border);border-radius:10px;padding:14px 14px;transition:border-color .2s,transform .15s;}
+    .cupon-card:hover{border-color:rgba(212,168,83,.3);transform:translateY(-2px);}
+    .cupon-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);line-height:1;margin-bottom:5px;}
+    .cupon-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;color:var(--text);margin-bottom:4px;}
+    .cupon-desc{font-size:.72rem;color:var(--text-muted);line-height:1.45;}
+    .plan-footer{text-align:center;font-size:.84rem;margin-top:8px;}
+    .plan-link{color:var(--accent);text-decoration:none;font-weight:600;border-bottom:1px solid rgba(42,255,213,.3);padding-bottom:1px;transition:opacity .2s;}
+    .plan-link:hover{opacity:.8;}
+    .founders-banner{background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(42,255,213,.04));border:1px solid rgba(212,168,83,.25);border-radius:14px;padding:22px 24px;margin-bottom:36px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
+    .founders-icon{font-size:1.8rem;flex-shrink:0;}
+    .founders-text{flex:1;min-width:200px;}
+    .founders-text strong{color:var(--gold);}
+    .founders-text-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:var(--text);margin-bottom:4px;}
+    .founders-text-desc{font-size:.82rem;color:var(--text-muted);line-height:1.55;}
+    .founders-spots{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;color:var(--gold);text-align:center;flex-shrink:0;}
+    .founders-spots-lbl{font-size:.66rem;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;}
+
     /* RESPONSIVE */
     @media(max-width:640px){
       .numbers-grid{grid-template-columns:repeat(2,1fr);}
@@ -301,6 +349,12 @@
       .garantia-top{flex-direction:column;text-align:center;padding:28px 24px;}
       .garantia-bottom{padding:16px 24px;}
       .header-pill{display:none;}
+      .ranks-header{grid-template-columns:1fr 0.8fr 1fr;font-size:.58rem;padding:11px 11px;letter-spacing:.8px;}
+      .ranks-row{grid-template-columns:1fr 0.8fr 1fr;padding:11px 11px;gap:6px;}
+      .ranks-rank{font-size:.72rem;line-height:1.25;}
+      .ranks-vol{font-size:.7rem;}
+      .ranks-cobro{font-size:.7rem;}
+      .cupones-wrap{padding:22px 16px;}
     }
   
 /* ── Mobile hero title ── */
@@ -711,6 +765,144 @@
         <div><div style="display:inline-block;background:#f0f2f5;border-radius:18px;padding:8px 12px;"><span style="font-size:13px;font-weight:700;color:#050505;display:block;">Felipe Acosta</span><span style="font-size:14px;color:#050505;line-height:1.4;">Cerré mis 4 ventas del mes y el sistema me marcó $900 USD 🤯 Primera vez en mi vida que veo ese número en mi cuenta.</span></div><div style="font-size:12px;color:#65676b;padding:3px 8px;">34 min · Me gusta · Responder · 👍 6</div></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- PLAN DE COMPENSACIÓN -->
+<section class="section reveal" id="plan-compensacion">
+  <p class="section-tag">Plan de carrera Sky</p>
+  <h2 class="section-title">De Consultor a<br><span>Leyenda 300K</span></h2>
+  <p class="section-body">12 rangos. Hasta 75% del volumen vuelve a la red. Cada paso multiplica tus ingresos — desde tu primer Consultor hasta cobrar $300,000/mes como Leyenda.</p>
+
+  <!-- Estructura del plan -->
+  <div class="plan-blocks">
+    <div class="plan-block">
+      <div class="plan-pct">20%</div>
+      <div class="plan-name">FSB</div>
+      <p class="plan-desc">Fast Start Bonus directo al patrocinador en cada venta.</p>
+    </div>
+    <div class="plan-block">
+      <div class="plan-pct">45%</div>
+      <div class="plan-name">Uninivel · 4 niveles</div>
+      <p class="plan-desc">15% / 12% / 10% / 8% — el equipo paga en profundidad.</p>
+    </div>
+    <div class="plan-block">
+      <div class="plan-pct">7%</div>
+      <div class="plan-name">Pool de Rangos</div>
+      <p class="plan-desc">Bolsa por shares desde Director 1500 hasta Leyenda.</p>
+    </div>
+    <div class="plan-block plan-block-accent">
+      <div class="plan-pct">3%</div>
+      <div class="plan-name">Pool Fundadores</div>
+      <p class="plan-desc">Lifetime para los 100 que activen con paquete fundador $1,999.</p>
+    </div>
+  </div>
+
+  <div class="plan-total">
+    <div class="plan-total-pct">75%</div>
+    <div class="plan-total-lbl">del volumen pagado a la red</div>
+  </div>
+
+  <!-- Tabla de rangos -->
+  <div class="ranks-table-wrap">
+    <div class="ranks-header">
+      <div>Rango</div>
+      <div>Facturación / mes</div>
+      <div>Cobro estimado (11%)</div>
+    </div>
+    <div class="ranks-row">
+      <div class="ranks-rank">Consultor</div>
+      <div class="ranks-vol">$2,000</div>
+      <div class="ranks-cobro">$220 – $439</div>
+    </div>
+    <div class="ranks-row">
+      <div class="ranks-rank">Ejecutivo</div>
+      <div class="ranks-vol">$4,000</div>
+      <div class="ranks-cobro">$440 – $879</div>
+    </div>
+    <div class="ranks-row">
+      <div class="ranks-rank">Director 1500</div>
+      <div class="ranks-vol">$8,000</div>
+      <div class="ranks-cobro">$880 – $1,649</div>
+    </div>
+    <div class="ranks-row">
+      <div class="ranks-rank">Director 2500</div>
+      <div class="ranks-vol">$15,000</div>
+      <div class="ranks-cobro">$1,650 – $2,749</div>
+    </div>
+    <div class="ranks-row">
+      <div class="ranks-rank">Director 4K</div>
+      <div class="ranks-vol">$25,000</div>
+      <div class="ranks-cobro">$2,750 – $4,399</div>
+    </div>
+    <div class="ranks-row">
+      <div class="ranks-rank">Presidente 7K</div>
+      <div class="ranks-vol">$40,000</div>
+      <div class="ranks-cobro">$4,400 – $8,799</div>
+    </div>
+    <div class="ranks-row">
+      <div class="ranks-rank">Presidente 15K</div>
+      <div class="ranks-vol">$80,000</div>
+      <div class="ranks-cobro">$8,800 – $16,499</div>
+    </div>
+    <div class="ranks-row">
+      <div class="ranks-rank">Presidente 25K</div>
+      <div class="ranks-vol">$150,000</div>
+      <div class="ranks-cobro">$16,500 – $27,499</div>
+    </div>
+    <div class="ranks-row ranks-elite">
+      <div class="ranks-rank">Embajador Elite 30K</div>
+      <div class="ranks-vol">$250,000</div>
+      <div class="ranks-cobro">$27,500 – $54,999</div>
+    </div>
+    <div class="ranks-row ranks-elite">
+      <div class="ranks-rank">Embajador Corona 60K</div>
+      <div class="ranks-vol">$500,000</div>
+      <div class="ranks-cobro">$55,000 – $109,999</div>
+    </div>
+    <div class="ranks-row ranks-elite">
+      <div class="ranks-rank">Icon 120K</div>
+      <div class="ranks-vol">$1,000,000</div>
+      <div class="ranks-cobro">$110,000 – $274,999</div>
+    </div>
+    <div class="ranks-row ranks-leyenda">
+      <div class="ranks-rank">Leyenda 300K</div>
+      <div class="ranks-vol">$2,500,000+</div>
+      <div class="ranks-cobro">$275,000+</div>
+    </div>
+  </div>
+
+  <!-- Banner Fundadores -->
+  <div class="founders-banner">
+    <div class="founders-icon">👑</div>
+    <div class="founders-text">
+      <div class="founders-text-title">Paquete Fundador · $1,999</div>
+      <div class="founders-text-desc">Solo <strong>100 cupos</strong> de por vida. Comparten el <strong>3% de toda la facturación global</strong> mensualmente. El círculo histórico del proyecto.</div>
+    </div>
+    <div>
+      <div class="founders-spots">100</div>
+      <div class="founders-spots-lbl">cupos limitados</div>
+    </div>
+  </div>
+
+  <!-- Cupones -->
+  <div class="cupones-wrap">
+    <h3 class="cupones-title">🎟️ Bonos & cupones · sin volumen ni comisión</h3>
+    <p class="cupones-sub">Premios al líder por meta cumplida. Canjeables por mentorías, herramientas, viajes y eventos.</p>
+    <div class="cupones-grid">
+      <div class="cupon-card"><div class="cupon-val">$50</div><div class="cupon-name">Arranque</div><p class="cupon-desc">Primer socio reclutado del mes</p></div>
+      <div class="cupon-card"><div class="cupon-val">$150</div><div class="cupon-name">Velocidad</div><p class="cupon-desc">5 socios nuevos en 30 días</p></div>
+      <div class="cupon-card"><div class="cupon-val">$500</div><div class="cupon-name">Ascenso</div><p class="cupon-desc">Sube 1 rango en el mes</p></div>
+      <div class="cupon-card"><div class="cupon-val">$1,500</div><div class="cupon-name">Doble Salto</div><p class="cupon-desc">Sube 2 rangos en un mes</p></div>
+      <div class="cupon-card"><div class="cupon-val">$2,000</div><div class="cupon-name">Mentor</div><p class="cupon-desc">2 líderes Director+ en 1ra línea</p></div>
+      <div class="cupon-card"><div class="cupon-val">$5,000</div><div class="cupon-name">Élite</div><p class="cupon-desc">Mantén Presidente 25K por 3 meses</p></div>
+      <div class="cupon-card"><div class="cupon-val">$15,000</div><div class="cupon-name">Embajador Maker</div><p class="cupon-desc">Primer Embajador Elite en tu equipo</p></div>
+      <div class="cupon-card"><div class="cupon-val">$50,000</div><div class="cupon-name">Icon Maker</div><p class="cupon-desc">Primer Icon en tu organización</p></div>
+    </div>
+  </div>
+
+  <div class="plan-footer">
+    <p>📄 <a href="/plan-compensacion.html" class="plan-link">Ver plan de compensación detallado</a></p>
   </div>
 </section>
 
